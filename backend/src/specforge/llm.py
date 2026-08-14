@@ -115,3 +115,27 @@ def build_extraction_llm(settings: Settings) -> FallbackJSONLLM:
             strict_schema=True,
         )
     return FallbackJSONLLM(primary, fallback)
+
+
+def build_adjudication_llm(settings: Settings) -> FallbackJSONLLM:
+    if settings.nim_api_key is None or not settings.nim_api_key.get_secret_value().strip():
+        raise LLMError("SPECFORGE_NIM_API_KEY is required for adjudication")
+    primary = OpenAICompatibleJSONClient(
+        base_url=settings.nim_base_url,
+        model=settings.nim_model,
+        api_key=settings.nim_api_key,
+        timeout_seconds=settings.llm_timeout_seconds,
+        thinking_enabled=True,
+        strict_schema=False,
+    )
+    fallback: OpenAICompatibleJSONClient | None = None
+    if settings.groq_api_key is not None and settings.groq_api_key.get_secret_value().strip():
+        fallback = OpenAICompatibleJSONClient(
+            base_url=settings.groq_base_url,
+            model=settings.groq_model,
+            api_key=settings.groq_api_key,
+            timeout_seconds=settings.llm_timeout_seconds,
+            thinking_enabled=None,
+            strict_schema=True,
+        )
+    return FallbackJSONLLM(primary, fallback)
