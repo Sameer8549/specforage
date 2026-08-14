@@ -57,17 +57,16 @@ export default function Nav() {
               textDecoration: "none",
               display: "flex",
               alignItems: "center",
-              gap: 8,
               fontFamily: "var(--font-mono)",
-              fontSize: 13,
-              letterSpacing: "0.08em",
+              fontSize: 13.5,
+              letterSpacing: "0.06em",
               textTransform: "uppercase",
               fontWeight: 700,
+              color: "var(--fg-primary)",
               flexShrink: 0,
             }}
           >
-            <span style={{ color: "var(--accent)" }}>SF</span>
-            <span style={{ color: "var(--fg-primary)" }}>SpecForge</span>
+            SPECFORGE
           </Link>
 
           {/* Desktop Navigation Links */}
