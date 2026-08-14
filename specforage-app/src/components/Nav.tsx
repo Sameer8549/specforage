@@ -4,14 +4,15 @@ import { usePathname } from "next/navigation";
 import { ArrowRight } from "@phosphor-icons/react";
 
 const NAV_ITEMS = [
-  { label: "PIPELINE",   href: "/pipeline"   },
-  { label: "RECORDS",    href: "/records"    },
-  { label: "TAXONOMY",   href: "/taxonomy"   },
-  { label: "PROVENANCE", href: "/provenance" },
-  { label: "VOCABULARY", href: "/vocabulary" },
-  { label: "BATCH",      href: "/batch"      },
-  { label: "AUDIT",      href: "/audit"      },
-  { label: "SETTINGS",   href: "/settings"   },
+  { label: "PIPELINE",     href: "/pipeline"     },
+  { label: "RECORDS",      href: "/records"      },
+  { label: "TAXONOMY",     href: "/taxonomy"     },
+  { label: "PROVENANCE",   href: "/provenance"   },
+  { label: "VOCABULARY",   href: "/vocabulary"   },
+  { label: "ADJUDICATION", href: "/adjudication" },
+  { label: "BATCH",        href: "/batch"        },
+  { label: "AUDIT",        href: "/audit"        },
+  { label: "SETTINGS",     href: "/settings"     },
 ];
 
 export default function Nav() {
@@ -23,7 +24,7 @@ export default function Nav() {
         style={{
           maxWidth: 1440,
           margin: "0 auto",
-          padding: "0 24px",
+          padding: "0 20px",
           width: "100%",
           display: "flex",
           alignItems: "center",
@@ -63,12 +64,12 @@ export default function Nav() {
                 href={item.href}
                 style={{
                   fontFamily: "var(--font-mono)",
-                  fontSize: 10,
-                  letterSpacing: "0.08em",
+                  fontSize: 9.5,
+                  letterSpacing: "0.06em",
                   textTransform: "uppercase",
                   color: isActive ? "var(--fg-primary)" : "var(--fg-secondary)",
                   textDecoration: "none",
-                  padding: "0 10px",
+                  padding: "0 8px",
                   height: 56,
                   display: "flex",
                   alignItems: "center",
@@ -88,10 +89,10 @@ export default function Nav() {
         <Link
           href="/pipeline"
           className="btn-primary"
-          style={{ padding: "8px 16px", fontSize: 11 }}
+          style={{ padding: "8px 14px", fontSize: 10.5 }}
         >
           OPEN PIPELINE
-          <ArrowRight size={14} weight="bold" />
+          <ArrowRight size={13} weight="bold" />
         </Link>
       </div>
     </nav>
