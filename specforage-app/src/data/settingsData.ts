@@ -7,6 +7,24 @@ export interface PipelineConfig {
   classificationMinConfidence: number;
   enableAllDescriptionChannels: boolean;
   autoEscalateUnverified: boolean;
+  apiKeyManagement: {
+    primaryProvider: "SPECFORGE_HOSTED" | "OPENAI_DIRECT" | "ANTHROPIC_DIRECT" | "CUSTOM_GATEWAY";
+    apiKeyMasked: string;
+    rateLimitPerMinute: number;
+    usageAlertThreshold: number;
+  };
+  modelRouting: {
+    extractionEngine: string;
+    taxonomyClassifier: string;
+    entailmentVerifier: string;
+    fallbackOfflineEngine: string;
+  };
+  fileManagement: {
+    activeTaxonomyFile: string;
+    activeVocabularyFile: string;
+    lastSynced: string;
+    autoUpdateTaxonomyMonthly: boolean;
+  };
   exportFormatColumns: {
     itemId: boolean;
     mpn: boolean;
@@ -35,6 +53,24 @@ export const DEFAULT_PIPELINE_CONFIG: PipelineConfig = {
   classificationMinConfidence: 0.80,
   enableAllDescriptionChannels: true,
   autoEscalateUnverified: true,
+  apiKeyManagement: {
+    primaryProvider: "SPECFORGE_HOSTED",
+    apiKeyMasked: "sk-sf-prod-98374********************",
+    rateLimitPerMinute: 600,
+    usageAlertThreshold: 50000,
+  },
+  modelRouting: {
+    extractionEngine: "Claude 3.5 Sonnet / Deterministic Pattern Engine",
+    taxonomyClassifier: "UNSPSC Vector Hierarchy Indexer v25",
+    entailmentVerifier: "Strict Deterministic Text Entailment Validator",
+    fallbackOfflineEngine: "Local Regex & Tokenized Grammar Slot-Filler",
+  },
+  fileManagement: {
+    activeTaxonomyFile: "unspsc_v25_0901_public_release.json",
+    activeVocabularyFile: "controlled_vocab_industrial_v4.2.csv",
+    lastSynced: "2026-08-14T03:00:00Z",
+    autoUpdateTaxonomyMonthly: true,
+  },
   exportFormatColumns: {
     itemId: true,
     mpn: true,

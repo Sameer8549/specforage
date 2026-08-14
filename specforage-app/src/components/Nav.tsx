@@ -11,8 +11,10 @@ const NAV_ITEMS = [
   { label: "VOCABULARY",   href: "/vocabulary"   },
   { label: "ADJUDICATION", href: "/adjudication" },
   { label: "DESCRIPTIONS", href: "/descriptions" },
+  { label: "VALIDATE",     href: "/validate"     },
   { label: "BATCH",        href: "/batch"        },
   { label: "AUDIT",        href: "/audit"        },
+  { label: "METHODOLOGY",  href: "/methodology"  },
   { label: "SETTINGS",     href: "/settings"     },
 ];
 

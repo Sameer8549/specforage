@@ -15,11 +15,16 @@ import {
   ArrowClockwise,
   Check,
   FileCode,
+  Key,
+  Cpu,
+  FolderSimple,
 } from "@phosphor-icons/react";
 
 export default function SettingsPage() {
   const [config, setConfig] = useState<PipelineConfig>(DEFAULT_PIPELINE_CONFIG);
-  const [activeTab, setActiveTab] = useState<"THRESHOLDS" | "DISCIPLINE" | "EXPORT_SCHEMA" | "INTEGRATIONS">("THRESHOLDS");
+  const [activeTab, setActiveTab] = useState<
+    "THRESHOLDS" | "DISCIPLINE" | "API_KEYS" | "ROUTING" | "FILES" | "EXPORT_SCHEMA"
+  >("THRESHOLDS");
   const [saveToast, setSaveToast] = useState(false);
   const [resetToast, setResetToast] = useState(false);
 
@@ -80,7 +85,7 @@ export default function SettingsPage() {
                 className="text-mono-label"
                 style={{ color: "var(--accent)", marginBottom: 8 }}
               >
-                [ SYSTEM / PIPELINE CONFIGURATION & QUALITY GATES ]
+                [ SYSTEM / PIPELINE CONFIGURATION & ENGINE MANAGEMENT ]
               </div>
               <h1
                 className="text-display"
@@ -162,8 +167,10 @@ export default function SettingsPage() {
               [
                 { key: "THRESHOLDS", label: "QUALITY GATES & THRESHOLDS" },
                 { key: "DISCIPLINE", label: "SOURCE DISCIPLINE & TAXONOMY" },
-                { key: "EXPORT_SCHEMA", label: "DELIVERY FORMAT SCHEMA MAPPING" },
-                { key: "INTEGRATIONS", label: "ERP / PIM WEBHOOKS & API" },
+                { key: "API_KEYS", label: "API KEY MANAGEMENT" },
+                { key: "ROUTING", label: "MODEL ROUTING ENGINE" },
+                { key: "FILES", label: "VOCABULARY & TAXONOMY FILES" },
+                { key: "EXPORT_SCHEMA", label: "DELIVERY FORMAT SCHEMA" },
               ] as const
             ).map((tab) => {
               const active = activeTab === tab.key;
@@ -172,14 +179,14 @@ export default function SettingsPage() {
                   key={tab.key}
                   onClick={() => setActiveTab(tab.key)}
                   style={{
-                    padding: "14px 24px",
+                    padding: "14px 22px",
                     background: active ? "var(--bg-root)" : "transparent",
                     border: "none",
                     borderBottom: `2px solid ${active ? "var(--accent)" : "transparent"}`,
                     borderRight: "1px solid var(--border)",
                     fontFamily: "var(--font-mono)",
-                    fontSize: 11,
-                    letterSpacing: "0.08em",
+                    fontSize: 10.5,
+                    letterSpacing: "0.06em",
                     color: active ? "var(--fg-primary)" : "var(--fg-secondary)",
                     cursor: "pointer",
                     whiteSpace: "nowrap",
@@ -244,7 +251,7 @@ export default function SettingsPage() {
                     </div>
 
                     <p className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-secondary)", marginBottom: 12 }}>
-                      Maximum Levenshtein edit distance allowed when resolving misspelled distributor manufacturer strings (e.g. &apos;Frigidare&apos; -&gt; &apos;Frigidaire&apos; = 2 edits).
+                      Maximum Levenshtein edit distance allowed when resolving misspelled distributor manufacturer strings.
                     </p>
 
                     <input
@@ -302,7 +309,6 @@ export default function SettingsPage() {
                   transition={{ duration: 0.3, ease }}
                   style={{ display: "flex", flexDirection: "column", gap: 24, maxWidth: 880 }}
                 >
-                  {/* Strict MFR Domain */}
                   <div
                     style={{
                       border: "1px solid var(--border)",
@@ -332,7 +338,6 @@ export default function SettingsPage() {
                     />
                   </div>
 
-                  {/* Placeholder Stripping */}
                   <div
                     style={{
                       border: "1px solid var(--border)",
@@ -362,7 +367,6 @@ export default function SettingsPage() {
                     />
                   </div>
 
-                  {/* Taxonomy Version */}
                   <div style={{ border: "1px solid var(--border)", padding: "20px", backgroundColor: "var(--bg-surface)" }}>
                     <label className="text-mono-data" style={{ fontSize: 13, color: "var(--fg-primary)", display: "block", marginBottom: 6 }}>
                       PUBLIC UNSPSC TAXONOMY VERSION ANCHOR
@@ -389,7 +393,205 @@ export default function SettingsPage() {
                 </motion.div>
               )}
 
-              {/* TAB 3: DELIVERY FORMAT SCHEMA MAPPING */}
+              {/* TAB 3: API KEYS */}
+              {activeTab === "API_KEYS" && (
+                <motion.div
+                  key="API_KEYS"
+                  initial={reduce ? false : { opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.3, ease }}
+                  style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 880 }}
+                >
+                  <div style={{ border: "1px solid var(--border)", padding: "20px", backgroundColor: "var(--bg-surface)" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                      <Key size={16} style={{ color: "var(--accent)" }} />
+                      <label className="text-mono-data" style={{ fontSize: 13, color: "var(--fg-primary)" }}>
+                        PRIMARY API PROVIDER & KEY
+                      </label>
+                    </div>
+
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: 12, marginTop: 12 }}>
+                      <select
+                        value={config.apiKeyManagement.primaryProvider}
+                        onChange={(e) =>
+                          setConfig({
+                            ...config,
+                            apiKeyManagement: {
+                              ...config.apiKeyManagement,
+                              primaryProvider: e.target.value as any,
+                            },
+                          })
+                        }
+                        style={{
+                          padding: "8px 12px",
+                          backgroundColor: "var(--bg-root)",
+                          color: "var(--fg-primary)",
+                          border: "1px solid var(--border)",
+                          fontFamily: "var(--font-mono)",
+                          fontSize: 11,
+                        }}
+                      >
+                        <option value="SPECFORGE_HOSTED">SpecForge Managed Gateway</option>
+                        <option value="ANTHROPIC_DIRECT">Anthropic Direct API</option>
+                        <option value="OPENAI_DIRECT">OpenAI Direct API</option>
+                        <option value="CUSTOM_GATEWAY">Enterprise Custom Gateway</option>
+                      </select>
+
+                      <input
+                        type="text"
+                        value={config.apiKeyManagement.apiKeyMasked}
+                        onChange={(e) =>
+                          setConfig({
+                            ...config,
+                            apiKeyManagement: {
+                              ...config.apiKeyManagement,
+                              apiKeyMasked: e.target.value,
+                            },
+                          })
+                        }
+                        style={{
+                          padding: "8px 12px",
+                          backgroundColor: "var(--bg-root)",
+                          color: "var(--status-ok)",
+                          border: "1px solid var(--border)",
+                          fontFamily: "var(--font-mono)",
+                          fontSize: 11,
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  <div style={{ border: "1px solid var(--border)", padding: "20px", backgroundColor: "var(--bg-surface)" }}>
+                    <div className="text-mono-data" style={{ fontSize: 13, color: "var(--fg-primary)", marginBottom: 8 }}>
+                      THROTTLING & RATE LIMIT GOVERNANCE
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                      <div>
+                        <span className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-dim)" }}>
+                          MAX REQUESTS / MINUTE
+                        </span>
+                        <div className="text-mono-data" style={{ fontSize: 14, color: "var(--fg-primary)", marginTop: 4 }}>
+                          {config.apiKeyManagement.rateLimitPerMinute} REQ/MIN
+                        </div>
+                      </div>
+                      <div>
+                        <span className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-dim)" }}>
+                          MONTHLY USAGE ALERT LIMIT
+                        </span>
+                        <div className="text-mono-data" style={{ fontSize: 14, color: "var(--status-warn)", marginTop: 4 }}>
+                          {config.apiKeyManagement.usageAlertThreshold.toLocaleString()} ROWS
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* TAB 4: MODEL ROUTING */}
+              {activeTab === "ROUTING" && (
+                <motion.div
+                  key="ROUTING"
+                  initial={reduce ? false : { opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.3, ease }}
+                  style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 880 }}
+                >
+                  <div style={{ border: "1px solid var(--border)" }}>
+                    <div
+                      style={{
+                        padding: "10px 16px",
+                        backgroundColor: "var(--bg-elevated)",
+                        borderBottom: "1px solid var(--border-dim)",
+                      }}
+                    >
+                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10 }}>
+                        [ PIPELINE SUBSYSTEM MODEL ROUTING TABLE ]
+                      </span>
+                    </div>
+
+                    {[
+                      { role: "EXTRACTION & PARSING", engine: config.modelRouting.extractionEngine },
+                      { role: "UNSPSC CLASSIFICATION", engine: config.modelRouting.taxonomyClassifier },
+                      { role: "FACTUAL ENTAILMENT CHECK", engine: config.modelRouting.entailmentVerifier },
+                      { role: "FALLBACK OFFLINE GENERATOR", engine: config.modelRouting.fallbackOfflineEngine },
+                    ].map((item) => (
+                      <div
+                        key={item.role}
+                        style={{
+                          padding: "14px 18px",
+                          borderTop: "1px solid var(--border-dim)",
+                          display: "grid",
+                          gridTemplateColumns: "220px 1fr",
+                          gap: 16,
+                          alignItems: "center",
+                        }}
+                      >
+                        <span className="text-mono-label" style={{ fontSize: 10.5, color: "var(--fg-secondary)" }}>
+                          {item.role}
+                        </span>
+                        <span className="text-mono-data" style={{ fontSize: 12, color: "var(--fg-primary)" }}>
+                          {item.engine}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+
+              {/* TAB 5: VOCABULARY & TAXONOMY FILE MANAGEMENT */}
+              {activeTab === "FILES" && (
+                <motion.div
+                  key="FILES"
+                  initial={reduce ? false : { opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.3, ease }}
+                  style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 880 }}
+                >
+                  <div style={{ border: "1px solid var(--border)", padding: "20px", backgroundColor: "var(--bg-surface)" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+                      <FolderSimple size={16} style={{ color: "var(--accent)" }} />
+                      <span className="text-mono-data" style={{ fontSize: 13, color: "var(--fg-primary)" }}>
+                        ACTIVE TAXONOMY & VOCABULARY ASSETS
+                      </span>
+                    </div>
+
+                    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                      <div style={{ padding: "12px", border: "1px solid var(--border-dim)", backgroundColor: "var(--bg-root)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <div>
+                          <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--fg-dim)" }}>
+                            UNSPSC TAXONOMY FILE
+                          </div>
+                          <div className="text-mono-data" style={{ fontSize: 12, color: "var(--fg-primary)", marginTop: 2 }}>
+                            {config.fileManagement.activeTaxonomyFile}
+                          </div>
+                        </div>
+                        <span className="badge" style={{ color: "var(--status-ok)", borderColor: "var(--status-ok)" }}>
+                          MOUNTED
+                        </span>
+                      </div>
+
+                      <div style={{ padding: "12px", border: "1px solid var(--border-dim)", backgroundColor: "var(--bg-root)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <div>
+                          <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--fg-dim)" }}>
+                            CONTROLLED VOCABULARY FILE
+                          </div>
+                          <div className="text-mono-data" style={{ fontSize: 12, color: "var(--fg-primary)", marginTop: 2 }}>
+                            {config.fileManagement.activeVocabularyFile}
+                          </div>
+                        </div>
+                        <span className="badge" style={{ color: "var(--status-ok)", borderColor: "var(--status-ok)" }}>
+                          MOUNTED
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* TAB 6: DELIVERY FORMAT SCHEMA */}
               {activeTab === "EXPORT_SCHEMA" && (
                 <motion.div
                   key="EXPORT_SCHEMA"
@@ -471,36 +673,6 @@ export default function SettingsPage() {
                         </div>
                       );
                     })}
-                  </div>
-                </motion.div>
-              )}
-
-              {/* TAB 4: INTEGRATIONS */}
-              {activeTab === "INTEGRATIONS" && (
-                <motion.div
-                  key="INTEGRATIONS"
-                  initial={reduce ? false : { opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.3, ease }}
-                  style={{ display: "flex", flexDirection: "column", gap: 24, maxWidth: 880 }}
-                >
-                  <div style={{ border: "1px solid var(--border)", padding: "20px", backgroundColor: "var(--bg-surface)" }}>
-                    <label className="text-mono-data" style={{ fontSize: 13, color: "var(--fg-primary)", display: "block", marginBottom: 6 }}>
-                      ERP / PIM AUTOMATED INGESTION WEBHOOK
-                    </label>
-
-                    <p className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-secondary)", marginBottom: 12 }}>
-                      SpecForge dispatches RFC-4180 batch delivery payloads to this endpoint upon verification completion.
-                    </p>
-
-                    <input
-                      type="text"
-                      value={config.erpIntegrationWebhook}
-                      onChange={(e) => setConfig({ ...config, erpIntegrationWebhook: e.target.value })}
-                      className="input-underline"
-                      style={{ padding: "8px", border: "1px solid var(--border)", fontSize: 12 }}
-                    />
                   </div>
                 </motion.div>
               )}
