@@ -146,6 +146,10 @@ class AuditStage(ContractModel):
     total_fields: int = Field(default=0, ge=0)
     needs_human_review: bool = False
     accuracy: dict[str, float] | None = None
+    field_status: dict[str, bool] = Field(default_factory=dict)
+    vocabulary_compliance_percent: float = Field(default=0, ge=0, le=100)
+    character_limit_compliance_percent: float = Field(default=0, ge=0, le=100)
+    routed_to_review: bool = False
     gap_report: list[str] = Field(default_factory=list)
     flags: list[ReviewFlag] = Field(default_factory=list)
 
