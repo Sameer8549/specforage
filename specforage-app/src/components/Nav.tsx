@@ -6,6 +6,7 @@ import { ArrowRight } from "@phosphor-icons/react";
 const NAV_ITEMS = [
   { label: "PIPELINE", href: "/pipeline" },
   { label: "RECORDS",  href: "/records"  },
+  { label: "TAXONOMY", href: "/taxonomy" },
   { label: "BATCH",    href: "/batch"    },
   { label: "AUDIT",    href: "/audit"    },
   { label: "SETTINGS", href: "/settings" },
@@ -65,7 +66,7 @@ export default function Nav() {
                   textTransform: "uppercase",
                   color: isActive ? "var(--fg-primary)" : "var(--fg-secondary)",
                   textDecoration: "none",
-                  padding: "0 16px",
+                  padding: "0 14px",
                   height: 56,
                   display: "flex",
                   alignItems: "center",
