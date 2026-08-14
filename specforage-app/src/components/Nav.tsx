@@ -10,6 +10,7 @@ const NAV_ITEMS = [
   { label: "PROVENANCE",   href: "/provenance"   },
   { label: "VOCABULARY",   href: "/vocabulary"   },
   { label: "ADJUDICATION", href: "/adjudication" },
+  { label: "DESCRIPTIONS", href: "/descriptions" },
   { label: "BATCH",        href: "/batch"        },
   { label: "AUDIT",        href: "/audit"        },
   { label: "SETTINGS",     href: "/settings"     },
@@ -24,7 +25,7 @@ export default function Nav() {
         style={{
           maxWidth: 1440,
           margin: "0 auto",
-          padding: "0 20px",
+          padding: "0 16px",
           width: "100%",
           display: "flex",
           alignItems: "center",
@@ -64,12 +65,12 @@ export default function Nav() {
                 href={item.href}
                 style={{
                   fontFamily: "var(--font-mono)",
-                  fontSize: 9.5,
+                  fontSize: 9,
                   letterSpacing: "0.06em",
                   textTransform: "uppercase",
                   color: isActive ? "var(--fg-primary)" : "var(--fg-secondary)",
                   textDecoration: "none",
-                  padding: "0 8px",
+                  padding: "0 6px",
                   height: 56,
                   display: "flex",
                   alignItems: "center",
@@ -89,10 +90,10 @@ export default function Nav() {
         <Link
           href="/pipeline"
           className="btn-primary"
-          style={{ padding: "8px 14px", fontSize: 10.5 }}
+          style={{ padding: "8px 12px", fontSize: 10 }}
         >
           OPEN PIPELINE
-          <ArrowRight size={13} weight="bold" />
+          <ArrowRight size={12} weight="bold" />
         </Link>
       </div>
     </nav>
