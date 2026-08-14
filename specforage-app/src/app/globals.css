@@ -267,3 +267,18 @@ body {
 @media (max-width: 640px) {
   .section-pad { padding: 40px 20px !important; }
 }
+
+/* ─── Hide Next.js Dev Badge & Indicators ────────────────────── */
+[data-nextjs-dev-tools-button],
+[data-nextjs-toast],
+[data-next-badge],
+[data-nextjs-dialog-overlay],
+#next-route-announcer,
+nextjs-portal,
+div:has(> [data-nextjs-dev-tools-button]),
+div[data-nextjs-dev-tools-button] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
