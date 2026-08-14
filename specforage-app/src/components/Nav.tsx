@@ -8,6 +8,7 @@ const NAV_ITEMS = [
   { label: "RECORDS",    href: "/records"    },
   { label: "TAXONOMY",   href: "/taxonomy"   },
   { label: "PROVENANCE", href: "/provenance" },
+  { label: "VOCABULARY", href: "/vocabulary" },
   { label: "BATCH",      href: "/batch"      },
   { label: "AUDIT",      href: "/audit"      },
   { label: "SETTINGS",   href: "/settings"   },
@@ -62,12 +63,12 @@ export default function Nav() {
                 href={item.href}
                 style={{
                   fontFamily: "var(--font-mono)",
-                  fontSize: 10.5,
+                  fontSize: 10,
                   letterSpacing: "0.08em",
                   textTransform: "uppercase",
                   color: isActive ? "var(--fg-primary)" : "var(--fg-secondary)",
                   textDecoration: "none",
-                  padding: "0 12px",
+                  padding: "0 10px",
                   height: 56,
                   display: "flex",
                   alignItems: "center",
