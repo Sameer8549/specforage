@@ -506,69 +506,71 @@ export default function ProvenancePage() {
                     </span>
                   </div>
 
-                  <div style={{ border: "1px solid var(--border)" }}>
-                    <div
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "200px 180px 1fr 140px 120px",
-                        backgroundColor: "var(--bg-elevated)",
-                        borderBottom: "1px solid var(--border-dim)",
-                      }}
-                    >
-                      {["MANUFACTURER", "PRIMARY DOMAIN", "KNOWN ALIASES / RESOLUTION MAP", "STATUS", "QUERIES"].map((h, i) => (
+                  <div style={{ border: "1px solid var(--border)", overflowX: "auto" }}>
+                    <div style={{ minWidth: 920 }}>
+                      <div
+                        style={{
+                          display: "grid",
+                          gridTemplateColumns: "200px 180px 1fr 200px 130px",
+                          backgroundColor: "var(--bg-elevated)",
+                          borderBottom: "1px solid var(--border-dim)",
+                        }}
+                      >
+                        {["MANUFACTURER", "PRIMARY DOMAIN", "KNOWN ALIASES / RESOLUTION MAP", "STATUS", "QUERIES"].map((h, i) => (
+                          <div
+                            key={h}
+                            className="text-mono-label"
+                            style={{ padding: "9px 12px", fontSize: 11.5, color: "var(--fg-dim)", borderRight: i < 4 ? "1px solid var(--border-dim)" : "none" }}
+                          >
+                            {h}
+                          </div>
+                        ))}
+                      </div>
+
+                      {filteredMfrs.map((m) => (
                         <div
-                          key={h}
-                          className="text-mono-label"
-                          style={{ padding: "9px 12px", fontSize: 11.5, color: "var(--fg-dim)", borderRight: i < 4 ? "1px solid var(--border-dim)" : "none" }}
+                          key={m.id}
+                          style={{
+                            display: "grid",
+                            gridTemplateColumns: "200px 180px 1fr 200px 130px",
+                            borderTop: "1px solid var(--border-dim)",
+                          }}
                         >
-                          {h}
+                          <div className="text-mono-data" style={{ padding: "12px", fontSize: 12, borderRight: "1px solid var(--border-dim)" }}>
+                            {m.name}
+                            {m.parentCompany && (
+                              <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--mono-meta)", marginTop: 2 }}>
+                                Parent: {m.parentCompany}
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="text-mono-data" style={{ padding: "12px", fontSize: 11, color: "var(--status-ok)", borderRight: "1px solid var(--border-dim)" }}>
+                            {m.primaryDomain}
+                          </div>
+
+                          <div style={{ padding: "12px", borderRight: "1px solid var(--border-dim)" }}>
+                            <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                              {m.aliases.map((a) => (
+                                <span key={a} className="badge badge-dim" style={{ fontSize: 11 }}>
+                                  {a}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+
+                          <div style={{ padding: "12px", borderRight: "1px solid var(--border-dim)", display: "flex", alignItems: "center" }}>
+                            <span className="badge" style={{ color: "var(--status-ok)", borderColor: "var(--status-ok)", fontSize: 11, whiteSpace: "nowrap" }}>
+                              {m.status}
+                            </span>
+                          </div>
+
+                          <div className="text-mono-data" style={{ padding: "12px", fontSize: 11, color: "var(--fg-secondary)", whiteSpace: "nowrap" }}>
+                            {m.queriesRun.toLocaleString()} runs
+                          </div>
                         </div>
                       ))}
                     </div>
-
-                    {filteredMfrs.map((m) => (
-                      <div
-                        key={m.id}
-                        style={{
-                          display: "grid",
-                          gridTemplateColumns: "200px 180px 1fr 140px 120px",
-                          borderTop: "1px solid var(--border-dim)",
-                        }}
-                      >
-                        <div className="text-mono-data" style={{ padding: "12px", fontSize: 12, borderRight: "1px solid var(--border-dim)" }}>
-                          {m.name}
-                          {m.parentCompany && (
-                            <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--mono-meta)", marginTop: 2 }}>
-                              Parent: {m.parentCompany}
-                            </div>
-                          )}
-                        </div>
-
-                        <div className="text-mono-data" style={{ padding: "12px", fontSize: 11, color: "var(--status-ok)", borderRight: "1px solid var(--border-dim)" }}>
-                          {m.primaryDomain}
-                        </div>
-
-                        <div style={{ padding: "12px", borderRight: "1px solid var(--border-dim)" }}>
-                          <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-                            {m.aliases.map((a) => (
-                              <span key={a} className="badge badge-dim" style={{ fontSize: 11 }}>
-                                {a}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div style={{ padding: "12px", borderRight: "1px solid var(--border-dim)", display: "flex", alignItems: "center" }}>
-                          <span className="badge" style={{ color: "var(--status-ok)", borderColor: "var(--status-ok)", fontSize: 11 }}>
-                            {m.status}
-                          </span>
-                        </div>
-
-                        <div className="text-mono-data" style={{ padding: "12px", fontSize: 11, color: "var(--fg-secondary)" }}>
-                          {m.queriesRun.toLocaleString()} runs
-                        </div>
-                      </div>
-                    ))}
                   </div>
                 </motion.div>
               )}

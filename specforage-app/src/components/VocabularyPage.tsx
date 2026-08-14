@@ -433,113 +433,116 @@ export default function VocabularyPage() {
 
           {/* ── Vocabulary Term Table ── */}
           <div style={{ flex: 1, padding: "36px 48px" }}>
-            <div style={{ border: "1px solid var(--border)" }}>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "220px 140px 1fr 120px 140px",
-                  backgroundColor: "var(--bg-elevated)",
-                  borderBottom: "1px solid var(--border-dim)",
-                }}
-              >
-                {["CANONICAL TERM", "CATEGORY", "SYNONYM MAPPINGS", "STATUS", "GOVERNANCE ACTION"].map((h, i) => (
-                  <div
-                    key={h}
-                    className="text-mono-label"
-                    style={{ padding: "10px 14px", fontSize: 11.5, color: "var(--fg-dim)", borderRight: i < 4 ? "1px solid var(--border-dim)" : "none" }}
-                  >
-                    {h}
-                  </div>
-                ))}
-              </div>
+            <div style={{ border: "1px solid var(--border)", overflowX: "auto" }}>
+              <div style={{ minWidth: 900 }}>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "220px 140px 1fr 140px 180px",
+                    backgroundColor: "var(--bg-elevated)",
+                    borderBottom: "1px solid var(--border-dim)",
+                  }}
+                >
+                  {["CANONICAL TERM", "CATEGORY", "SYNONYM MAPPINGS", "STATUS", "GOVERNANCE ACTION"].map((h, i) => (
+                    <div
+                      key={h}
+                      className="text-mono-label"
+                      style={{ padding: "10px 14px", fontSize: 11.5, color: "var(--fg-dim)", borderRight: i < 4 ? "1px solid var(--border-dim)" : "none" }}
+                    >
+                      {h}
+                    </div>
+                  ))}
+                </div>
 
-              {filteredTerms.map((t) => {
-                const badge = getStateBadge(t.status);
-                return (
-                  <div
-                    key={t.id}
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "220px 140px 1fr 120px 140px",
-                      borderTop: "1px solid var(--border-dim)",
-                    }}
-                  >
-                    {/* Canonical Term */}
-                    <div className="text-mono-data" style={{ padding: "14px", fontSize: 12, color: "var(--fg-primary)", borderRight: "1px solid var(--border-dim)" }}>
-                      {t.canonicalTerm}
-                      {t.governanceNote && (
-                        <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--status-warn)", marginTop: 4, lineHeight: 1.4 }}>
-                          {t.governanceNote}
+                {filteredTerms.map((t) => {
+                  const badge = getStateBadge(t.status);
+                  return (
+                    <div
+                      key={t.id}
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "220px 140px 1fr 140px 180px",
+                        borderTop: "1px solid var(--border-dim)",
+                      }}
+                    >
+                      {/* Canonical Term */}
+                      <div className="text-mono-data" style={{ padding: "14px", fontSize: 12, color: "var(--fg-primary)", borderRight: "1px solid var(--border-dim)" }}>
+                        {t.canonicalTerm}
+                        {t.governanceNote && (
+                          <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--status-warn)", marginTop: 4, lineHeight: 1.4 }}>
+                            {t.governanceNote}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Category */}
+                      <div style={{ padding: "14px", borderRight: "1px solid var(--border-dim)" }}>
+                        <span className="badge badge-dim" style={{ fontSize: 11 }}>
+                          {t.category}
+                        </span>
+                      </div>
+
+                      {/* Synonyms */}
+                      <div style={{ padding: "14px", borderRight: "1px solid var(--border-dim)" }}>
+                        <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                          {t.synonyms.map((s) => (
+                            <span
+                              key={s}
+                              style={{
+                                fontFamily: "var(--font-mono)",
+                                fontSize: 12,
+                                color: "var(--fg-secondary)",
+                                padding: "2px 6px",
+                                backgroundColor: "var(--bg-surface)",
+                                border: "1px solid var(--border-dim)",
+                              }}
+                            >
+                              {s}
+                            </span>
+                          ))}
                         </div>
-                      )}
-                    </div>
+                      </div>
 
-                    {/* Category */}
-                    <div style={{ padding: "14px", borderRight: "1px solid var(--border-dim)" }}>
-                      <span className="badge badge-dim" style={{ fontSize: 11 }}>
-                        {t.category}
-                      </span>
-                    </div>
+                      {/* Status */}
+                      <div style={{ padding: "14px", borderRight: "1px solid var(--border-dim)", display: "flex", alignItems: "center" }}>
+                        <span
+                          className="badge"
+                          style={{
+                            color: badge.color,
+                            borderColor: badge.color,
+                            fontSize: 11.5,
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {badge.label}
+                        </span>
+                      </div>
 
-                    {/* Synonyms */}
-                    <div style={{ padding: "14px", borderRight: "1px solid var(--border-dim)" }}>
-                      <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-                        {t.synonyms.map((s) => (
-                          <span
-                            key={s}
-                            style={{
-                              fontFamily: "var(--font-mono)",
-                              fontSize: 12,
-                              color: "var(--fg-secondary)",
-                              padding: "2px 6px",
-                              backgroundColor: "var(--bg-surface)",
-                              border: "1px solid var(--border-dim)",
-                            }}
+                      {/* Actions */}
+                      <div style={{ padding: "14px", display: "flex", alignItems: "center", whiteSpace: "nowrap" }}>
+                        {t.status === "FIRST SEEN" ? (
+                          <button
+                            onClick={() => approveTerm(t.id)}
+                            className="btn-primary"
+                            style={{ padding: "5px 12px", fontSize: 11.5 }}
                           >
-                            {s}
+                            <Check size={12} weight="bold" />
+                            APPROVE
+                          </button>
+                        ) : t.status === "FLAGGED" ? (
+                          <span className="text-mono-label" style={{ fontSize: 11.5, color: "var(--accent)" }}>
+                            REQUIRES AUDIT
                           </span>
-                        ))}
+                        ) : (
+                          <span className="text-mono-label" style={{ fontSize: 11.5, color: "var(--status-ok)" }}>
+                            ✓ APPROVED
+                          </span>
+                        )}
                       </div>
                     </div>
-
-                    {/* Status */}
-                    <div style={{ padding: "14px", borderRight: "1px solid var(--border-dim)", display: "flex", alignItems: "center" }}>
-                      <span
-                        className="badge"
-                        style={{
-                          color: badge.color,
-                          borderColor: badge.color,
-                          fontSize: 11.5,
-                        }}
-                      >
-                        {badge.label}
-                      </span>
-                    </div>
-
-                    {/* Actions */}
-                    <div style={{ padding: "14px", display: "flex", alignItems: "center" }}>
-                      {t.status === "FIRST SEEN" ? (
-                        <button
-                          onClick={() => approveTerm(t.id)}
-                          className="btn-primary"
-                          style={{ padding: "4px 10px", fontSize: 11.5 }}
-                        >
-                          <Check size={12} weight="bold" />
-                          APPROVE
-                        </button>
-                      ) : t.status === "FLAGGED" ? (
-                        <span className="text-mono-label" style={{ fontSize: 11.5, color: "var(--accent)" }}>
-                          REQUIRES AUDIT
-                        </span>
-                      ) : (
-                        <span className="text-mono-label" style={{ fontSize: 11.5, color: "var(--status-ok)" }}>
-                          ✓ APPROVED
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
