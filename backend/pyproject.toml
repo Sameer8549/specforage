@@ -9,6 +9,8 @@ description = "Category-agnostic product specification pipeline service"
 requires-python = ">=3.11"
 dependencies = [
   "fastapi>=0.115,<1",
+  "fastembed>=0.6,<0.8",
+  "numpy>=2,<3",
   "pydantic>=2.10,<3",
   "pydantic-settings>=2.7,<3",
   "rapidfuzz>=3.12,<4",
