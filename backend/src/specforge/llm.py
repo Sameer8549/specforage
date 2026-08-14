@@ -51,7 +51,7 @@ class OpenAICompatibleJSONClient:
             "response_format": {
                 "type": "json_schema",
                 "json_schema": {
-                    "name": "specforge_extraction",
+                    "name": "specforge_response",
                     "strict": self.strict_schema,
                     "schema": schema,
                 },
