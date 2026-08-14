@@ -50,25 +50,61 @@ export default function Nav() {
             gap: 24,
           }}
         >
-          {/* Wordmark */}
+          {/* Wordmark & SF Monogram Logo */}
           <Link
             href="/"
             style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: 13,
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              color: "var(--fg-primary)",
               textDecoration: "none",
               display: "flex",
               alignItems: "center",
-              gap: 8,
-              fontWeight: 700,
+              gap: 10,
               flexShrink: 0,
             }}
           >
-            <span style={{ color: "var(--accent)" }}>SF</span>
-            <span style={{ color: "var(--fg-primary)" }}>SpecForge</span>
+            <div
+              style={{
+                width: 26,
+                height: 26,
+                borderRadius: 5,
+                backgroundColor: "var(--bg-elevated)",
+                border: "1px solid var(--border)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontFamily: "var(--font-mono)",
+                fontWeight: 900,
+                fontSize: 12,
+                letterSpacing: "-0.04em",
+                boxShadow: "0 1px 3px rgba(0,0,0,0.4)",
+              }}
+            >
+              <span style={{ color: "var(--accent)" }}>S</span>
+              <span style={{ color: "#FFFFFF" }}>F</span>
+            </div>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+              <span
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: 16,
+                  letterSpacing: "-0.02em",
+                  color: "var(--fg-primary)",
+                  fontWeight: 400,
+                }}
+              >
+                SPECFORGE
+              </span>
+              <span
+                className="text-mono-label"
+                style={{
+                  fontSize: 10,
+                  color: "var(--fg-dim)",
+                  letterSpacing: "0.08em",
+                  fontWeight: 600,
+                }}
+              >
+                CORE
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Navigation Links */}
