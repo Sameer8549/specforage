@@ -1,14 +1,16 @@
 import Nav from "@/components/Nav";
+import PipelineLivePage from "@/components/PipelineLivePage";
 
-export default function PipelineLivePage() {
+export const metadata = {
+  title: "Live Pipeline — SpecForge",
+  description: "Real-time view of the 10-stage product intelligence pipeline.",
+};
+
+export default function LivePage() {
   return (
     <>
       <Nav />
-      <main style={{ paddingTop: 56, maxWidth: 1440, margin: "0 auto", padding: "80px 64px" }}>
-        <span className="text-mono-label" style={{ color: "var(--accent)" }}>
-          [ PIPELINE / LIVE ] — STEP 4
-        </span>
-      </main>
+      <PipelineLivePage />
     </>
   );
 }
