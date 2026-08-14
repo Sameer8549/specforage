@@ -56,8 +56,8 @@ class InputStage(ContractModel):
 
 
 class CleanStage(ContractModel):
-    mfg_part_num: str
-    part_desc: str
+    mfg_part_num: str | None = None
+    part_desc: str | None = None
     e1_brand: str | None = None
     unilog_brand: str | None = None
     dib_brand: str | None = None
