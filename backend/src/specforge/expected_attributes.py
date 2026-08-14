@@ -12,6 +12,16 @@ from specforge.data import DatasetInfo, iter_csv_rows
 _ATTRIBUTE_LABEL = re.compile(r"^ATTRIBUTE_LABEL (\d+)$")
 
 
+def category_similarity(query: str, choice: str) -> float:
+    query_leaf = query.rsplit(">", 1)[-1]
+    choice_leaf = choice.rsplit(">", 1)[-1]
+    return max(
+        fuzz.WRatio(query, choice),
+        fuzz.WRatio(query_leaf, choice_leaf),
+        fuzz.partial_ratio(query_leaf, choice_leaf),
+    )
+
+
 @dataclass(frozen=True, slots=True)
 class AttributePattern:
     classpath: str
@@ -51,16 +61,11 @@ class ExpectedAttributeCatalog:
         if not self.patterns:
             return []
         paths = [pattern.classpath for pattern in self.patterns]
-        def category_score(query: str, choice: str, **_: object) -> float:
-            query_leaf = query.rsplit(">", 1)[-1]
-            choice_leaf = choice.rsplit(">", 1)[-1]
-            return max(
-                fuzz.WRatio(query, choice),
-                fuzz.WRatio(query_leaf, choice_leaf),
-                fuzz.partial_ratio(query_leaf, choice_leaf),
-            )
-
-        match = process.extractOne(classpath, paths, scorer=category_score)
+        match = process.extractOne(
+            classpath,
+            paths,
+            scorer=lambda query, choice, **_: category_similarity(query, choice),
+        )
         if match is None or match[1] < minimum_score:
             return []
         return list(self.patterns[match[2]].attributes)

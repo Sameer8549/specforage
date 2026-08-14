@@ -34,6 +34,7 @@ class Settings(BaseSettings):
     groq_model: str = "openai/gpt-oss-20b"
     groq_api_key: SecretStr | None = None
     llm_timeout_seconds: float = Field(default=30, gt=0)
+    attribute_match_threshold: float = Field(default=0.90, ge=0, le=1)
 
     def resolve_data_path(self, path: Path) -> Path:
         return path if path.is_absolute() else BACKEND_ROOT / path
