@@ -613,7 +613,7 @@ export default function PipelineLivePage() {
     <>
       <div className="noise-overlay" aria-hidden="true" />
       <main style={{ paddingTop: 56 }}>
-        <div style={{ maxWidth: 1440, margin: "0 auto", borderLeft: "1px solid var(--border)", borderRight: "1px solid var(--border)", minHeight: "calc(100dvh - 56px)", display: "grid", gridTemplateColumns: "300px 1fr" }}>
+        <div style={{ width: "100%", minHeight: "calc(100dvh - 56px)", display: "grid", gridTemplateColumns: "300px 1fr" }}>
 
           {/* ── LEFT: Stage sidebar ── */}
           <div style={{ borderRight: "1px solid var(--border)", display: "flex", flexDirection: "column" }}>

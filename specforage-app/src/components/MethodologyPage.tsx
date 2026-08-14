@@ -17,10 +17,7 @@ export default function MethodologyPage() {
       <main style={{ paddingTop: 52 }}>
         <div
           style={{
-            maxWidth: 1440,
-            margin: "0 auto",
-            borderLeft: "1px solid var(--border)",
-            borderRight: "1px solid var(--border)",
+            width: "100%",
             minHeight: "calc(100dvh - 52px)",
             display: "flex",
             flexDirection: "column",

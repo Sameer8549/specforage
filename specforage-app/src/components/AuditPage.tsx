@@ -113,10 +113,7 @@ export default function AuditPage() {
       <main style={{ paddingTop: 56 }}>
         <div
           style={{
-            maxWidth: 1440,
-            margin: "0 auto",
-            borderLeft: "1px solid var(--border)",
-            borderRight: "1px solid var(--border)",
+            width: "100%",
             minHeight: "calc(100dvh - 56px)",
             display: "flex",
             flexDirection: "column",

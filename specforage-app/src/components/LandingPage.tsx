@@ -232,8 +232,7 @@ export default function LandingPage() {
           className="hero-grid"
           style={{
             minHeight: "calc(100dvh - 52px)",
-            maxWidth: 1440,
-            margin: "0 auto",
+            width: "100%",
             display: "grid",
             gridTemplateColumns: "1fr 420px",
             borderLeft:  "1px solid var(--border)",
@@ -343,10 +342,7 @@ export default function LandingPage() {
             ════════════════════════════════ */}
         <section
           style={{
-            maxWidth: 1440,
-            margin: "0 auto",
-            borderLeft:  "1px solid var(--border)",
-            borderRight: "1px solid var(--border)",
+            width: "100%",
             borderTop:   "1px solid var(--border)",
           }}
         >
@@ -413,10 +409,7 @@ export default function LandingPage() {
             ════════════════════════════════ */}
         <section
           style={{
-            maxWidth: 1440,
-            margin: "0 auto",
-            borderLeft:  "1px solid var(--border)",
-            borderRight: "1px solid var(--border)",
+            width: "100%",
             borderTop:   "1px solid var(--border)",
           }}
         >
@@ -515,10 +508,7 @@ export default function LandingPage() {
             ════════════════════════════════ */}
         <footer
           style={{
-            maxWidth: 1440,
-            margin: "0 auto",
-            borderLeft:  "1px solid var(--border)",
-            borderRight: "1px solid var(--border)",
+            width: "100%",
             borderTop:   "1px solid var(--border)",
             padding: "48px 56px",
             display: "flex",
