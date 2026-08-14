@@ -25,11 +25,11 @@ export default function Loading() {
         }}
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10 }}>
-            [ SYSTEM / WORKER BUSY ]
+          <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 11, fontWeight: 600 }}>
+            Initializing Pipeline
           </span>
           <span className="badge" style={{ color: "var(--status-warn)", borderColor: "var(--status-warn)" }}>
-            INITIALIZING PIPELINE
+            INITIALIZING
           </span>
         </div>
 

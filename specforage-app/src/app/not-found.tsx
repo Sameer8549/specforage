@@ -28,11 +28,11 @@ export default function NotFound() {
         }}
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 11 }}>
-            [ 404 / RESOURCE UNRESOLVED ]
+          <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 11, fontWeight: 600 }}>
+            Resource Not Indexed
           </span>
           <span className="badge badge-dim" style={{ fontSize: 9 }}>
-            NULL ROUTE
+            404
           </span>
         </div>
 

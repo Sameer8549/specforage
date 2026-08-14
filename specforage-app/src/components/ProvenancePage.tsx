@@ -124,9 +124,9 @@ export default function ProvenancePage() {
             <div>
               <div
                 className="text-mono-label"
-                style={{ color: "var(--accent)", marginBottom: 8 }}
+                style={{ color: "var(--accent)", marginBottom: 8, fontSize: 11, fontWeight: 600 }}
               >
-                [ GOVERNANCE / SOURCE DISCIPLINE & PROVENANCE ]
+                Source Discipline & Domain Guard
               </div>
               <h1
                 className="text-display"
@@ -237,8 +237,8 @@ export default function ProvenancePage() {
                         borderBottom: "1px solid var(--border-dim)",
                       }}
                     >
-                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10 }}>
-                        [ AUDITED EXTRACTION TRACES ]
+                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10, fontWeight: 600 }}>
+                        Audited Extraction Traces
                       </span>
                     </div>
 
@@ -353,9 +353,9 @@ export default function ProvenancePage() {
                         border: "1px solid var(--border-dim)",
                       }}
                     >
-                      <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--status-ok)", marginBottom: 6 }}>
-                        [ FACTUAL ENTAILMENT EVIDENCE SNIPPET ]
-                      </div>
+                      <span className="text-mono-label" style={{ color: "var(--status-ok)", fontSize: 10, fontWeight: 600 }}>
+                        Factual Entailment Evidence Snippet
+                      </span>
                       <p style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--fg-primary)", lineHeight: 1.5 }}>
                         {selectedTrace.snippetMatch}
                       </p>
@@ -381,9 +381,9 @@ export default function ProvenancePage() {
                       backgroundColor: "var(--bg-surface)",
                     }}
                   >
-                    <div className="text-mono-label" style={{ color: "var(--accent)", marginBottom: 12 }}>
-                      [ TEST MANUFACTURER DOMAIN DISCIPLINE & INTERCEPTION ENGINE ]
-                    </div>
+                    <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 11, fontWeight: 600 }}>
+                      Test Manufacturer Domain Discipline & Interception Engine
+                    </span>
 
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr auto", gap: 16, alignItems: "end" }}>
                       <div>
@@ -437,9 +437,9 @@ export default function ProvenancePage() {
 
                   {simOutput && (
                     <div style={{ border: "1px solid var(--border)", padding: "24px" }}>
-                      <div className="text-mono-label" style={{ color: "var(--status-ok)", marginBottom: 16 }}>
-                        [ DOMAIN GUARD TELEMETRY REPORT ]
-                      </div>
+                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10, fontWeight: 600 }}>
+                        Domain Guard Telemetry Report
+                      </span>
 
                       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
                         {/* Allowed Query */}
@@ -594,8 +594,8 @@ export default function ProvenancePage() {
                         borderBottom: "1px solid var(--border-dim)",
                       }}
                     >
-                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10 }}>
-                        [ HARD-ENFORCED DISTRIBUTOR & MARKETPLACE BLOCKLIST ]
+                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10, fontWeight: 600 }}>
+                        Hard-Enforced Marketplace & Distributor Blocklist
                       </span>
                     </div>
 

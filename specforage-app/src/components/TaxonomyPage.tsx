@@ -198,9 +198,9 @@ export default function TaxonomyPage() {
             <div>
               <div
                 className="text-mono-label"
-                style={{ color: "var(--accent)", marginBottom: 8 }}
+                style={{ color: "var(--accent)", marginBottom: 8, fontSize: 11, fontWeight: 600 }}
               >
-                [ TAXONOMY & CLASSIFICATION ENGINE // {UNSPSC_VERSION} ]
+                Taxonomy & Classification Engine · {UNSPSC_VERSION}
               </div>
               <h1
                 className="text-display"
@@ -238,8 +238,8 @@ export default function TaxonomyPage() {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <Sparkle size={15} style={{ color: "var(--accent)" }} />
-                <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 11 }}>
-                  [ LIVE CLASSIFICATION ENGINE SANDBOX ]
+                <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 11, fontWeight: 600 }}>
+                  Live Classification Sandbox
                 </span>
               </div>
               <span className="text-mono-label" style={{ fontSize: 10 }}>
@@ -628,8 +628,8 @@ export default function TaxonomyPage() {
                       alignItems: "center",
                     }}
                   >
-                    <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10 }}>
-                      [ EXPECTED ATTRIBUTES DEFINITIONS FOR {selectedCommodity.code} ]
+                    <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10, fontWeight: 600 }}>
+                      Expected Attribute Definitions for {selectedCommodity.code}
                     </span>
                     <span className="text-mono-label" style={{ fontSize: 10 }}>
                       {selectedCommodity.expectedAttributes.length} GOVERNED PROPERTIES
@@ -720,8 +720,8 @@ export default function TaxonomyPage() {
                       borderBottom: "1px solid var(--border-dim)",
                     }}
                   >
-                    <span className="text-mono-label" style={{ color: "var(--fg-secondary)", fontSize: 10 }}>
-                      [ SAMPLE DISTRIBUTOR ROW TEXTS MATCHING {selectedCommodity.code} ]
+                    <span className="text-mono-label" style={{ color: "var(--fg-secondary)", fontSize: 10, fontWeight: 600 }}>
+                      Sample Distributor Records for {selectedCommodity.code}
                     </span>
                   </div>
 

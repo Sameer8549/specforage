@@ -74,9 +74,9 @@ export default function ValidatePage() {
             <div>
               <div
                 className="text-mono-label"
-                style={{ color: "var(--accent)", marginBottom: 8 }}
+                style={{ color: "var(--accent)", marginBottom: 8, fontSize: 11, fontWeight: 600 }}
               >
-                [ EVALUATION / FORMAT & GROUND-TRUTH VALIDATION STUDIO ]
+                Ground-Truth Benchmark Evaluation
               </div>
               <h1
                 className="text-display"
@@ -315,8 +315,8 @@ export default function ValidatePage() {
                         justifyContent: "space-between",
                       }}
                     >
-                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10 }}>
-                        [ STRUCTURED FEATURE MATRIX 1–20 FOR {activeBenchmark.mpn} ]
+                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10, fontWeight: 600 }}>
+                        Structured Feature Matrix 1–20 for {activeBenchmark.mpn}
                       </span>
                       <span className="text-mono-label" style={{ fontSize: 10 }}>
                         FORMULA GENERATED · DETERMINISTIC

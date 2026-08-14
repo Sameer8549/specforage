@@ -66,9 +66,21 @@ function Row({ label, value, badge, badgeColor, dim }: {
 }
 
 function SectionHead({ label }: { label: string }) {
+  const cleanLabel = label.replace(/^\[\s*/, "").replace(/\s*\]$/, "");
   return (
-    <div className="text-mono-label" style={{ padding: "10px 12px", backgroundColor: "var(--bg-elevated)", borderBottom: "1px solid var(--border-dim)", color: "var(--accent)", fontSize: 10 }}>
-      {label}
+    <div
+      className="text-mono-label"
+      style={{
+        padding: "10px 14px",
+        backgroundColor: "var(--bg-elevated)",
+        borderBottom: "1px solid var(--border-dim)",
+        color: "var(--fg-primary)",
+        fontSize: 11,
+        fontWeight: 600,
+        letterSpacing: "0.04em",
+      }}
+    >
+      {cleanLabel}
     </div>
   );
 }
@@ -607,7 +619,9 @@ export default function PipelineLivePage() {
           <div style={{ borderRight: "1px solid var(--border)", display: "flex", flexDirection: "column" }}>
             {/* Header */}
             <div style={{ padding: "24px 20px", borderBottom: "1px solid var(--border)" }}>
-              <div className="text-mono-label" style={{ marginBottom: 8, color: "var(--accent)" }}>[ PIPELINE / LIVE ]</div>
+              <div className="text-mono-label" style={{ marginBottom: 6, color: "var(--accent)", fontSize: 11, fontWeight: 600 }}>
+                Active SKU Processing
+              </div>
               <div className="text-display" style={{ fontSize: "1.4rem", marginBottom: 16 }}>
                 FGID2466QF4A
               </div>

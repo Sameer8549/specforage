@@ -137,9 +137,9 @@ export default function AuditPage() {
             <div>
               <div
                 className="text-mono-label"
-                style={{ color: "var(--accent)", marginBottom: 8 }}
+                style={{ color: "var(--accent)", marginBottom: 8, fontSize: 11, fontWeight: 600 }}
               >
-                [ GOVERNANCE / QUALITY AUDIT & COMPLIANCE DOSSIER ]
+                Quality Audit & Compliance Dossier
               </div>
               <h1
                 className="text-display"
@@ -280,9 +280,9 @@ export default function AuditPage() {
 
                   {/* Catalog Integrity Breakdown */}
                   <div style={{ border: "1px solid var(--border)", padding: "24px", backgroundColor: "var(--bg-surface)" }}>
-                    <div className="text-mono-label" style={{ color: "var(--accent)", marginBottom: 16 }}>
-                      [ ENTERPRISE CATALOG INTEGRITY BREAKDOWN ]
-                    </div>
+                    <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 11, fontWeight: 600 }}>
+                      Enterprise Catalog Integrity Breakdown
+                    </span>
 
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20 }}>
                       <div>
@@ -345,8 +345,8 @@ export default function AuditPage() {
                         justifyContent: "space-between",
                       }}
                     >
-                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10 }}>
-                        [ PENDING CATALOG GOVERNANCE QUEUE ]
+                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10, fontWeight: 600 }}>
+                        Pending Catalog Governance Queue
                       </span>
                       <span className="text-mono-label" style={{ fontSize: 10 }}>
                         {pendingQueue.length} ITEMS AWAITING DECISION

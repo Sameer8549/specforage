@@ -129,9 +129,9 @@ export default function RecordsPage() {
             <div>
               <div
                 className="text-mono-label"
-                style={{ color: "var(--accent)", marginBottom: 8 }}
+                style={{ color: "var(--accent)", marginBottom: 8, fontSize: 11, fontWeight: 600 }}
               >
-                [ INTELLIGENCE REPOSITORY / RECORDS ]
+                Verified Intelligence Records
               </div>
               <h1
                 className="text-display"
@@ -378,8 +378,8 @@ export default function RecordsPage() {
                   <div>
                     <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
                       <span className="badge badge-dim">{activeRecord.id}</span>
-                      <span className="text-mono-label" style={{ color: "var(--accent)" }}>
-                        [ UNSPSC {activeRecord.unspscCode} ]
+                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 11 }}>
+                        UNSPSC {activeRecord.unspscCode}
                       </span>
                       {activeRecord.brandInferred && (
                         <span className="badge" style={{ color: "var(--status-warn)", borderColor: "var(--status-warn)" }}>
@@ -500,8 +500,8 @@ export default function RecordsPage() {
                             justifyContent: "space-between",
                           }}
                         >
-                          <span className="text-mono-label" style={{ fontSize: 10, color: "var(--accent)" }}>
-                            [ ATTRIBUTE PROVENANCE & ENTAILMENT MATRIX ]
+                          <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10 }}>
+                            Attribute Provenance & Entailment Matrix
                           </span>
                           <span className="text-mono-label" style={{ fontSize: 10 }}>
                             {activeRecord.attributes.length} GOVERNED ATTRIBUTES
@@ -613,8 +613,8 @@ export default function RecordsPage() {
                           alignItems: "center",
                         }}
                       >
-                        <span className="text-mono-label" style={{ color: "var(--accent)" }}>
-                          [ FORMULA GENERATED VARIANTS · STRICT LENGTH LIMIT ENFORCEMENT ]
+                        <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10 }}>
+                          Formula-Generated Channel Variants
                         </span>
                         <span className="text-mono-label" style={{ fontSize: 10 }}>
                           NO FREE-TEXT HALLUCINATIONS
@@ -733,8 +733,8 @@ export default function RecordsPage() {
                             borderBottom: "1px solid var(--border-dim)",
                           }}
                         >
-                          <span className="text-mono-label" style={{ color: "var(--accent)" }}>
-                            [ DETERMINISTIC CONFLICT ADJUDICATION & GOVERNANCE LOG ]
+                          <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10 }}>
+                            Deterministic Conflict Resolution Log
                           </span>
                         </div>
 
@@ -800,8 +800,8 @@ export default function RecordsPage() {
                             justifyContent: "space-between",
                           }}
                         >
-                          <span className="text-mono-label" style={{ color: "var(--status-ok)" }}>
-                            [ DELIVERY FORMAT MAPPING TABLE ]
+                          <span className="text-mono-label" style={{ color: "var(--status-ok)", fontSize: 10 }}>
+                            Delivery Format Column Mapping
                           </span>
                           <span className="text-mono-label" style={{ fontSize: 10 }}>
                             READY FOR COMMERCE INGESTION

@@ -123,41 +123,75 @@ body {
 .btn-primary {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 24px;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
   background-color: var(--accent);
-  color: #fff;
+  color: #ffffff;
   font-family: var(--font-mono), monospace;
-  font-size: 12px;
-  letter-spacing: 0.1em;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  border: none;
+  border: 1px solid var(--accent);
   cursor: pointer;
-  transition: background-color 150ms ease, transform 100ms ease;
+  transition: background-color 150ms ease, border-color 150ms ease, transform 100ms ease, box-shadow 150ms ease;
   text-decoration: none;
   line-height: 1;
 }
-.btn-primary:hover  { background-color: #cc1515; }
-.btn-primary:active { transform: scale(0.97); }
+.btn-primary:hover {
+  background-color: #d11515;
+  border-color: #d11515;
+  box-shadow: 0 0 12px rgba(230, 25, 25, 0.4);
+}
+.btn-primary:active {
+  transform: scale(0.98);
+}
+.btn-primary:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+.btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
 
 .btn-ghost {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 10px 20px;
+  padding: 9px 18px;
   background-color: transparent;
   color: var(--fg-secondary);
   font-family: var(--font-mono), monospace;
   font-size: 11px;
+  font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   border: 1px solid var(--border);
   cursor: pointer;
-  transition: color 150ms ease, border-color 150ms ease, transform 100ms ease;
+  transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease, transform 100ms ease;
   text-decoration: none;
   line-height: 1;
 }
-.btn-ghost:hover  { color: var(--fg-primary); border-color: var(--fg-secondary); }
+.btn-ghost:hover {
+  color: var(--fg-primary);
+  border-color: var(--fg-secondary);
+  background-color: rgba(255, 255, 255, 0.03);
+}
+.btn-ghost:active {
+  transform: scale(0.98);
+}
+.btn-ghost:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.btn-ghost:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
 .btn-ghost:active { transform: scale(0.97); }
 
 /* ─── Input (underline style) ────────────────────────────────── */

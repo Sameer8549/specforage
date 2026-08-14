@@ -149,9 +149,9 @@ export default function VocabularyPage() {
             <div>
               <div
                 className="text-mono-label"
-                style={{ color: "var(--accent)", marginBottom: 8 }}
+                style={{ color: "var(--accent)", marginBottom: 8, fontSize: 11, fontWeight: 600 }}
               >
-                [ GOVERNANCE / CONTROLLED VOCABULARY ENGINE ]
+                Controlled Vocabulary Authority
               </div>
               <h1
                 className="text-display"
@@ -217,8 +217,8 @@ export default function VocabularyPage() {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <Sparkle size={15} style={{ color: "var(--accent)" }} />
-                <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 11 }}>
-                  [ REAL-TIME CONTROLLED VOCABULARY RESOLVER SANDBOX ]
+                <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 11, fontWeight: 600 }}>
+                  Real-Time Vocabulary Resolver Sandbox
                 </span>
               </div>
               <span className="text-mono-label" style={{ fontSize: 10 }}>

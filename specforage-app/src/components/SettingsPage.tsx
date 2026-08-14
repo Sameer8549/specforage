@@ -83,9 +83,9 @@ export default function SettingsPage() {
             <div>
               <div
                 className="text-mono-label"
-                style={{ color: "var(--accent)", marginBottom: 8 }}
+                style={{ color: "var(--accent)", marginBottom: 8, fontSize: 11, fontWeight: 600 }}
               >
-                [ SYSTEM / PIPELINE CONFIGURATION & ENGINE MANAGEMENT ]
+                Pipeline Configuration & Engine Management
               </div>
               <h1
                 className="text-display"
@@ -506,8 +506,8 @@ export default function SettingsPage() {
                         borderBottom: "1px solid var(--border-dim)",
                       }}
                     >
-                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10 }}>
-                        [ PIPELINE SUBSYSTEM MODEL ROUTING TABLE ]
+                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10, fontWeight: 600 }}>
+                        Pipeline Subsystem Model Routing Table
                       </span>
                     </div>
 
@@ -609,8 +609,8 @@ export default function SettingsPage() {
                         borderBottom: "1px solid var(--border-dim)",
                       }}
                     >
-                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10 }}>
-                        [ ACTIVE DELIVERY FORMAT CSV / JSON COLUMN INCLUSION ]
+                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10, fontWeight: 600 }}>
+                        Active Delivery Format Column Inclusion
                       </span>
                     </div>
 

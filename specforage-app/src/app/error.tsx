@@ -40,8 +40,8 @@ export default function Error({
         }}
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 11 }}>
-            [ SYSTEM EXCEPTION / WORKER FAULT ]
+          <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 11, fontWeight: 600 }}>
+            Pipeline Execution Exception
           </span>
           <span className="badge" style={{ color: "var(--accent)", borderColor: "var(--accent)" }}>
             ERROR

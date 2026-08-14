@@ -138,9 +138,9 @@ export default function AdjudicationPage() {
             <div>
               <div
                 className="text-mono-label"
-                style={{ color: "var(--accent)", marginBottom: 8 }}
+                style={{ color: "var(--accent)", marginBottom: 8, fontSize: 11, fontWeight: 600 }}
               >
-                [ GOVERNANCE / CONFLICT ADJUDICATION STUDIO ]
+                Conflict Adjudication & Resolution Engine
               </div>
               <h1
                 className="text-display"
@@ -252,8 +252,8 @@ export default function AdjudicationPage() {
                         borderBottom: "1px solid var(--border-dim)",
                       }}
                     >
-                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10 }}>
-                        [ AUDITED DISCREPANCIES ]
+                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10, fontWeight: 600 }}>
+                        Audited Discrepancies
                       </span>
                     </div>
 
@@ -382,8 +382,8 @@ export default function AdjudicationPage() {
                     {/* Resolved Decision Card */}
                     <div style={{ border: "1px solid var(--status-ok)", padding: "18px", backgroundColor: "rgba(74,246,38,0.03)" }}>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-                        <span className="text-mono-label" style={{ color: "var(--status-ok)", fontSize: 10 }}>
-                          [ ADJUDICATED CANONICAL RESOLUTION ]
+                        <span className="text-mono-label" style={{ color: "var(--status-ok)", fontSize: 10, fontWeight: 600 }}>
+                          Adjudicated Canonical Resolution
                         </span>
                         <span className="badge badge-dim" style={{ fontSize: 8.5 }}>
                           RULE: {activeCase.algorithmRule}
@@ -408,8 +408,8 @@ export default function AdjudicationPage() {
                           borderBottom: "1px solid var(--border-dim)",
                         }}
                       >
-                        <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10 }}>
-                          [ DETERMINISTIC AUDIT REASONING TRAIL ]
+                        <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10, fontWeight: 600 }}>
+                          Deterministic Audit Reasoning Trail
                         </span>
                       </div>
 
@@ -550,9 +550,9 @@ export default function AdjudicationPage() {
                   style={{ padding: "36px 48px", display: "flex", flexDirection: "column", gap: 24 }}
                 >
                   <div style={{ padding: "24px", border: "1px solid var(--border)", backgroundColor: "var(--bg-surface)" }}>
-                    <div className="text-mono-label" style={{ color: "var(--accent)", marginBottom: 16 }}>
-                      [ TEST DETERMINISTIC CONFLICT RESOLUTION RULES ]
-                    </div>
+                    <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 11, fontWeight: 600 }}>
+                      Test Deterministic Conflict Resolution Rules
+                    </span>
 
                     <div style={{ display: "grid", gridTemplateColumns: "200px 1fr 1fr auto", gap: 16, alignItems: "end" }}>
                       <div>
@@ -606,9 +606,9 @@ export default function AdjudicationPage() {
 
                   {sandResult && (
                     <div style={{ border: "1px solid var(--border)", padding: "24px" }}>
-                      <div className="text-mono-label" style={{ color: "var(--status-ok)", marginBottom: 12 }}>
-                        [ ADJUDICATION ENGINE VERDICT ]
-                      </div>
+                      <span className="text-mono-label" style={{ color: "var(--status-ok)", fontSize: 10, fontWeight: 600 }}>
+                      Adjudication Engine Verdict
+                    </span>
 
                       <div style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: 20 }}>
                         <div style={{ borderRight: "1px solid var(--border-dim)", paddingRight: 20 }}>
