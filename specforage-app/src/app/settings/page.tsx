@@ -1,4 +1,16 @@
 import Nav from "@/components/Nav";
-export default function Page() {
-  return (<><Nav /><main style={{paddingTop:56,padding:"80px 64px"}}><span className="text-mono-label">SETTINGS — COMING SOON</span></main></>);
+import SettingsPage from "@/components/SettingsPage";
+
+export const metadata = {
+  title: "Pipeline Configuration & Settings — SpecForge",
+  description: "Configure pipeline quality gates, confidence thresholds, manufacturer domain strictness, and Delivery Format schema export columns.",
+};
+
+export default function SettingsRoute() {
+  return (
+    <>
+      <Nav />
+      <SettingsPage />
+    </>
+  );
 }
