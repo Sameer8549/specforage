@@ -205,7 +205,7 @@ export default function BatchLivePage() {
               }}
             >
               <div>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-dim)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-dim)" }}>
                   BATCH SIZE
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--fg-primary)", marginTop: 4 }}>
@@ -213,7 +213,7 @@ export default function BatchLivePage() {
                 </div>
               </div>
               <div>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--status-ok)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--status-ok)" }}>
                   VERIFIED
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--status-ok)", marginTop: 4 }}>
@@ -221,7 +221,7 @@ export default function BatchLivePage() {
                 </div>
               </div>
               <div>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--status-warn)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--status-warn)" }}>
                   REVIEW QUEUE
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--status-warn)", marginTop: 4 }}>
@@ -229,7 +229,7 @@ export default function BatchLivePage() {
                 </div>
               </div>
               <div>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-dim)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-dim)" }}>
                   THROUGHPUT
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--fg-primary)", marginTop: 4 }}>
@@ -275,7 +275,7 @@ export default function BatchLivePage() {
 
             {/* Filter & Export */}
             <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
-              <span className="text-mono-label" style={{ fontSize: 9.5 }}>FILTER STATUS:</span>
+              <span className="text-mono-label" style={{ fontSize: 11.5 }}>FILTER STATUS:</span>
               {["ALL", "VERIFIED", "FLAGGED_REVIEW"].map((st) => {
                 const active = filterStatus === st;
                 return (
@@ -288,7 +288,7 @@ export default function BatchLivePage() {
                       border: "1px solid var(--border)",
                       padding: "3px 8px",
                       fontFamily: "var(--font-mono)",
-                      fontSize: 9.5,
+                      fontSize: 11.5,
                       cursor: "pointer",
                     }}
                   >
@@ -301,7 +301,7 @@ export default function BatchLivePage() {
                 <button
                   onClick={copyCsv}
                   className="btn-ghost"
-                  style={{ padding: "6px 12px", fontSize: 10.5 }}
+                  style={{ padding: "6px 12px", fontSize: 12 }}
                 >
                   {copiedExport ? <Check size={13} style={{ color: "var(--status-ok)" }} /> : <Copy size={13} />}
                   {copiedExport ? "COPIED CSV" : "COPY CSV"}
@@ -309,7 +309,7 @@ export default function BatchLivePage() {
                 <button
                   onClick={downloadCsv}
                   className="btn-primary"
-                  style={{ padding: "6px 14px", fontSize: 10.5 }}
+                  style={{ padding: "6px 14px", fontSize: 12 }}
                 >
                   <DownloadSimple size={13} weight="bold" />
                   EXPORT DELIVERY CSV
@@ -340,7 +340,7 @@ export default function BatchLivePage() {
                   <div
                     key={h}
                     className="text-mono-label"
-                    style={{ padding: "10px 12px", fontSize: 9.5, color: "var(--fg-dim)", borderRight: i < 6 ? "1px solid var(--border-dim)" : "none" }}
+                    style={{ padding: "10px 12px", fontSize: 11.5, color: "var(--fg-dim)", borderRight: i < 6 ? "1px solid var(--border-dim)" : "none" }}
                   >
                     {h}
                   </div>
@@ -366,7 +366,7 @@ export default function BatchLivePage() {
                     }}
                   >
                     {/* Row Num */}
-                    <div className="text-mono-label" style={{ padding: "12px", fontSize: 10, color: "var(--mono-meta)", borderRight: "1px solid var(--border-dim)" }}>
+                    <div className="text-mono-label" style={{ padding: "12px", fontSize: 12, color: "var(--mono-meta)", borderRight: "1px solid var(--border-dim)" }}>
                       {r.rowNumber}
                     </div>
 
@@ -381,7 +381,7 @@ export default function BatchLivePage() {
                     </div>
 
                     {/* Resolved Brand / Mfr */}
-                    <div className="text-mono-label" style={{ padding: "12px", fontSize: 10, color: "var(--fg-primary)", borderRight: "1px solid var(--border-dim)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    <div className="text-mono-label" style={{ padding: "12px", fontSize: 12, color: "var(--fg-primary)", borderRight: "1px solid var(--border-dim)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                       {r.resolvedBrand || "—"}
                     </div>
 
@@ -402,7 +402,7 @@ export default function BatchLivePage() {
                         style={{
                           color: badge.color,
                           borderColor: badge.color,
-                          fontSize: 8.5,
+                          fontSize: 11,
                         }}
                       >
                         {badge.label}
@@ -430,7 +430,7 @@ export default function BatchLivePage() {
                   style={{
                     color: getRowStatusBadge(selectedRow.status).color,
                     borderColor: getRowStatusBadge(selectedRow.status).color,
-                    fontSize: 9.5,
+                    fontSize: 11.5,
                   }}
                 >
                   {getRowStatusBadge(selectedRow.status).label}
@@ -439,17 +439,17 @@ export default function BatchLivePage() {
 
               {/* Raw Input Telemetry */}
               <div style={{ border: "1px solid var(--border)", padding: "14px", backgroundColor: "var(--bg-root)" }}>
-                <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--fg-dim)", marginBottom: 8 }}>
+                <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--fg-dim)", marginBottom: 8 }}>
                   [ RAW DISTRIBUTOR CATALOG INGESTION ]
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                  <div className="text-mono-label" style={{ fontSize: 10 }}>
+                  <div className="text-mono-label" style={{ fontSize: 12 }}>
                     RAW DESC: <span style={{ color: "var(--fg-primary)" }}>{selectedRow.rawDescription}</span>
                   </div>
-                  <div className="text-mono-label" style={{ fontSize: 10 }}>
+                  <div className="text-mono-label" style={{ fontSize: 12 }}>
                     RAW BRAND: <span style={{ color: selectedRow.rawBrand.startsWith("--") ? "var(--status-warn)" : "var(--fg-primary)" }}>{selectedRow.rawBrand}</span>
                   </div>
-                  <div className="text-mono-label" style={{ fontSize: 10 }}>
+                  <div className="text-mono-label" style={{ fontSize: 12 }}>
                     RAW MFR: <span style={{ color: "var(--fg-primary)" }}>{selectedRow.rawManufacturer}</span>
                   </div>
                 </div>
@@ -457,20 +457,20 @@ export default function BatchLivePage() {
 
               {/* Resolved Output Telemetry */}
               <div style={{ border: "1px solid var(--border)", padding: "14px", backgroundColor: "var(--bg-root)" }}>
-                <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--status-ok)", marginBottom: 8 }}>
+                <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--status-ok)", marginBottom: 8 }}>
                   [ STRUCTURED DELIVERY OUTPUT ]
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                  <div className="text-mono-label" style={{ fontSize: 10 }}>
+                  <div className="text-mono-label" style={{ fontSize: 12 }}>
                     UNSPSC: <span style={{ color: "var(--accent)" }}>{selectedRow.unspscCode || "CLASSIFYING..."}</span>
                   </div>
-                  <div className="text-mono-label" style={{ fontSize: 10 }}>
+                  <div className="text-mono-label" style={{ fontSize: 12 }}>
                     COMMODITY: <span style={{ color: "var(--fg-primary)" }}>{selectedRow.commodityTitle || "—"}</span>
                   </div>
-                  <div className="text-mono-label" style={{ fontSize: 10 }}>
+                  <div className="text-mono-label" style={{ fontSize: 12 }}>
                     CANONICAL MFR: <span style={{ color: "var(--fg-primary)" }}>{selectedRow.resolvedManufacturer || "—"}</span>
                   </div>
-                  <div className="text-mono-label" style={{ fontSize: 10 }}>
+                  <div className="text-mono-label" style={{ fontSize: 12 }}>
                     CONFIDENCE: <span style={{ color: "var(--status-ok)" }}>{(selectedRow.confidence * 100).toFixed(0)}%</span>
                   </div>
                 </div>
@@ -484,7 +484,7 @@ export default function BatchLivePage() {
 
               {/* Stage Progress Tracker */}
               <div style={{ border: "1px solid var(--border)", padding: "14px", backgroundColor: "var(--bg-root)" }}>
-                <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--fg-dim)", marginBottom: 8 }}>
+                <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--fg-dim)", marginBottom: 8 }}>
                   [ 10-STAGE PIPELINE PROGRESSION ]
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 4 }}>
@@ -500,7 +500,7 @@ export default function BatchLivePage() {
                           border: `1px solid ${done ? "var(--status-ok)" : "var(--border-dim)"}`,
                         }}
                       >
-                        <span className="text-mono-label" style={{ fontSize: 9, color: done ? "var(--status-ok)" : "var(--fg-dim)" }}>
+                        <span className="text-mono-label" style={{ fontSize: 11.5, color: done ? "var(--status-ok)" : "var(--fg-dim)" }}>
                           S{st}
                         </span>
                       </div>

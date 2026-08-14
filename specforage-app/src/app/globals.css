@@ -1,20 +1,20 @@
 @import "tailwindcss";
 
-/* ─── Design Token Layer ─────────────────────────────────────── */
+/* ─── Design Token Layer (High Legibility & High Contrast) ─── */
 :root {
-  --bg-root:      #0D0D0D;
-  --bg-surface:   #111111;
-  --bg-elevated:  #161616;
-  --border:       #222222;
-  --border-dim:   #1A1A1A;
-  --fg-primary:   #E8E8E8;
-  --fg-secondary: #6B6B6B;
-  --fg-dim:       #3A3A3A;
-  --accent:       #E61919;
-  --accent-dim:   #7A0D0D;
-  --status-ok:    #4AF626;
-  --status-warn:  #D4A017;
-  --mono-meta:    #4B4B4B;
+  --bg-root:      #0A0B0E;
+  --bg-surface:   #12141A;
+  --bg-elevated:  #181B24;
+  --border:       #2B303C;
+  --border-dim:   #1F232C;
+  --fg-primary:   #FFFFFF;
+  --fg-secondary: #B8BFCF;
+  --fg-dim:       #8A92A4;
+  --accent:       #FF2B2B;
+  --accent-dim:   #8A1515;
+  --status-ok:    #34D399;
+  --status-warn:  #FBBF24;
+  --mono-meta:    #9AA2B4;
 }
 
 /* ─── Base Reset ─────────────────────────────────────────────── */
@@ -25,9 +25,9 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
   background-color: var(--bg-root);
   color: var(--fg-primary);
-  font-family: var(--font-body), system-ui, sans-serif;
-  font-size: 14px;
-  line-height: 1.5;
+  font-family: var(--font-body), system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -36,32 +36,35 @@ body {
 .text-display {
   font-family: var(--font-display), 'Arial Black', sans-serif;
   text-transform: uppercase;
-  letter-spacing: -0.04em;
-  line-height: 0.9;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
   font-weight: 400;
+  color: var(--fg-primary);
 }
 
 .text-mono-label {
   font-family: var(--font-mono), monospace;
-  font-size: 11px;
-  letter-spacing: 0.06em;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--fg-secondary);
 }
 
 .text-mono-data {
   font-family: var(--font-mono), monospace;
-  font-size: 12px;
-  letter-spacing: 0.04em;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--fg-primary);
 }
 
-/* ─── CRT Noise Overlay ──────────────────────────────────────── */
+/* ─── Subtle Texture (Non-Degrading) ────────────────────────── */
 .noise-overlay {
   position: fixed;
   inset: 0;
   z-index: 9999;
   pointer-events: none;
-  opacity: 0.022;
+  opacity: 0.008;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   background-size: 128px 128px;
 }
@@ -72,7 +75,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 56px;
+  height: 52px;
   z-index: 100;
   background-color: var(--bg-root);
   border-bottom: 1px solid var(--border);
@@ -83,7 +86,7 @@ body {
 /* ─── Pipeline Stage Cell ────────────────────────────────────── */
 .stage-cell {
   border-top: 1px solid var(--border-dim);
-  padding: 12px 16px;
+  padding: 12px 18px;
   display: flex;
   align-items: flex-start;
   gap: 12px;
@@ -100,24 +103,25 @@ body {
   border-left-color: var(--status-ok);
 }
 
-/* ─── Status Badges ──────────────────────────────────────────── */
+/* ─── Status Badges (High Visibility) ─────────────────────────── */
 .badge {
   display: inline-flex;
   align-items: center;
-  padding: 2px 6px;
+  padding: 3px 8px;
   font-family: var(--font-mono), monospace;
-  font-size: 10px;
-  letter-spacing: 0.08em;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   border: 1px solid currentColor;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.04);
   white-space: nowrap;
 }
 
-.badge-ok    { color: var(--status-ok); }
-.badge-warn  { color: var(--status-warn); }
-.badge-error { color: var(--accent); }
-.badge-dim   { color: var(--fg-secondary); border-color: var(--border); }
+.badge-ok    { color: var(--status-ok); background: rgba(52, 211, 153, 0.08); border-color: var(--status-ok); }
+.badge-warn  { color: var(--status-warn); background: rgba(251, 191, 36, 0.08); border-color: var(--status-warn); }
+.badge-error { color: var(--accent); background: rgba(255, 43, 43, 0.08); border-color: var(--accent); }
+.badge-dim   { color: var(--fg-secondary); border-color: var(--border); background: rgba(255, 255, 255, 0.02); }
 
 /* ─── Buttons ────────────────────────────────────────────────── */
 .btn-primary {

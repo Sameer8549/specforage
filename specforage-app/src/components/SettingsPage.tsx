@@ -185,7 +185,7 @@ export default function SettingsPage() {
                     borderBottom: `2px solid ${active ? "var(--accent)" : "transparent"}`,
                     borderRight: "1px solid var(--border)",
                     fontFamily: "var(--font-mono)",
-                    fontSize: 10.5,
+                    fontSize: 12,
                     letterSpacing: "0.06em",
                     color: active ? "var(--fg-primary)" : "var(--fg-secondary)",
                     cursor: "pointer",
@@ -222,7 +222,7 @@ export default function SettingsPage() {
                       </span>
                     </div>
 
-                    <p className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-secondary)", marginBottom: 12 }}>
+                    <p className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-secondary)", marginBottom: 12 }}>
                       Any extracted or resolved field with confidence below this threshold is automatically flagged for human review.
                     </p>
 
@@ -250,7 +250,7 @@ export default function SettingsPage() {
                       </span>
                     </div>
 
-                    <p className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-secondary)", marginBottom: 12 }}>
+                    <p className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-secondary)", marginBottom: 12 }}>
                       Maximum Levenshtein edit distance allowed when resolving misspelled distributor manufacturer strings.
                     </p>
 
@@ -282,7 +282,7 @@ export default function SettingsPage() {
                       <div className="text-mono-data" style={{ fontSize: 13, color: "var(--fg-primary)" }}>
                         AUTO-ESCALATE UNVERIFIED ATTRIBUTES
                       </div>
-                      <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-secondary)", marginTop: 2 }}>
+                      <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-secondary)", marginTop: 2 }}>
                         Refuse fallback approximations when factual entailment score is below 0.70.
                       </div>
                     </div>
@@ -323,7 +323,7 @@ export default function SettingsPage() {
                       <div className="text-mono-data" style={{ fontSize: 13, color: "var(--status-ok)" }}>
                         STRICT OFFICIAL MANUFACTURER DOMAIN ONLY
                       </div>
-                      <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-secondary)", marginTop: 2 }}>
+                      <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-secondary)", marginTop: 2 }}>
                         Hard-block all web retrieval queries that do not target a verified manufacturer domain.
                       </div>
                     </div>
@@ -352,7 +352,7 @@ export default function SettingsPage() {
                       <div className="text-mono-data" style={{ fontSize: 13, color: "var(--accent)" }}>
                         AGGRESSIVE PLACEHOLDER PATTERN STRIPPING
                       </div>
-                      <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-secondary)", marginTop: 2 }}>
+                      <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-secondary)", marginTop: 2 }}>
                         Automatically treat `-- No Unilog Brand --`, `-- Unbranded --`, `N/A`, `Unknown` as null.
                       </div>
                     </div>
@@ -468,7 +468,7 @@ export default function SettingsPage() {
                     </div>
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
                       <div>
-                        <span className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-dim)" }}>
+                        <span className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-dim)" }}>
                           MAX REQUESTS / MINUTE
                         </span>
                         <div className="text-mono-data" style={{ fontSize: 14, color: "var(--fg-primary)", marginTop: 4 }}>
@@ -476,7 +476,7 @@ export default function SettingsPage() {
                         </div>
                       </div>
                       <div>
-                        <span className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-dim)" }}>
+                        <span className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-dim)" }}>
                           MONTHLY USAGE ALERT LIMIT
                         </span>
                         <div className="text-mono-data" style={{ fontSize: 14, color: "var(--status-warn)", marginTop: 4 }}>
@@ -506,7 +506,7 @@ export default function SettingsPage() {
                         borderBottom: "1px solid var(--border-dim)",
                       }}
                     >
-                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10, fontWeight: 600 }}>
+                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 12, fontWeight: 600 }}>
                         Pipeline Subsystem Model Routing Table
                       </span>
                     </div>
@@ -528,7 +528,7 @@ export default function SettingsPage() {
                           alignItems: "center",
                         }}
                       >
-                        <span className="text-mono-label" style={{ fontSize: 10.5, color: "var(--fg-secondary)" }}>
+                        <span className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-secondary)" }}>
                           {item.role}
                         </span>
                         <span className="text-mono-data" style={{ fontSize: 12, color: "var(--fg-primary)" }}>
@@ -561,7 +561,7 @@ export default function SettingsPage() {
                     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                       <div style={{ padding: "12px", border: "1px solid var(--border-dim)", backgroundColor: "var(--bg-root)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         <div>
-                          <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--fg-dim)" }}>
+                          <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--fg-dim)" }}>
                             UNSPSC TAXONOMY FILE
                           </div>
                           <div className="text-mono-data" style={{ fontSize: 12, color: "var(--fg-primary)", marginTop: 2 }}>
@@ -575,7 +575,7 @@ export default function SettingsPage() {
 
                       <div style={{ padding: "12px", border: "1px solid var(--border-dim)", backgroundColor: "var(--bg-root)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         <div>
-                          <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--fg-dim)" }}>
+                          <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--fg-dim)" }}>
                             CONTROLLED VOCABULARY FILE
                           </div>
                           <div className="text-mono-data" style={{ fontSize: 12, color: "var(--fg-primary)", marginTop: 2 }}>
@@ -609,7 +609,7 @@ export default function SettingsPage() {
                         borderBottom: "1px solid var(--border-dim)",
                       }}
                     >
-                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10, fontWeight: 600 }}>
+                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 12, fontWeight: 600 }}>
                         Active Delivery Format Column Inclusion
                       </span>
                     </div>
@@ -649,7 +649,7 @@ export default function SettingsPage() {
                               {col.label}
                             </span>
                             {col.required && (
-                              <span className="badge badge-dim" style={{ fontSize: 8 }}>
+                              <span className="badge badge-dim" style={{ fontSize: 11 }}>
                                 MANDATORY
                               </span>
                             )}

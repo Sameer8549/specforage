@@ -53,7 +53,7 @@ export default function MethodologyPage() {
               </h1>
             </div>
 
-            <div className="badge badge-dim" style={{ fontSize: 10 }}>
+            <div className="badge badge-dim" style={{ fontSize: 12 }}>
               STANDALONE ARCHITECTURAL RECORD · SPECFORGE CORE
             </div>
           </div>
@@ -78,7 +78,7 @@ export default function MethodologyPage() {
               </p>
 
               <div style={{ padding: "14px", backgroundColor: "var(--bg-root)", border: "1px solid var(--border-dim)" }}>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--status-ok)", marginBottom: 4, fontWeight: 600 }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--status-ok)", marginBottom: 4, fontWeight: 600 }}>
                   Why this generalizes across any industrial category:
                 </div>
                 <p className="text-mono-label" style={{ fontSize: 11, color: "var(--fg-secondary)", lineHeight: 1.5 }}>
@@ -105,7 +105,7 @@ export default function MethodologyPage() {
               </p>
 
               <div style={{ padding: "14px", backgroundColor: "var(--bg-root)", border: "1px solid var(--border-dim)" }}>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--accent)", marginBottom: 4, fontWeight: 600 }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--accent)", marginBottom: 4, fontWeight: 600 }}>
                   Hard-Enforced Distributor & Marketplace Blocklist:
                 </div>
                 <p className="text-mono-label" style={{ fontSize: 11, color: "var(--fg-secondary)", lineHeight: 1.5 }}>

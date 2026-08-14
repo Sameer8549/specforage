@@ -250,7 +250,7 @@ export default function AuditPage() {
                           backgroundColor: "var(--bg-surface)",
                         }}
                       >
-                        <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--fg-dim)", marginBottom: 8 }}>
+                        <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--fg-dim)", marginBottom: 8 }}>
                           {pillar.title}
                         </div>
 
@@ -271,7 +271,7 @@ export default function AuditPage() {
                           />
                         </div>
 
-                        <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--fg-secondary)", lineHeight: 1.4 }}>
+                        <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--fg-secondary)", lineHeight: 1.4 }}>
                           {pillar.sub}
                         </div>
                       </div>
@@ -286,7 +286,7 @@ export default function AuditPage() {
 
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20 }}>
                       <div>
-                        <div className="text-mono-label" style={{ fontSize: 10, color: "var(--mono-meta)" }}>
+                        <div className="text-mono-label" style={{ fontSize: 12, color: "var(--mono-meta)" }}>
                           TOTAL CATALOG ROWS
                         </div>
                         <div className="text-mono-data" style={{ fontSize: 16, color: "var(--fg-primary)", marginTop: 4 }}>
@@ -295,7 +295,7 @@ export default function AuditPage() {
                       </div>
 
                       <div>
-                        <div className="text-mono-label" style={{ fontSize: 10, color: "var(--status-ok)" }}>
+                        <div className="text-mono-label" style={{ fontSize: 12, color: "var(--status-ok)" }}>
                           VERIFIED STRUCTURED RECORDS
                         </div>
                         <div className="text-mono-data" style={{ fontSize: 16, color: "var(--status-ok)", marginTop: 4 }}>
@@ -304,7 +304,7 @@ export default function AuditPage() {
                       </div>
 
                       <div>
-                        <div className="text-mono-label" style={{ fontSize: 10, color: "var(--status-warn)" }}>
+                        <div className="text-mono-label" style={{ fontSize: 12, color: "var(--status-warn)" }}>
                           HUMAN REVIEW QUEUE
                         </div>
                         <div className="text-mono-data" style={{ fontSize: 16, color: "var(--status-warn)", marginTop: 4 }}>
@@ -313,7 +313,7 @@ export default function AuditPage() {
                       </div>
 
                       <div>
-                        <div className="text-mono-label" style={{ fontSize: 10, color: "var(--accent)" }}>
+                        <div className="text-mono-label" style={{ fontSize: 12, color: "var(--accent)" }}>
                           STRIPPED PLACEHOLDERS
                         </div>
                         <div className="text-mono-data" style={{ fontSize: 16, color: "var(--accent)", marginTop: 4 }}>
@@ -345,10 +345,10 @@ export default function AuditPage() {
                         justifyContent: "space-between",
                       }}
                     >
-                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10, fontWeight: 600 }}>
+                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 12, fontWeight: 600 }}>
                         Pending Catalog Governance Queue
                       </span>
-                      <span className="text-mono-label" style={{ fontSize: 10 }}>
+                      <span className="text-mono-label" style={{ fontSize: 12 }}>
                         {pendingQueue.length} ITEMS AWAITING DECISION
                       </span>
                     </div>
@@ -365,7 +365,7 @@ export default function AuditPage() {
                         <div
                           key={h}
                           className="text-mono-label"
-                          style={{ padding: "10px 12px", fontSize: 9.5, color: "var(--fg-dim)", borderRight: i < 5 ? "1px solid var(--border-dim)" : "none" }}
+                          style={{ padding: "10px 12px", fontSize: 11.5, color: "var(--fg-dim)", borderRight: i < 5 ? "1px solid var(--border-dim)" : "none" }}
                         >
                           {h}
                         </div>
@@ -397,7 +397,7 @@ export default function AuditPage() {
                           </div>
 
                           {/* Field */}
-                          <div className="text-mono-label" style={{ padding: "14px 12px", fontSize: 10.5, borderRight: "1px solid var(--border-dim)", color: "var(--fg-primary)" }}>
+                          <div className="text-mono-label" style={{ padding: "14px 12px", fontSize: 12, borderRight: "1px solid var(--border-dim)", color: "var(--fg-primary)" }}>
                             {item.field}
                           </div>
 
@@ -408,10 +408,10 @@ export default function AuditPage() {
 
                           {/* Reason */}
                           <div style={{ padding: "14px 12px", borderRight: "1px solid var(--border-dim)" }}>
-                            <span className="badge" style={{ color: flagBadge.color, borderColor: flagBadge.color, fontSize: 8.5, marginBottom: 4 }}>
+                            <span className="badge" style={{ color: flagBadge.color, borderColor: flagBadge.color, fontSize: 11, marginBottom: 4 }}>
                               {flagBadge.label}
                             </span>
-                            <p className="text-mono-label" style={{ fontSize: 9.5, color: "var(--fg-secondary)", lineHeight: 1.4 }}>
+                            <p className="text-mono-label" style={{ fontSize: 11.5, color: "var(--fg-secondary)", lineHeight: 1.4 }}>
                               {item.reason}
                             </p>
                           </div>
@@ -423,7 +423,7 @@ export default function AuditPage() {
                                 <button
                                   onClick={() => handleQueueAction(item.id, "APPROVED")}
                                   className="btn-primary"
-                                  style={{ padding: "4px 8px", fontSize: 9.5 }}
+                                  style={{ padding: "4px 8px", fontSize: 11.5 }}
                                 >
                                   <Check size={11} weight="bold" />
                                   CONFIRM
@@ -431,14 +431,14 @@ export default function AuditPage() {
                                 <button
                                   onClick={() => handleQueueAction(item.id, "DISMISSED")}
                                   className="btn-ghost"
-                                  style={{ padding: "4px 8px", fontSize: 9.5 }}
+                                  style={{ padding: "4px 8px", fontSize: 11.5 }}
                                 >
                                   <X size={11} />
                                   DISMISS
                                 </button>
                               </>
                             ) : (
-                              <span className="text-mono-label" style={{ fontSize: 9.5, color: item.status === "APPROVED" ? "var(--status-ok)" : "var(--accent)" }}>
+                              <span className="text-mono-label" style={{ fontSize: 11.5, color: item.status === "APPROVED" ? "var(--status-ok)" : "var(--accent)" }}>
                                 {item.status === "APPROVED" ? "✓ CONFIRMED" : "✕ DISMISSED"}
                               </span>
                             )}
@@ -481,7 +481,7 @@ export default function AuditPage() {
                     </div>
 
                     <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                      <span className="text-mono-label" style={{ fontSize: 9.5 }}>SEVERITY:</span>
+                      <span className="text-mono-label" style={{ fontSize: 11.5 }}>SEVERITY:</span>
                       {["ALL", "INFO", "WARN", "CRITICAL"].map((s) => {
                         const active = logSeverityFilter === s;
                         return (
@@ -494,7 +494,7 @@ export default function AuditPage() {
                               border: "1px solid var(--border)",
                               padding: "3px 8px",
                               fontFamily: "var(--font-mono)",
-                              fontSize: 9.5,
+                              fontSize: 11.5,
                               cursor: "pointer",
                             }}
                           >
@@ -518,7 +518,7 @@ export default function AuditPage() {
                         <div
                           key={h}
                           className="text-mono-label"
-                          style={{ padding: "10px 12px", fontSize: 9.5, color: "var(--fg-dim)", borderRight: i < 5 ? "1px solid var(--border-dim)" : "none" }}
+                          style={{ padding: "10px 12px", fontSize: 11.5, color: "var(--fg-dim)", borderRight: i < 5 ? "1px solid var(--border-dim)" : "none" }}
                         >
                           {h}
                         </div>
@@ -536,15 +536,15 @@ export default function AuditPage() {
                             borderTop: "1px solid var(--border-dim)",
                           }}
                         >
-                          <div className="text-mono-data" style={{ padding: "12px", fontSize: 10.5, borderRight: "1px solid var(--border-dim)", color: "var(--fg-dim)" }}>
+                          <div className="text-mono-data" style={{ padding: "12px", fontSize: 12, borderRight: "1px solid var(--border-dim)", color: "var(--fg-dim)" }}>
                             {log.id}
                           </div>
 
-                          <div className="text-mono-data" style={{ padding: "12px", fontSize: 10.5, borderRight: "1px solid var(--border-dim)", color: "var(--mono-meta)" }}>
+                          <div className="text-mono-data" style={{ padding: "12px", fontSize: 12, borderRight: "1px solid var(--border-dim)", color: "var(--mono-meta)" }}>
                             {log.timestamp.replace("T", " ").replace("Z", "")}
                           </div>
 
-                          <div className="text-mono-label" style={{ padding: "12px", fontSize: 10, borderRight: "1px solid var(--border-dim)", color: "var(--fg-primary)" }}>
+                          <div className="text-mono-label" style={{ padding: "12px", fontSize: 12, borderRight: "1px solid var(--border-dim)", color: "var(--fg-primary)" }}>
                             {log.agentOrSystem}
                           </div>
 
@@ -552,12 +552,12 @@ export default function AuditPage() {
                             {log.mpn}
                           </div>
 
-                          <div className="text-mono-label" style={{ padding: "12px", fontSize: 10, borderRight: "1px solid var(--border-dim)", color: "var(--fg-secondary)", lineHeight: 1.4 }}>
+                          <div className="text-mono-label" style={{ padding: "12px", fontSize: 12, borderRight: "1px solid var(--border-dim)", color: "var(--fg-secondary)", lineHeight: 1.4 }}>
                             {log.details}
                           </div>
 
                           <div style={{ padding: "12px", display: "flex", alignItems: "center" }}>
-                            <span className="badge" style={{ color: sevBadge.color, borderColor: sevBadge.color, fontSize: 8.5 }}>
+                            <span className="badge" style={{ color: sevBadge.color, borderColor: sevBadge.color, fontSize: 11 }}>
                               {sevBadge.label}
                             </span>
                           </div>

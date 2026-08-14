@@ -172,7 +172,7 @@ export default function VocabularyPage() {
               }}
             >
               <div>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-dim)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-dim)" }}>
                   CANONICAL TERMS
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--fg-primary)", marginTop: 4 }}>
@@ -180,7 +180,7 @@ export default function VocabularyPage() {
                 </div>
               </div>
               <div>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--status-ok)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--status-ok)" }}>
                   MATCHED
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--status-ok)", marginTop: 4 }}>
@@ -188,7 +188,7 @@ export default function VocabularyPage() {
                 </div>
               </div>
               <div>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--status-warn)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--status-warn)" }}>
                   FIRST SEEN
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--status-warn)", marginTop: 4 }}>
@@ -196,7 +196,7 @@ export default function VocabularyPage() {
                 </div>
               </div>
               <div>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--accent)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--accent)" }}>
                   FLAGGED
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--accent)", marginTop: 4 }}>
@@ -221,7 +221,7 @@ export default function VocabularyPage() {
                   Real-Time Vocabulary Resolver Sandbox
                 </span>
               </div>
-              <span className="text-mono-label" style={{ fontSize: 10 }}>
+              <span className="text-mono-label" style={{ fontSize: 12 }}>
                 TRI-STATE ASSIGNMENT ENGINE
               </span>
             </div>
@@ -255,7 +255,7 @@ export default function VocabularyPage() {
 
             {/* Quick Sample Values */}
             <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 12, flexWrap: "wrap" }}>
-              <span className="text-mono-label" style={{ fontSize: 9.5, color: "var(--mono-meta)" }}>
+              <span className="text-mono-label" style={{ fontSize: 11.5, color: "var(--mono-meta)" }}>
                 SAMPLE TERMS:
               </span>
               {[
@@ -278,7 +278,7 @@ export default function VocabularyPage() {
                     border: "1px solid var(--border-dim)",
                     padding: "3px 8px",
                     fontFamily: "var(--font-mono)",
-                    fontSize: 9.5,
+                    fontSize: 11.5,
                     color: "var(--fg-secondary)",
                     cursor: "pointer",
                   }}
@@ -306,7 +306,7 @@ export default function VocabularyPage() {
                 }}
               >
                 <div>
-                  <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-dim)" }}>
+                  <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-dim)" }}>
                     CANONICAL APPROVED FORM
                   </div>
                   <div className="text-mono-data" style={{ fontSize: 14, color: "var(--fg-primary)", marginTop: 2, fontWeight: 500 }}>
@@ -315,10 +315,10 @@ export default function VocabularyPage() {
                 </div>
 
                 <div>
-                  <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-secondary)" }}>
+                  <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-secondary)" }}>
                     CATEGORY: <span style={{ color: "var(--fg-primary)" }}>{sandboxResult.category}</span>
                   </div>
-                  <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--mono-meta)", marginTop: 4 }}>
+                  <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--mono-meta)", marginTop: 4 }}>
                     {sandboxResult.rule}
                   </div>
                 </div>
@@ -332,7 +332,7 @@ export default function VocabularyPage() {
                         style={{
                           color: badge.color,
                           borderColor: badge.color,
-                          fontSize: 10,
+                          fontSize: 12,
                         }}
                       >
                         {badge.label}
@@ -388,7 +388,7 @@ export default function VocabularyPage() {
 
             {/* Category Filters */}
             <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-              <span className="text-mono-label" style={{ fontSize: 9.5 }}>CATEGORY:</span>
+              <span className="text-mono-label" style={{ fontSize: 11.5 }}>CATEGORY:</span>
               {["ALL", "MATERIALS", "FINISHES", "CONNECTIONS", "UOM"].map((cat) => {
                 const active = selectedCategory === cat;
                 return (
@@ -401,7 +401,7 @@ export default function VocabularyPage() {
                       border: "1px solid var(--border)",
                       padding: "3px 8px",
                       fontFamily: "var(--font-mono)",
-                      fontSize: 9.5,
+                      fontSize: 11.5,
                       cursor: "pointer",
                     }}
                   >
@@ -410,7 +410,7 @@ export default function VocabularyPage() {
                 );
               })}
 
-              <span className="text-mono-label" style={{ fontSize: 9.5, marginLeft: 8 }}>STATE:</span>
+              <span className="text-mono-label" style={{ fontSize: 11.5, marginLeft: 8 }}>STATE:</span>
               {["ALL", "MATCHED", "FIRST SEEN", "FLAGGED"].map((st) => {
                 const active = selectedState === st;
                 return (
@@ -423,7 +423,7 @@ export default function VocabularyPage() {
                       border: "1px solid var(--border)",
                       padding: "3px 8px",
                       fontFamily: "var(--font-mono)",
-                      fontSize: 9.5,
+                      fontSize: 11.5,
                       cursor: "pointer",
                     }}
                   >
@@ -449,7 +449,7 @@ export default function VocabularyPage() {
                   <div
                     key={h}
                     className="text-mono-label"
-                    style={{ padding: "10px 14px", fontSize: 9.5, color: "var(--fg-dim)", borderRight: i < 4 ? "1px solid var(--border-dim)" : "none" }}
+                    style={{ padding: "10px 14px", fontSize: 11.5, color: "var(--fg-dim)", borderRight: i < 4 ? "1px solid var(--border-dim)" : "none" }}
                   >
                     {h}
                   </div>
@@ -471,7 +471,7 @@ export default function VocabularyPage() {
                     <div className="text-mono-data" style={{ padding: "14px", fontSize: 12, color: "var(--fg-primary)", borderRight: "1px solid var(--border-dim)" }}>
                       {t.canonicalTerm}
                       {t.governanceNote && (
-                        <div className="text-mono-label" style={{ fontSize: 9, color: "var(--status-warn)", marginTop: 4, lineHeight: 1.4 }}>
+                        <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--status-warn)", marginTop: 4, lineHeight: 1.4 }}>
                           {t.governanceNote}
                         </div>
                       )}
@@ -479,7 +479,7 @@ export default function VocabularyPage() {
 
                     {/* Category */}
                     <div style={{ padding: "14px", borderRight: "1px solid var(--border-dim)" }}>
-                      <span className="badge badge-dim" style={{ fontSize: 8.5 }}>
+                      <span className="badge badge-dim" style={{ fontSize: 11 }}>
                         {t.category}
                       </span>
                     </div>
@@ -492,7 +492,7 @@ export default function VocabularyPage() {
                             key={s}
                             style={{
                               fontFamily: "var(--font-mono)",
-                              fontSize: 10,
+                              fontSize: 12,
                               color: "var(--fg-secondary)",
                               padding: "2px 6px",
                               backgroundColor: "var(--bg-surface)",
@@ -512,7 +512,7 @@ export default function VocabularyPage() {
                         style={{
                           color: badge.color,
                           borderColor: badge.color,
-                          fontSize: 9,
+                          fontSize: 11.5,
                         }}
                       >
                         {badge.label}
@@ -525,17 +525,17 @@ export default function VocabularyPage() {
                         <button
                           onClick={() => approveTerm(t.id)}
                           className="btn-primary"
-                          style={{ padding: "4px 10px", fontSize: 9.5 }}
+                          style={{ padding: "4px 10px", fontSize: 11.5 }}
                         >
                           <Check size={12} weight="bold" />
                           APPROVE
                         </button>
                       ) : t.status === "FLAGGED" ? (
-                        <span className="text-mono-label" style={{ fontSize: 9, color: "var(--accent)" }}>
+                        <span className="text-mono-label" style={{ fontSize: 11.5, color: "var(--accent)" }}>
                           REQUIRES AUDIT
                         </span>
                       ) : (
-                        <span className="text-mono-label" style={{ fontSize: 9, color: "var(--status-ok)" }}>
+                        <span className="text-mono-label" style={{ fontSize: 11.5, color: "var(--status-ok)" }}>
                           ✓ APPROVED
                         </span>
                       )}

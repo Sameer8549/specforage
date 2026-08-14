@@ -134,7 +134,7 @@ function PipelineColumn() {
         </span>
         <span
           className="text-mono-label"
-          style={{ color: allDone ? "var(--status-ok)" : "var(--fg-dim)", fontSize: 10 }}
+          style={{ color: allDone ? "var(--status-ok)" : "var(--fg-dim)", fontSize: 12 }}
         >
           {allDone ? "Complete" : "Scanning"}
         </span>
@@ -196,7 +196,7 @@ function PipelineColumn() {
                 >
                   {stage.label}
                 </div>
-                <div className="text-mono-label" style={{ fontSize: 10, lineHeight: 1.3, color: "var(--fg-dim)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, lineHeight: 1.3, color: "var(--fg-dim)" }}>
                   {stage.desc}
                 </div>
               </div>
@@ -327,7 +327,7 @@ export default function LandingPage() {
               style={{ display: "flex", gap: 8, marginTop: 44, flexWrap: "wrap" }}
             >
               {["Public UNSPSC v25", "10-Stage Pipeline", "Official Mfr Domains Only", "Zero Hallucinations"].map((t) => (
-                <span key={t} className="badge badge-dim" style={{ fontSize: 10, padding: "3px 8px" }}>
+                <span key={t} className="badge badge-dim" style={{ fontSize: 12, padding: "3px 8px" }}>
                   {t}
                 </span>
               ))}
@@ -498,7 +498,7 @@ export default function LandingPage() {
                     <div style={{ padding: "8px 12px", display: "flex", alignItems: "center" }}>
                       <span
                         className="badge"
-                        style={{ color: stateColor(row.state), borderColor: stateColor(row.state), fontSize: 9 }}
+                        style={{ color: stateColor(row.state), borderColor: stateColor(row.state), fontSize: 11.5 }}
                       >
                         {row.state}
                       </span>
@@ -532,7 +532,7 @@ export default function LandingPage() {
             <div className="text-mono-label" style={{ marginBottom: 4, color: "var(--fg-primary)", fontSize: 12 }}>
               SpecForge Product Intelligence Platform
             </div>
-            <div className="text-mono-label" style={{ color: "var(--fg-dim)", fontSize: 10 }}>
+            <div className="text-mono-label" style={{ color: "var(--fg-dim)", fontSize: 12 }}>
               Category-Agnostic UNSPSC Anchor · Official Manufacturer Domains Only · Zero Hallucination
             </div>
           </div>

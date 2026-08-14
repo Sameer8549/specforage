@@ -48,7 +48,7 @@ function Row({ label, value, badge, badgeColor, dim }: {
 }) {
   return (
     <div style={{ display: "grid", gridTemplateColumns: "160px 1fr auto", borderTop: "1px solid var(--border-dim)", gap: 0 }}>
-      <div className="text-mono-label" style={{ padding: "9px 12px", fontSize: 10, borderRight: "1px solid var(--border-dim)" }}>
+      <div className="text-mono-label" style={{ padding: "9px 12px", fontSize: 12, borderRight: "1px solid var(--border-dim)" }}>
         {label}
       </div>
       <div className="text-mono-data" style={{ padding: "9px 12px", fontSize: 12, color: dim ? "var(--fg-dim)" : "var(--fg-primary)", fontStyle: dim ? "italic" : "normal" }}>
@@ -56,7 +56,7 @@ function Row({ label, value, badge, badgeColor, dim }: {
       </div>
       {badge && (
         <div style={{ padding: "9px 12px", display: "flex", alignItems: "center" }}>
-          <span className="badge" style={{ color: badgeColor || "var(--fg-secondary)", borderColor: badgeColor || "var(--border)", fontSize: 9 }}>
+          <span className="badge" style={{ color: badgeColor || "var(--fg-secondary)", borderColor: badgeColor || "var(--border)", fontSize: 11.5 }}>
             {badge}
           </span>
         </div>
@@ -97,7 +97,7 @@ function Stage01Content() {
       <Row label="CATEGORY"     value="Major Appliances" badge="RETAINED" badgeColor="var(--status-ok)" />
       <div style={{ padding: "10px 12px", borderTop: "1px solid var(--border-dim)", display: "flex", alignItems: "center", gap: 8 }}>
         <Warning size={13} style={{ color: "var(--status-warn)" }} />
-        <span className="text-mono-label" style={{ fontSize: 10, color: "var(--status-warn)" }}>
+        <span className="text-mono-label" style={{ fontSize: 12, color: "var(--status-warn)" }}>
           1 PLACEHOLDER VALUE STRIPPED — BRAND FIELD TREATED AS NULL
         </span>
       </div>
@@ -129,7 +129,7 @@ function Stage02Content() {
         ].map((item) => (
           <div key={item.v} style={{ display: "grid", gridTemplateColumns: "1fr auto", borderTop: "1px solid var(--border-dim)", padding: "9px 12px", gap: 12 }}>
             <span className="text-mono-data" style={{ color: "var(--fg-dim)", fontSize: 12, textDecoration: "line-through" }}>{item.v}</span>
-            <span className="text-mono-label" style={{ fontSize: 9, color: "var(--fg-dim)", whiteSpace: "nowrap" }}>{item.r}</span>
+            <span className="text-mono-label" style={{ fontSize: 11.5, color: "var(--fg-dim)", whiteSpace: "nowrap" }}>{item.r}</span>
           </div>
         ))}
       </div>
@@ -141,7 +141,7 @@ function Stage02Content() {
         <Row label="INFERRED"  value="Frigidaire" badge="FROM MANUFACTURER" badgeColor="var(--status-warn)" />
         <Row label="CONFIDENCE" value="0.87" badge="INFERRED" badgeColor="var(--status-warn)" />
         <div style={{ padding: "10px 12px", borderTop: "1px solid var(--border-dim)" }}>
-          <span className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-secondary)" }}>
+          <span className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-secondary)" }}>
             NOTE: NO DIRECT BRAND INPUT. BRAND INFERRED FROM CANONICAL MANUFACTURER NAME. FLAGGED FOR REVIEW IF MANUFACTURER OPERATES MULTIPLE BRANDS.
           </span>
         </div>
@@ -163,7 +163,7 @@ function Stage03Content() {
         <Row label="COMMODITY"    value="40181501 — Household dishwashers" />
         <Row label="CLASSPATH"    value="Appliances → Dishwashers → Household Dishwashers" />
         <div style={{ padding: "10px 12px", borderTop: "1px solid var(--border-dim)", display: "flex", alignItems: "center", gap: 8 }}>
-          <span className="text-mono-label" style={{ fontSize: 10, color: "var(--status-ok)" }}>
+          <span className="text-mono-label" style={{ fontSize: 12, color: "var(--status-ok)" }}>
             CLASSIFICATION ANCHORED TO PUBLIC UNSPSC TAXONOMY — CATEGORY-AGNOSTIC, NO CUSTOM CODES
           </span>
         </div>
@@ -178,7 +178,7 @@ function Stage03Content() {
           "ENERGY STAR CERTIFIED", "HEATED DRY"
         ].map((attr, i) => (
           <div key={attr} style={{ display: "grid", gridTemplateColumns: "24px 1fr", borderTop: i > 0 ? "1px solid var(--border-dim)" : "none", padding: "8px 12px", gap: 12 }}>
-            <span className="text-mono-label" style={{ fontSize: 9, color: "var(--mono-meta)" }}>{String(i + 1).padStart(2, "0")}</span>
+            <span className="text-mono-label" style={{ fontSize: 11.5, color: "var(--mono-meta)" }}>{String(i + 1).padStart(2, "0")}</span>
             <span className="text-mono-data" style={{ fontSize: 11 }}>{attr}</span>
           </div>
         ))}
@@ -195,19 +195,19 @@ function Stage04Content() {
       <div style={{ border: "1px solid var(--border)" }}>
         <SectionHead label="[ EXTRACT / WEB RETRIEVAL — MANUFACTURER DOMAIN ONLY ]" />
         <div style={{ padding: "12px", borderTop: "1px solid var(--border-dim)", backgroundColor: "var(--bg-elevated)" }}>
-          <div className="text-mono-label" style={{ fontSize: 10, marginBottom: 8 }}>QUERY LOG</div>
+          <div className="text-mono-label" style={{ fontSize: 12, marginBottom: 8 }}>QUERY LOG</div>
           {[
             { query: 'site:frigidaire.com "FGID2466QF4A"', status: "200 OK", results: 1 },
             { query: 'site:frigidaire.com "Built-In Dishwasher" "47 dB"', status: "200 OK", results: 3 },
           ].map((q, i) => (
             <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8, marginBottom: i === 0 ? 8 : 0 }}>
-              <span className="text-mono-label" style={{ color: "var(--status-ok)", fontSize: 10, flexShrink: 0 }}>{q.status}</span>
+              <span className="text-mono-label" style={{ color: "var(--status-ok)", fontSize: 12, flexShrink: 0 }}>{q.status}</span>
               <code style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--fg-secondary)", wordBreak: "break-all" }}>{q.query}</code>
-              <span className="text-mono-label" style={{ fontSize: 9, color: "var(--mono-meta)", flexShrink: 0 }}>{q.results} RESULT{q.results !== 1 ? "S" : ""}</span>
+              <span className="text-mono-label" style={{ fontSize: 11.5, color: "var(--mono-meta)", flexShrink: 0 }}>{q.results} RESULT{q.results !== 1 ? "S" : ""}</span>
             </div>
           ))}
           <div style={{ marginTop: 10, paddingTop: 10, borderTop: "1px solid var(--border-dim)" }}>
-            <span className="text-mono-label" style={{ fontSize: 10, color: "var(--status-warn)" }}>
+            <span className="text-mono-label" style={{ fontSize: 12, color: "var(--status-warn)" }}>
               NEVER QUERIES: marketplaces, distributor sites, aggregators. MANUFACTURER DOMAIN ONLY.
             </span>
           </div>
@@ -227,15 +227,15 @@ function Stage04Content() {
           { attr: "HEATED DRY",        value: 'EvenDry™',         source: "DESCRIPTION",           confidence: "0.95" },
         ].map((item) => (
           <div key={item.attr} style={{ display: "grid", gridTemplateColumns: "140px 1fr 200px auto", borderTop: "1px solid var(--border-dim)" }}>
-            <div className="text-mono-label" style={{ padding: "9px 12px", fontSize: 10, borderRight: "1px solid var(--border-dim)" }}>{item.attr}</div>
+            <div className="text-mono-label" style={{ padding: "9px 12px", fontSize: 12, borderRight: "1px solid var(--border-dim)" }}>{item.attr}</div>
             <div className="text-mono-data" style={{ padding: "9px 12px", fontSize: 12 }}>{item.value}</div>
             <div style={{ padding: "9px 12px", borderLeft: "1px solid var(--border-dim)" }}>
-              <span className="text-mono-label" style={{ fontSize: 9, color: item.source.startsWith("site:") ? "var(--status-ok)" : "var(--fg-secondary)" }}>
+              <span className="text-mono-label" style={{ fontSize: 11.5, color: item.source.startsWith("site:") ? "var(--status-ok)" : "var(--fg-secondary)" }}>
                 {item.source.startsWith("site:") ? `[ MFR SOURCE ] ${item.source}` : `[ DESCRIPTION ]`}
               </span>
             </div>
             <div style={{ padding: "9px 12px", borderLeft: "1px solid var(--border-dim)" }}>
-              <span className="text-mono-label" style={{ fontSize: 9, color: parseFloat(item.confidence) >= 0.95 ? "var(--status-ok)" : "var(--status-warn)" }}>
+              <span className="text-mono-label" style={{ fontSize: 11.5, color: parseFloat(item.confidence) >= 0.95 ? "var(--status-ok)" : "var(--status-warn)" }}>
                 {item.confidence}
               </span>
             </div>
@@ -253,9 +253,9 @@ function Stage05Content() {
       <div style={{ border: "1px solid var(--border)" }}>
         <SectionHead label="[ NORMALIZE / UOM STANDARDIZATION ]" />
         <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", borderTop: "1px solid var(--border-dim)" }}>
-          <div className="text-mono-label" style={{ padding: "8px 12px", fontSize: 10 }}>RAW FORM</div>
-          <div className="text-mono-label" style={{ padding: "8px 12px", fontSize: 10, textAlign: "center", borderLeft: "1px solid var(--border-dim)", borderRight: "1px solid var(--border-dim)" }}>→</div>
-          <div className="text-mono-label" style={{ padding: "8px 12px", fontSize: 10 }}>APPROVED FORM</div>
+          <div className="text-mono-label" style={{ padding: "8px 12px", fontSize: 12 }}>RAW FORM</div>
+          <div className="text-mono-label" style={{ padding: "8px 12px", fontSize: 12, textAlign: "center", borderLeft: "1px solid var(--border-dim)", borderRight: "1px solid var(--border-dim)" }}>→</div>
+          <div className="text-mono-label" style={{ padding: "8px 12px", fontSize: 12 }}>APPROVED FORM</div>
         </div>
         {[
           { raw: '"47dB"',                            out: '"47 dB"',           rule: "SPACE BEFORE UNIT" },
@@ -270,7 +270,7 @@ function Stage05Content() {
             </div>
             <div style={{ padding: "9px 12px" }}>
               <code style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--status-ok)" }}>{item.out}</code>
-              <div className="text-mono-label" style={{ fontSize: 9, color: "var(--mono-meta)", marginTop: 2 }}>{item.rule}</div>
+              <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--mono-meta)", marginTop: 2 }}>{item.rule}</div>
             </div>
           </div>
         ))}
@@ -289,7 +289,7 @@ function Stage05Content() {
               <ArrowRight size={11} style={{ color: "var(--accent)" }} />
             </div>
             <code style={{ fontFamily: "var(--font-mono)", padding: "9px 12px", fontSize: 11, color: "var(--status-ok)" }}>{item.out}</code>
-            <div className="text-mono-label" style={{ padding: "9px 12px", fontSize: 9, color: "var(--mono-meta)", borderLeft: "1px solid var(--border-dim)" }}>{item.note}</div>
+            <div className="text-mono-label" style={{ padding: "9px 12px", fontSize: 11.5, color: "var(--mono-meta)", borderLeft: "1px solid var(--border-dim)" }}>{item.note}</div>
           </div>
         ))}
       </div>
@@ -314,15 +314,15 @@ function Stage06Content() {
         const color = item.verdict === "ENTAILED" ? "var(--status-ok)" : item.verdict === "UNVERIFIED" ? "var(--status-warn)" : "var(--accent)";
         return (
           <div key={item.field} style={{ display: "grid", gridTemplateColumns: "140px 1fr 160px 60px", borderTop: "1px solid var(--border-dim)" }}>
-            <div className="text-mono-label" style={{ padding: "9px 12px", fontSize: 10, borderRight: "1px solid var(--border-dim)" }}>{item.field}</div>
+            <div className="text-mono-label" style={{ padding: "9px 12px", fontSize: 12, borderRight: "1px solid var(--border-dim)" }}>{item.field}</div>
             <div style={{ padding: "9px 12px" }}>
               <div className="text-mono-data" style={{ fontSize: 12, marginBottom: 2 }}>{item.value}</div>
-              <div className="text-mono-label" style={{ fontSize: 9, color: "var(--mono-meta)" }}>{item.source}</div>
+              <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--mono-meta)" }}>{item.source}</div>
             </div>
             <div style={{ padding: "9px 12px", borderLeft: "1px solid var(--border-dim)", display: "flex", alignItems: "center" }}>
-              <span className="badge" style={{ color, borderColor: color, fontSize: 9 }}>{item.verdict}</span>
+              <span className="badge" style={{ color, borderColor: color, fontSize: 11.5 }}>{item.verdict}</span>
             </div>
-            <div className="text-mono-label" style={{ padding: "9px 12px", borderLeft: "1px solid var(--border-dim)", fontSize: 10, color: parseFloat(item.conf) >= 0.95 ? "var(--status-ok)" : "var(--fg-dim)" }}>
+            <div className="text-mono-label" style={{ padding: "9px 12px", borderLeft: "1px solid var(--border-dim)", fontSize: 12, color: parseFloat(item.conf) >= 0.95 ? "var(--status-ok)" : "var(--fg-dim)" }}>
               {item.conf}
             </div>
           </div>
@@ -361,7 +361,7 @@ function Stage07Content() {
             { step: "05", note: "DECISION: ACCEPT '47 dB' — consistent across all sources. No adjudication override needed." },
           ].map((item) => (
             <div key={item.step} style={{ display: "flex", gap: 10 }}>
-              <span className="text-mono-label" style={{ fontSize: 10, color: "var(--mono-meta)", flexShrink: 0, paddingTop: 1 }}>{item.step}</span>
+              <span className="text-mono-label" style={{ fontSize: 12, color: "var(--mono-meta)", flexShrink: 0, paddingTop: 1 }}>{item.step}</span>
               <span style={{ fontSize: 12, color: "var(--fg-secondary)", lineHeight: 1.5 }}>{item.note}</span>
             </div>
           ))}
@@ -375,7 +375,7 @@ function Stage07Content() {
         <Row label="INFERRED VALUE"  value="Frigidaire" badge="INFERRED FROM MFR" badgeColor="var(--status-warn)" />
         <Row label="DECISION"        value="ACCEPT INFERRED — FLAG FOR HUMAN REVIEW" badge="FLAGGED" badgeColor="var(--status-warn)" />
         <div style={{ padding: "10px 12px", borderTop: "1px solid var(--border-dim)" }}>
-          <span className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-secondary)" }}>
+          <span className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-secondary)" }}>
             REASONING: Single-brand manufacturer. Frigidaire Company → Frigidaire brand inference is reliable. However no explicit brand source exists — flagged for human confirmation.
           </span>
         </div>
@@ -391,7 +391,7 @@ function Stage08Content() {
       <div style={{ border: "1px solid var(--border)" }}>
         <SectionHead label="[ BUILD DESCRIPTION / FORMULA-BASED — NOT FREE TEXT ]" />
         <div style={{ padding: "10px 12px", borderTop: "1px solid var(--border-dim)" }}>
-          <div className="text-mono-label" style={{ fontSize: 10, marginBottom: 6 }}>FORMULA</div>
+          <div className="text-mono-label" style={{ fontSize: 12, marginBottom: 6 }}>FORMULA</div>
           <code style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--fg-secondary)", lineHeight: 1.7 }}>
             {`[Brand] [Width] [InstallType] [CommodityName] [KeySpec1] [KeySpec2]`}
           </code>
@@ -411,8 +411,8 @@ function Stage08Content() {
         return (
           <div key={item.variant} style={{ border: "1px solid var(--border)" }}>
             <div style={{ padding: "8px 12px", display: "flex", justifyContent: "space-between", alignItems: "center", backgroundColor: "var(--bg-elevated)", borderBottom: "1px solid var(--border-dim)" }}>
-              <span className="text-mono-label" style={{ fontSize: 10 }}>{item.variant}</span>
-              <span className="text-mono-label" style={{ fontSize: 10, color: over ? "var(--accent)" : "var(--fg-secondary)" }}>
+              <span className="text-mono-label" style={{ fontSize: 12 }}>{item.variant}</span>
+              <span className="text-mono-label" style={{ fontSize: 12, color: over ? "var(--accent)" : "var(--fg-secondary)" }}>
                 {len}/{item.limit} CHARS {over ? "⚠ OVER LIMIT" : ""}
               </span>
             </div>
@@ -449,10 +449,10 @@ function Stage09Content() {
           { field: "ENERGY STAR",   reason: "NOT FOUND IN DESCRIPTION OR MANUFACTURER SOURCE",  flag: "MANUAL LOOKUP" },
         ].map((item, i) => (
           <div key={i} style={{ display: "grid", gridTemplateColumns: "140px 1fr auto", borderTop: "1px solid var(--border-dim)" }}>
-            <div className="text-mono-label" style={{ padding: "9px 12px", fontSize: 10, borderRight: "1px solid var(--border-dim)" }}>{item.field}</div>
-            <div className="text-mono-label" style={{ padding: "9px 12px", fontSize: 9, color: "var(--fg-secondary)", lineHeight: 1.5 }}>{item.reason}</div>
+            <div className="text-mono-label" style={{ padding: "9px 12px", fontSize: 12, borderRight: "1px solid var(--border-dim)" }}>{item.field}</div>
+            <div className="text-mono-label" style={{ padding: "9px 12px", fontSize: 11.5, color: "var(--fg-secondary)", lineHeight: 1.5 }}>{item.reason}</div>
             <div style={{ padding: "9px 12px", borderLeft: "1px solid var(--border-dim)", display: "flex", alignItems: "center" }}>
-              <span className="badge" style={{ color: "var(--status-warn)", borderColor: "var(--status-warn)", fontSize: 9, whiteSpace: "nowrap" }}>{item.flag}</span>
+              <span className="badge" style={{ color: "var(--status-warn)", borderColor: "var(--status-warn)", fontSize: 11.5, whiteSpace: "nowrap" }}>{item.flag}</span>
             </div>
           </div>
         ))}
@@ -470,10 +470,10 @@ function Stage09Content() {
           const color = item.state === "MATCHED" ? "var(--status-ok)" : item.state === "FIRST SEEN" ? "var(--status-warn)" : "var(--accent)";
           return (
             <div key={item.field} style={{ display: "grid", gridTemplateColumns: "140px 1fr auto", borderTop: "1px solid var(--border-dim)" }}>
-              <div className="text-mono-label" style={{ padding: "9px 12px", fontSize: 10, borderRight: "1px solid var(--border-dim)" }}>{item.field}</div>
-              <div className="text-mono-label" style={{ padding: "9px 12px", fontSize: 9, color: "var(--fg-secondary)" }}>{item.count}</div>
+              <div className="text-mono-label" style={{ padding: "9px 12px", fontSize: 12, borderRight: "1px solid var(--border-dim)" }}>{item.field}</div>
+              <div className="text-mono-label" style={{ padding: "9px 12px", fontSize: 11.5, color: "var(--fg-secondary)" }}>{item.count}</div>
               <div style={{ padding: "9px 12px", borderLeft: "1px solid var(--border-dim)", display: "flex", alignItems: "center" }}>
-                <span className="badge" style={{ color, borderColor: color, fontSize: 9 }}>{item.state}</span>
+                <span className="badge" style={{ color, borderColor: color, fontSize: 11.5 }}>{item.state}</span>
               </div>
             </div>
           );
@@ -507,7 +507,7 @@ function Stage10Content() {
           { col: "ATTR_INSTALL_TYPE",   value: "Built-In" },
         ].map((item, i) => (
           <div key={item.col} style={{ display: "grid", gridTemplateColumns: "220px 1fr", borderTop: i > 0 ? "1px solid var(--border-dim)" : "none" }}>
-            <div className="text-mono-label" style={{ padding: "8px 12px", fontSize: 10, borderRight: "1px solid var(--border-dim)", color: "var(--mono-meta)" }}>{item.col}</div>
+            <div className="text-mono-label" style={{ padding: "8px 12px", fontSize: 12, borderRight: "1px solid var(--border-dim)", color: "var(--mono-meta)" }}>{item.col}</div>
             <div className="text-mono-data" style={{ padding: "8px 12px", fontSize: 12 }}>{item.value}</div>
           </div>
         ))}
@@ -628,8 +628,8 @@ export default function PipelineLivePage() {
               {/* Overall progress bar */}
               <div style={{ marginBottom: 6 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-                  <span className="text-mono-label" style={{ fontSize: 10 }}>OVERALL PROGRESS</span>
-                  <span className="text-mono-label" style={{ fontSize: 10, color: allDone ? "var(--status-ok)" : "var(--fg-secondary)" }}>
+                  <span className="text-mono-label" style={{ fontSize: 12 }}>OVERALL PROGRESS</span>
+                  <span className="text-mono-label" style={{ fontSize: 12, color: allDone ? "var(--status-ok)" : "var(--fg-secondary)" }}>
                     {allDone ? "COMPLETE" : `${overallPct}%`}
                   </span>
                 </div>
@@ -683,7 +683,7 @@ export default function PipelineLivePage() {
                         {stage.label}
                       </div>
                       {isDone && (
-                        <div className="text-mono-label" style={{ fontSize: 9, color: "var(--mono-meta)", lineHeight: 1.4, whiteSpace: "normal" }}>
+                        <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--mono-meta)", lineHeight: 1.4, whiteSpace: "normal" }}>
                           {STAGE_SUMMARIES[i]}
                         </div>
                       )}

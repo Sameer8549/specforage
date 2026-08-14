@@ -31,7 +31,7 @@ export default function NotFound() {
           <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 11, fontWeight: 600 }}>
             Resource Not Indexed
           </span>
-          <span className="badge badge-dim" style={{ fontSize: 9 }}>
+          <span className="badge badge-dim" style={{ fontSize: 11.5 }}>
             404
           </span>
         </div>

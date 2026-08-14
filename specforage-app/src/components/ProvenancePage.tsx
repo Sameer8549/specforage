@@ -147,7 +147,7 @@ export default function ProvenancePage() {
               }}
             >
               <div>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-dim)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-dim)" }}>
                   MFR RESTRICTION
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--status-ok)", marginTop: 4 }}>
@@ -155,7 +155,7 @@ export default function ProvenancePage() {
                 </div>
               </div>
               <div>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-dim)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-dim)" }}>
                   BLOCKED SOURCES
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--accent)", marginTop: 4 }}>
@@ -163,7 +163,7 @@ export default function ProvenancePage() {
                 </div>
               </div>
               <div>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-dim)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-dim)" }}>
                   FACTUAL ENTAILMENT
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--status-ok)", marginTop: 4 }}>
@@ -237,7 +237,7 @@ export default function ProvenancePage() {
                         borderBottom: "1px solid var(--border-dim)",
                       }}
                     >
-                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10, fontWeight: 600 }}>
+                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 12, fontWeight: 600 }}>
                         Audited Extraction Traces
                       </span>
                     </div>
@@ -266,16 +266,16 @@ export default function ProvenancePage() {
                             <span className="text-mono-data" style={{ color: isSel ? "var(--accent)" : "var(--fg-primary)", fontSize: 12 }}>
                               {trc.mpn}
                             </span>
-                            <span className="badge" style={{ color: "var(--status-ok)", borderColor: "var(--status-ok)", fontSize: 8.5 }}>
+                            <span className="badge" style={{ color: "var(--status-ok)", borderColor: "var(--status-ok)", fontSize: 11 }}>
                               {trc.entailmentVerdict}
                             </span>
                           </div>
 
-                          <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-secondary)" }}>
+                          <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-secondary)" }}>
                             FIELD: <span style={{ color: "var(--fg-primary)" }}>{trc.field}</span>
                           </div>
 
-                          <div className="text-mono-label" style={{ fontSize: 9, color: "var(--mono-meta)" }}>
+                          <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--mono-meta)" }}>
                             DOMAIN: {trc.domain}
                           </div>
                         </button>
@@ -294,7 +294,7 @@ export default function ProvenancePage() {
                           {selectedTrace.field}: {selectedTrace.extractedValue}
                         </h3>
                       </div>
-                      <span className="badge" style={{ color: "var(--status-ok)", borderColor: "var(--status-ok)", fontSize: 10 }}>
+                      <span className="badge" style={{ color: "var(--status-ok)", borderColor: "var(--status-ok)", fontSize: 12 }}>
                         ✓ ENTAILED ({(selectedTrace.entailmentScore * 100).toFixed(0)}% MATCH)
                       </span>
                     </div>
@@ -302,7 +302,7 @@ export default function ProvenancePage() {
                     {/* Technical Telemetry Grid */}
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, borderTop: "1px solid var(--border-dim)", paddingTop: 16 }}>
                       <div>
-                        <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--fg-dim)", marginBottom: 4 }}>
+                        <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--fg-dim)", marginBottom: 4 }}>
                           RESTRICTED QUERY EXECUTED
                         </div>
                         <code style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--accent)" }}>
@@ -311,7 +311,7 @@ export default function ProvenancePage() {
                       </div>
 
                       <div>
-                        <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--fg-dim)", marginBottom: 4 }}>
+                        <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--fg-dim)", marginBottom: 4 }}>
                           HTTP RESPONSE STATUS
                         </div>
                         <div className="text-mono-data" style={{ fontSize: 12, color: "var(--status-ok)" }}>
@@ -322,7 +322,7 @@ export default function ProvenancePage() {
 
                     {/* Source URL */}
                     <div style={{ borderTop: "1px solid var(--border-dim)", paddingTop: 16 }}>
-                      <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--fg-dim)", marginBottom: 4 }}>
+                      <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--fg-dim)", marginBottom: 4 }}>
                         VERIFIED MANUFACTURER SOURCE URL
                       </div>
                       <a
@@ -353,7 +353,7 @@ export default function ProvenancePage() {
                         border: "1px solid var(--border-dim)",
                       }}
                     >
-                      <span className="text-mono-label" style={{ color: "var(--status-ok)", fontSize: 10, fontWeight: 600 }}>
+                      <span className="text-mono-label" style={{ color: "var(--status-ok)", fontSize: 12, fontWeight: 600 }}>
                         Factual Entailment Evidence Snippet
                       </span>
                       <p style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--fg-primary)", lineHeight: 1.5 }}>
@@ -387,7 +387,7 @@ export default function ProvenancePage() {
 
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr auto", gap: 16, alignItems: "end" }}>
                       <div>
-                        <label className="text-mono-label" style={{ fontSize: 10, display: "block", marginBottom: 4 }}>
+                        <label className="text-mono-label" style={{ fontSize: 12, display: "block", marginBottom: 4 }}>
                           MANUFACTURER INPUT
                         </label>
                         <input
@@ -400,7 +400,7 @@ export default function ProvenancePage() {
                       </div>
 
                       <div>
-                        <label className="text-mono-label" style={{ fontSize: 10, display: "block", marginBottom: 4 }}>
+                        <label className="text-mono-label" style={{ fontSize: 12, display: "block", marginBottom: 4 }}>
                           MPN (PART NUMBER)
                         </label>
                         <input
@@ -413,7 +413,7 @@ export default function ProvenancePage() {
                       </div>
 
                       <div>
-                        <label className="text-mono-label" style={{ fontSize: 10, display: "block", marginBottom: 4 }}>
+                        <label className="text-mono-label" style={{ fontSize: 12, display: "block", marginBottom: 4 }}>
                           TARGET SPEC PROPERTY
                         </label>
                         <input
@@ -437,7 +437,7 @@ export default function ProvenancePage() {
 
                   {simOutput && (
                     <div style={{ border: "1px solid var(--border)", padding: "24px" }}>
-                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10, fontWeight: 600 }}>
+                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 12, fontWeight: 600 }}>
                         Domain Guard Telemetry Report
                       </span>
 
@@ -446,14 +446,14 @@ export default function ProvenancePage() {
                         <div style={{ border: "1px solid var(--border)", padding: "16px", backgroundColor: "var(--bg-root)" }}>
                           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
                             <ShieldCheck size={16} style={{ color: "var(--status-ok)" }} />
-                            <span className="text-mono-label" style={{ color: "var(--status-ok)", fontSize: 10 }}>
+                            <span className="text-mono-label" style={{ color: "var(--status-ok)", fontSize: 12 }}>
                               AUTHORIZED QUERY (RESTRICTED TO {simOutput.targetDomain})
                             </span>
                           </div>
                           <code style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--fg-primary)", display: "block", marginBottom: 12 }}>
                             {simOutput.query}
                           </code>
-                          <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--fg-secondary)" }}>
+                          <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--fg-secondary)" }}>
                             RESOLVED CANONICAL ENTITY: {simOutput.resolvedMfr}
                           </div>
                         </div>
@@ -462,12 +462,12 @@ export default function ProvenancePage() {
                         <div style={{ border: "1px solid var(--accent)", padding: "16px", backgroundColor: "rgba(230,25,25,0.04)" }}>
                           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
                             <Prohibit size={16} style={{ color: "var(--accent)" }} />
-                            <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10 }}>
+                            <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 12 }}>
                               INTERCEPTED & DROPPED SOURCES ({simOutput.interceptedBlockedDomains.length})
                             </span>
                           </div>
                           {simOutput.interceptedBlockedDomains.map((b) => (
-                            <div key={b} className="text-mono-label" style={{ fontSize: 10, color: "var(--accent)", marginTop: 4 }}>
+                            <div key={b} className="text-mono-label" style={{ fontSize: 12, color: "var(--accent)", marginTop: 4 }}>
                               ✕ {b}
                             </div>
                           ))}
@@ -504,7 +504,7 @@ export default function ProvenancePage() {
                         width: 320,
                       }}
                     />
-                    <span className="text-mono-label" style={{ fontSize: 10 }}>
+                    <span className="text-mono-label" style={{ fontSize: 12 }}>
                       {filteredMfrs.length} VERIFIED AUTHORITIES
                     </span>
                   </div>
@@ -522,7 +522,7 @@ export default function ProvenancePage() {
                         <div
                           key={h}
                           className="text-mono-label"
-                          style={{ padding: "9px 12px", fontSize: 9.5, color: "var(--fg-dim)", borderRight: i < 4 ? "1px solid var(--border-dim)" : "none" }}
+                          style={{ padding: "9px 12px", fontSize: 11.5, color: "var(--fg-dim)", borderRight: i < 4 ? "1px solid var(--border-dim)" : "none" }}
                         >
                           {h}
                         </div>
@@ -541,7 +541,7 @@ export default function ProvenancePage() {
                         <div className="text-mono-data" style={{ padding: "12px", fontSize: 12, borderRight: "1px solid var(--border-dim)" }}>
                           {m.name}
                           {m.parentCompany && (
-                            <div className="text-mono-label" style={{ fontSize: 9, color: "var(--mono-meta)", marginTop: 2 }}>
+                            <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--mono-meta)", marginTop: 2 }}>
                               Parent: {m.parentCompany}
                             </div>
                           )}
@@ -554,7 +554,7 @@ export default function ProvenancePage() {
                         <div style={{ padding: "12px", borderRight: "1px solid var(--border-dim)" }}>
                           <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
                             {m.aliases.map((a) => (
-                              <span key={a} className="badge badge-dim" style={{ fontSize: 8.5 }}>
+                              <span key={a} className="badge badge-dim" style={{ fontSize: 11 }}>
                                 {a}
                               </span>
                             ))}
@@ -562,7 +562,7 @@ export default function ProvenancePage() {
                         </div>
 
                         <div style={{ padding: "12px", borderRight: "1px solid var(--border-dim)", display: "flex", alignItems: "center" }}>
-                          <span className="badge" style={{ color: "var(--status-ok)", borderColor: "var(--status-ok)", fontSize: 8.5 }}>
+                          <span className="badge" style={{ color: "var(--status-ok)", borderColor: "var(--status-ok)", fontSize: 11 }}>
                             {m.status}
                           </span>
                         </div>
@@ -594,7 +594,7 @@ export default function ProvenancePage() {
                         borderBottom: "1px solid var(--border-dim)",
                       }}
                     >
-                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10, fontWeight: 600 }}>
+                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 12, fontWeight: 600 }}>
                         Hard-Enforced Marketplace & Distributor Blocklist
                       </span>
                     </div>
@@ -608,7 +608,7 @@ export default function ProvenancePage() {
                       }}
                     >
                       {["DOMAIN", "CATEGORY", "STRICT REJECTION REASON", "BLOCKED QUERIES"].map((h, i) => (
-                        <div key={h} className="text-mono-label" style={{ padding: "9px 12px", fontSize: 9.5, color: "var(--fg-dim)", borderRight: i < 3 ? "1px solid var(--border-dim)" : "none" }}>
+                        <div key={h} className="text-mono-label" style={{ padding: "9px 12px", fontSize: 11.5, color: "var(--fg-dim)", borderRight: i < 3 ? "1px solid var(--border-dim)" : "none" }}>
                           {h}
                         </div>
                       ))}
@@ -627,11 +627,11 @@ export default function ProvenancePage() {
                           {b.domain}
                         </div>
                         <div style={{ padding: "12px", borderRight: "1px solid var(--border-dim)" }}>
-                          <span className="badge badge-dim" style={{ fontSize: 8.5 }}>
+                          <span className="badge badge-dim" style={{ fontSize: 11 }}>
                             {b.category}
                           </span>
                         </div>
-                        <div className="text-mono-label" style={{ padding: "12px", fontSize: 10, color: "var(--fg-secondary)", borderRight: "1px solid var(--border-dim)" }}>
+                        <div className="text-mono-label" style={{ padding: "12px", fontSize: 12, color: "var(--fg-secondary)", borderRight: "1px solid var(--border-dim)" }}>
                           {b.reason}
                         </div>
                         <div className="text-mono-data" style={{ padding: "12px", fontSize: 11, color: "var(--accent)" }}>

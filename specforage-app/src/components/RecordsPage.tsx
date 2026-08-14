@@ -152,7 +152,7 @@ export default function RecordsPage() {
               }}
             >
               <div>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-dim)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-dim)" }}>
                   CATALOG DEPTH
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--fg-primary)", marginTop: 4 }}>
@@ -160,7 +160,7 @@ export default function RecordsPage() {
                 </div>
               </div>
               <div>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-dim)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-dim)" }}>
                   AVG CONFIDENCE
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--status-ok)", marginTop: 4 }}>
@@ -168,7 +168,7 @@ export default function RecordsPage() {
                 </div>
               </div>
               <div>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-dim)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-dim)" }}>
                   REVIEW QUEUE
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--status-warn)", marginTop: 4 }}>
@@ -222,7 +222,7 @@ export default function RecordsPage() {
 
             {/* Filter buttons */}
             <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
-              <span className="text-mono-label" style={{ fontSize: 10 }}>CATEGORY:</span>
+              <span className="text-mono-label" style={{ fontSize: 12 }}>CATEGORY:</span>
               {(["ALL", "PLUMBING", "ELECTRICAL", "APPLIANCES"] as const).map((cat) => {
                 const active = categoryFilter === cat;
                 return (
@@ -235,7 +235,7 @@ export default function RecordsPage() {
                       border: "1px solid var(--border)",
                       padding: "4px 10px",
                       fontFamily: "var(--font-mono)",
-                      fontSize: 10,
+                      fontSize: 12,
                       letterSpacing: "0.06em",
                       cursor: "pointer",
                     }}
@@ -245,7 +245,7 @@ export default function RecordsPage() {
                 );
               })}
 
-              <span className="text-mono-label" style={{ fontSize: 10, marginLeft: 8 }}>STATUS:</span>
+              <span className="text-mono-label" style={{ fontSize: 12, marginLeft: 8 }}>STATUS:</span>
               {(["ALL", "VERIFIED", "REQUIRES REVIEW"] as const).map((st) => {
                 const active = statusFilter === st;
                 return (
@@ -258,7 +258,7 @@ export default function RecordsPage() {
                       border: "1px solid var(--border)",
                       padding: "4px 10px",
                       fontFamily: "var(--font-mono)",
-                      fontSize: 10,
+                      fontSize: 12,
                       letterSpacing: "0.06em",
                       cursor: "pointer",
                     }}
@@ -297,8 +297,8 @@ export default function RecordsPage() {
                   justifyContent: "space-between",
                 }}
               >
-                <span className="text-mono-label" style={{ fontSize: 10 }}>CATALOG ROWS ({filteredRecords.length})</span>
-                <span className="text-mono-label" style={{ fontSize: 10, color: "var(--accent)" }}>SELECT TO INSPECT</span>
+                <span className="text-mono-label" style={{ fontSize: 12 }}>CATALOG ROWS ({filteredRecords.length})</span>
+                <span className="text-mono-label" style={{ fontSize: 12, color: "var(--accent)" }}>SELECT TO INSPECT</span>
               </div>
 
               {filteredRecords.length === 0 ? (
@@ -339,7 +339,7 @@ export default function RecordsPage() {
                           style={{
                             color: badgeInfo.color,
                             borderColor: badgeInfo.color,
-                            fontSize: 9,
+                            fontSize: 11.5,
                           }}
                         >
                           {badgeInfo.label}
@@ -351,10 +351,10 @@ export default function RecordsPage() {
                       </div>
 
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 4 }}>
-                        <span className="text-mono-label" style={{ fontSize: 9, color: "var(--mono-meta)" }}>
+                        <span className="text-mono-label" style={{ fontSize: 11.5, color: "var(--mono-meta)" }}>
                           UNSPSC {rec.unspscCode}
                         </span>
-                        <span className="text-mono-label" style={{ fontSize: 9, color: "var(--status-ok)" }}>
+                        <span className="text-mono-label" style={{ fontSize: 11.5, color: "var(--status-ok)" }}>
                           {Math.round(rec.overallConfidence * 100)}% CONF
                         </span>
                       </div>
@@ -429,7 +429,7 @@ export default function RecordsPage() {
                   }}
                 >
                   <TreeStructure size={14} style={{ color: "var(--accent)", flexShrink: 0 }} />
-                  <span className="text-mono-label" style={{ fontSize: 10, color: "var(--mono-meta)" }}>CLASSPATH:</span>
+                  <span className="text-mono-label" style={{ fontSize: 12, color: "var(--mono-meta)" }}>CLASSPATH:</span>
                   <span className="text-mono-data" style={{ fontSize: 11, color: "var(--fg-secondary)" }}>
                     {activeRecord.unspscClasspath}
                   </span>
@@ -500,10 +500,10 @@ export default function RecordsPage() {
                             justifyContent: "space-between",
                           }}
                         >
-                          <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10 }}>
+                          <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 12 }}>
                             Attribute Provenance & Entailment Matrix
                           </span>
-                          <span className="text-mono-label" style={{ fontSize: 10 }}>
+                          <span className="text-mono-label" style={{ fontSize: 12 }}>
                             {activeRecord.attributes.length} GOVERNED ATTRIBUTES
                           </span>
                         </div>
@@ -523,7 +523,7 @@ export default function RecordsPage() {
                               className="text-mono-label"
                               style={{
                                 padding: "9px 12px",
-                                fontSize: 9.5,
+                                fontSize: 11.5,
                                 color: "var(--fg-dim)",
                                 borderRight: i < 5 ? "1px solid var(--border-dim)" : "none",
                               }}
@@ -546,7 +546,7 @@ export default function RecordsPage() {
                               }}
                             >
                               {/* Name */}
-                              <div className="text-mono-label" style={{ padding: "10px 12px", fontSize: 10, borderRight: "1px solid var(--border-dim)", color: "var(--fg-secondary)" }}>
+                              <div className="text-mono-label" style={{ padding: "10px 12px", fontSize: 12, borderRight: "1px solid var(--border-dim)", color: "var(--fg-secondary)" }}>
                                 {attr.name}
                               </div>
                               {/* Raw */}
@@ -562,7 +562,7 @@ export default function RecordsPage() {
                                 <span
                                   className="text-mono-label"
                                   style={{
-                                    fontSize: 9,
+                                    fontSize: 11.5,
                                     color: attr.source.startsWith("site:") ? "var(--status-ok)" : "var(--fg-secondary)",
                                   }}
                                 >
@@ -580,7 +580,7 @@ export default function RecordsPage() {
                                   style={{
                                     color: vocabColor,
                                     borderColor: vocabColor,
-                                    fontSize: 8.5,
+                                    fontSize: 11,
                                   }}
                                 >
                                   {attr.vocabState}
@@ -613,10 +613,10 @@ export default function RecordsPage() {
                           alignItems: "center",
                         }}
                       >
-                        <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10 }}>
+                        <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 12 }}>
                           Formula-Generated Channel Variants
                         </span>
-                        <span className="text-mono-label" style={{ fontSize: 10 }}>
+                        <span className="text-mono-label" style={{ fontSize: 12 }}>
                           NO FREE-TEXT HALLUCINATIONS
                         </span>
                       </div>
@@ -644,10 +644,10 @@ export default function RecordsPage() {
                               }}
                             >
                               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                                <span className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-primary)" }}>
+                                <span className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-primary)" }}>
                                   {desc.type}
                                 </span>
-                                <span className="badge badge-dim" style={{ fontSize: 8.5 }}>
+                                <span className="badge badge-dim" style={{ fontSize: 11 }}>
                                   LIMIT: {desc.limit}
                                 </span>
                               </div>
@@ -656,7 +656,7 @@ export default function RecordsPage() {
                                 <span
                                   className="text-mono-label"
                                   style={{
-                                    fontSize: 9.5,
+                                    fontSize: 11.5,
                                     color: len <= desc.limit ? "var(--status-ok)" : "var(--accent)",
                                   }}
                                 >
@@ -673,7 +673,7 @@ export default function RecordsPage() {
                                     alignItems: "center",
                                     gap: 4,
                                     fontFamily: "var(--font-mono)",
-                                    fontSize: 10,
+                                    fontSize: 12,
                                   }}
                                 >
                                   {isCopied ? <Check size={12} /> : <Copy size={12} />}
@@ -733,7 +733,7 @@ export default function RecordsPage() {
                             borderBottom: "1px solid var(--border-dim)",
                           }}
                         >
-                          <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10 }}>
+                          <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 12 }}>
                             Deterministic Conflict Resolution Log
                           </span>
                         </div>
@@ -753,10 +753,10 @@ export default function RecordsPage() {
                               STEP {log.step}
                             </span>
                             <div>
-                              <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-secondary)" }}>
+                              <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-secondary)" }}>
                                 {log.field}
                               </div>
-                              <span className="badge" style={{ color: "var(--status-warn)", borderColor: "var(--status-warn)", fontSize: 8.5, marginTop: 4 }}>
+                              <span className="badge" style={{ color: "var(--status-warn)", borderColor: "var(--status-warn)", fontSize: 11, marginTop: 4 }}>
                                 {log.action}
                               </span>
                             </div>
@@ -770,7 +770,7 @@ export default function RecordsPage() {
                                   {log.resolvedValue}
                                 </span>
                               </div>
-                              <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-secondary)", lineHeight: 1.4 }}>
+                              <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-secondary)", lineHeight: 1.4 }}>
                                 {log.reason}
                               </div>
                             </div>
@@ -800,10 +800,10 @@ export default function RecordsPage() {
                             justifyContent: "space-between",
                           }}
                         >
-                          <span className="text-mono-label" style={{ color: "var(--status-ok)", fontSize: 10 }}>
+                          <span className="text-mono-label" style={{ color: "var(--status-ok)", fontSize: 12 }}>
                             Delivery Format Column Mapping
                           </span>
-                          <span className="text-mono-label" style={{ fontSize: 10 }}>
+                          <span className="text-mono-label" style={{ fontSize: 12 }}>
                             READY FOR COMMERCE INGESTION
                           </span>
                         </div>
@@ -833,7 +833,7 @@ export default function RecordsPage() {
                               borderTop: idx > 0 ? "1px solid var(--border-dim)" : "none",
                             }}
                           >
-                            <div className="text-mono-label" style={{ padding: "8px 14px", fontSize: 10, borderRight: "1px solid var(--border-dim)", color: "var(--mono-meta)" }}>
+                            <div className="text-mono-label" style={{ padding: "8px 14px", fontSize: 12, borderRight: "1px solid var(--border-dim)", color: "var(--mono-meta)" }}>
                               {item.col}
                             </div>
                             <div className="text-mono-data" style={{ padding: "8px 14px", fontSize: 11, color: "var(--fg-primary)" }}>

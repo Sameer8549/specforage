@@ -161,7 +161,7 @@ export default function AdjudicationPage() {
               }}
             >
               <div>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-dim)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-dim)" }}>
                   CONFLICT CASES
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--fg-primary)", marginTop: 4 }}>
@@ -169,7 +169,7 @@ export default function AdjudicationPage() {
                 </div>
               </div>
               <div>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--status-ok)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--status-ok)" }}>
                   AUTO-RESOLVED
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--status-ok)", marginTop: 4 }}>
@@ -177,7 +177,7 @@ export default function AdjudicationPage() {
                 </div>
               </div>
               <div>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--status-warn)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--status-warn)" }}>
                   HUMAN QUEUE
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--status-warn)", marginTop: 4 }}>
@@ -252,7 +252,7 @@ export default function AdjudicationPage() {
                         borderBottom: "1px solid var(--border-dim)",
                       }}
                     >
-                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10, fontWeight: 600 }}>
+                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 12, fontWeight: 600 }}>
                         Audited Discrepancies
                       </span>
                     </div>
@@ -283,20 +283,20 @@ export default function AdjudicationPage() {
                             <span className="text-mono-data" style={{ color: isSel ? "var(--accent)" : "var(--fg-primary)", fontSize: 12, fontWeight: 500 }}>
                               {cs.id} · {cs.mpn}
                             </span>
-                            <span className="badge" style={{ color: sevBadge.color, borderColor: sevBadge.color, fontSize: 8.5 }}>
+                            <span className="badge" style={{ color: sevBadge.color, borderColor: sevBadge.color, fontSize: 11 }}>
                               {sevBadge.label}
                             </span>
                           </div>
 
-                          <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-secondary)" }}>
+                          <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-secondary)" }}>
                             FIELD: <span style={{ color: "var(--fg-primary)" }}>{cs.field}</span>
                           </div>
 
                           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 2 }}>
-                            <span className="text-mono-label" style={{ fontSize: 9, color: "var(--mono-meta)" }}>
+                            <span className="text-mono-label" style={{ fontSize: 11.5, color: "var(--mono-meta)" }}>
                               {cs.conflictType.replace(/_/g, " ")}
                             </span>
-                            <span className="badge badge-dim" style={{ fontSize: 8.5, color: stateBadge.color }}>
+                            <span className="badge badge-dim" style={{ fontSize: 11, color: stateBadge.color }}>
                               {stateBadge.label}
                             </span>
                           </div>
@@ -319,7 +319,7 @@ export default function AdjudicationPage() {
                         <h3 className="text-display" style={{ fontSize: "1.8rem" }}>
                           {activeCase.field} DISCREPANCY.
                         </h3>
-                        <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-secondary)", marginTop: 2 }}>
+                        <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-secondary)", marginTop: 2 }}>
                           MPN: {activeCase.mpn} · CONSTRAINT: {activeCase.taxonomyConstraint}
                         </div>
                       </div>
@@ -329,7 +329,7 @@ export default function AdjudicationPage() {
                         style={{
                           color: getStateBadge(activeCase.state).color,
                           borderColor: getStateBadge(activeCase.state).color,
-                          fontSize: 10,
+                          fontSize: 12,
                         }}
                       >
                         {getStateBadge(activeCase.state).label}
@@ -340,19 +340,19 @@ export default function AdjudicationPage() {
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
                       {/* Candidate A */}
                       <div style={{ border: "1px solid var(--border)", padding: "16px", backgroundColor: "var(--bg-root)" }}>
-                        <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--fg-dim)", marginBottom: 6 }}>
+                        <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--fg-dim)", marginBottom: 6 }}>
                           CANDIDATE A: {activeCase.sourceA.origin}
                         </div>
                         <div className="text-mono-data" style={{ fontSize: 14, color: "var(--fg-primary)", marginBottom: 8, fontWeight: 500 }}>
                           {activeCase.sourceA.rawValue}
                         </div>
-                        <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--mono-meta)" }}>
+                        <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--mono-meta)" }}>
                           CONFIDENCE: {(activeCase.sourceA.confidence * 100).toFixed(0)}%
                         </div>
                         <button
                           onClick={() => applyOverride(activeCase.sourceA.rawValue, `Adopted Candidate A (${activeCase.sourceA.origin})`)}
                           className="btn-ghost"
-                          style={{ marginTop: 12, width: "100%", justifyContent: "center", fontSize: 10 }}
+                          style={{ marginTop: 12, width: "100%", justifyContent: "center", fontSize: 12 }}
                         >
                           ADOPT CANDIDATE A
                         </button>
@@ -360,19 +360,19 @@ export default function AdjudicationPage() {
 
                       {/* Candidate B */}
                       <div style={{ border: "1px solid var(--border)", padding: "16px", backgroundColor: "var(--bg-root)" }}>
-                        <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--fg-dim)", marginBottom: 6 }}>
+                        <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--fg-dim)", marginBottom: 6 }}>
                           CANDIDATE B: {activeCase.sourceB.origin}
                         </div>
                         <div className="text-mono-data" style={{ fontSize: 14, color: "var(--status-ok)", marginBottom: 8, fontWeight: 500 }}>
                           {activeCase.sourceB.rawValue}
                         </div>
-                        <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--mono-meta)" }}>
+                        <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--mono-meta)" }}>
                           CONFIDENCE: {(activeCase.sourceB.confidence * 100).toFixed(0)}%
                         </div>
                         <button
                           onClick={() => applyOverride(activeCase.sourceB.rawValue, `Adopted Candidate B (${activeCase.sourceB.origin})`)}
                           className="btn-ghost"
-                          style={{ marginTop: 12, width: "100%", justifyContent: "center", fontSize: 10 }}
+                          style={{ marginTop: 12, width: "100%", justifyContent: "center", fontSize: 12 }}
                         >
                           ADOPT CANDIDATE B
                         </button>
@@ -382,10 +382,10 @@ export default function AdjudicationPage() {
                     {/* Resolved Decision Card */}
                     <div style={{ border: "1px solid var(--status-ok)", padding: "18px", backgroundColor: "rgba(74,246,38,0.03)" }}>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-                        <span className="text-mono-label" style={{ color: "var(--status-ok)", fontSize: 10, fontWeight: 600 }}>
+                        <span className="text-mono-label" style={{ color: "var(--status-ok)", fontSize: 12, fontWeight: 600 }}>
                           Adjudicated Canonical Resolution
                         </span>
-                        <span className="badge badge-dim" style={{ fontSize: 8.5 }}>
+                        <span className="badge badge-dim" style={{ fontSize: 11 }}>
                           RULE: {activeCase.algorithmRule}
                         </span>
                       </div>
@@ -408,7 +408,7 @@ export default function AdjudicationPage() {
                           borderBottom: "1px solid var(--border-dim)",
                         }}
                       >
-                        <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10, fontWeight: 600 }}>
+                        <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 12, fontWeight: 600 }}>
                           Deterministic Audit Reasoning Trail
                         </span>
                       </div>
@@ -429,7 +429,7 @@ export default function AdjudicationPage() {
 
                     {/* Custom Override Bar */}
                     <div style={{ border: "1px solid var(--border)", padding: "16px", backgroundColor: "var(--bg-surface)" }}>
-                      <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-dim)", marginBottom: 8 }}>
+                      <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-dim)", marginBottom: 8 }}>
                         MANUAL GOVERNANCE OVERRIDE
                       </div>
 
@@ -494,7 +494,7 @@ export default function AdjudicationPage() {
                         <div
                           key={h}
                           className="text-mono-label"
-                          style={{ padding: "10px 14px", fontSize: 9.5, color: "var(--fg-dim)", borderRight: i < 4 ? "1px solid var(--border-dim)" : "none" }}
+                          style={{ padding: "10px 14px", fontSize: 11.5, color: "var(--fg-dim)", borderRight: i < 4 ? "1px solid var(--border-dim)" : "none" }}
                         >
                           {h}
                         </div>
@@ -514,23 +514,23 @@ export default function AdjudicationPage() {
                           {rule.ruleCode}
                         </div>
 
-                        <div className="text-mono-label" style={{ padding: "14px", fontSize: 10.5, borderRight: "1px solid var(--border-dim)", color: "var(--fg-primary)" }}>
+                        <div className="text-mono-label" style={{ padding: "14px", fontSize: 12, borderRight: "1px solid var(--border-dim)", color: "var(--fg-primary)" }}>
                           {rule.targetField}
                         </div>
 
                         <div style={{ padding: "14px", borderRight: "1px solid var(--border-dim)" }}>
                           {rule.priorityOrder.map((p) => (
-                            <div key={p} className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-secondary)", marginBottom: 2 }}>
+                            <div key={p} className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-secondary)", marginBottom: 2 }}>
                               {p}
                             </div>
                           ))}
                         </div>
 
-                        <div className="text-mono-label" style={{ padding: "14px", fontSize: 10, color: "var(--status-ok)", borderRight: "1px solid var(--border-dim)" }}>
+                        <div className="text-mono-label" style={{ padding: "14px", fontSize: 12, color: "var(--status-ok)", borderRight: "1px solid var(--border-dim)" }}>
                           {rule.toleranceBound}
                         </div>
 
-                        <div className="text-mono-label" style={{ padding: "14px", fontSize: 10, color: "var(--fg-secondary)", lineHeight: 1.4 }}>
+                        <div className="text-mono-label" style={{ padding: "14px", fontSize: 12, color: "var(--fg-secondary)", lineHeight: 1.4 }}>
                           {rule.fallbackAction}
                         </div>
                       </div>
@@ -556,7 +556,7 @@ export default function AdjudicationPage() {
 
                     <div style={{ display: "grid", gridTemplateColumns: "200px 1fr 1fr auto", gap: 16, alignItems: "end" }}>
                       <div>
-                        <label className="text-mono-label" style={{ fontSize: 10, display: "block", marginBottom: 4 }}>
+                        <label className="text-mono-label" style={{ fontSize: 12, display: "block", marginBottom: 4 }}>
                           FIELD NAME
                         </label>
                         <input
@@ -569,7 +569,7 @@ export default function AdjudicationPage() {
                       </div>
 
                       <div>
-                        <label className="text-mono-label" style={{ fontSize: 10, display: "block", marginBottom: 4 }}>
+                        <label className="text-mono-label" style={{ fontSize: 12, display: "block", marginBottom: 4 }}>
                           CANDIDATE A (RAW DISTRIBUTOR TEXT)
                         </label>
                         <input
@@ -582,7 +582,7 @@ export default function AdjudicationPage() {
                       </div>
 
                       <div>
-                        <label className="text-mono-label" style={{ fontSize: 10, display: "block", marginBottom: 4 }}>
+                        <label className="text-mono-label" style={{ fontSize: 12, display: "block", marginBottom: 4 }}>
                           CANDIDATE B (MFR SPECIFICATION)
                         </label>
                         <input
@@ -606,25 +606,25 @@ export default function AdjudicationPage() {
 
                   {sandResult && (
                     <div style={{ border: "1px solid var(--border)", padding: "24px" }}>
-                      <span className="text-mono-label" style={{ color: "var(--status-ok)", fontSize: 10, fontWeight: 600 }}>
+                      <span className="text-mono-label" style={{ color: "var(--status-ok)", fontSize: 12, fontWeight: 600 }}>
                       Adjudication Engine Verdict
                     </span>
 
                       <div style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: 20 }}>
                         <div style={{ borderRight: "1px solid var(--border-dim)", paddingRight: 20 }}>
-                          <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--fg-dim)" }}>
+                          <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--fg-dim)" }}>
                             RESOLVED VALUE
                           </div>
                           <div className="text-mono-data" style={{ fontSize: 18, color: "var(--status-ok)", fontWeight: "bold", marginTop: 4 }}>
                             {sandResult.resolvedValue}
                           </div>
-                          <div className="badge badge-dim" style={{ marginTop: 8, fontSize: 9 }}>
+                          <div className="badge badge-dim" style={{ marginTop: 8, fontSize: 11.5 }}>
                             {sandResult.rule}
                           </div>
                         </div>
 
                         <div>
-                          <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--fg-dim)" }}>
+                          <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--fg-dim)" }}>
                             REASONING & PROVENANCE WEIGHT
                           </div>
                           <p style={{ fontSize: 13, color: "var(--fg-primary)", marginTop: 6, lineHeight: 1.5 }}>

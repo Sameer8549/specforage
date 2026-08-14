@@ -218,10 +218,10 @@ export default function TaxonomyPage() {
                 gap: 6,
               }}
             >
-              <div className="badge badge-dim" style={{ fontSize: 10 }}>
+              <div className="badge badge-dim" style={{ fontSize: 12 }}>
                 PUBLIC TAXONOMY · ZERO CUSTOM PROPRIETARY SCHEMAS
               </div>
-              <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-dim)" }}>
+              <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-dim)" }}>
                 55,000+ COMMODITY CODES ACROSS ALL INDUSTRIAL VERTICALS
               </div>
             </div>
@@ -242,7 +242,7 @@ export default function TaxonomyPage() {
                   Live Classification Sandbox
                 </span>
               </div>
-              <span className="text-mono-label" style={{ fontSize: 10 }}>
+              <span className="text-mono-label" style={{ fontSize: 12 }}>
                 TEST ANY INDUSTRIAL CATALOG STRING
               </span>
             </div>
@@ -276,7 +276,7 @@ export default function TaxonomyPage() {
 
             {/* Preloaded Sample Prompts */}
             <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 12, flexWrap: "wrap" }}>
-              <span className="text-mono-label" style={{ fontSize: 9.5, color: "var(--mono-meta)" }}>
+              <span className="text-mono-label" style={{ fontSize: 11.5, color: "var(--mono-meta)" }}>
                 SAMPLE INPUTS:
               </span>
               {[
@@ -297,7 +297,7 @@ export default function TaxonomyPage() {
                     border: "1px solid var(--border-dim)",
                     padding: "3px 8px",
                     fontFamily: "var(--font-mono)",
-                    fontSize: 9.5,
+                    fontSize: 11.5,
                     color: "var(--fg-secondary)",
                     cursor: "pointer",
                     maxWidth: 240,
@@ -329,7 +329,7 @@ export default function TaxonomyPage() {
                 }}
               >
                 <div>
-                  <div className="text-mono-label" style={{ fontSize: 10, color: "var(--status-ok)" }}>
+                  <div className="text-mono-label" style={{ fontSize: 12, color: "var(--status-ok)" }}>
                     ✓ MATCHED COMMODITY
                   </div>
                   <div className="text-mono-data" style={{ fontSize: 14, color: "var(--accent)", marginTop: 2 }}>
@@ -341,14 +341,14 @@ export default function TaxonomyPage() {
                   <div className="text-mono-data" style={{ fontSize: 13, color: "var(--fg-primary)", fontWeight: 500 }}>
                     {classifiedResult.title}
                   </div>
-                  <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--fg-secondary)", marginTop: 2 }}>
+                  <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--fg-secondary)", marginTop: 2 }}>
                     {classifiedResult.classpath}
                   </div>
 
                   {classifiedResult.extractedAttrs.length > 0 && (
                     <div style={{ display: "flex", gap: 6, marginTop: 8, flexWrap: "wrap" }}>
                       {classifiedResult.extractedAttrs.map((attr) => (
-                        <span key={attr.name} className="badge badge-dim" style={{ fontSize: 8.5 }}>
+                        <span key={attr.name} className="badge badge-dim" style={{ fontSize: 11 }}>
                           {attr.name}: <span style={{ color: "var(--fg-primary)" }}>{attr.val}</span>
                         </span>
                       ))}
@@ -362,7 +362,7 @@ export default function TaxonomyPage() {
                     style={{
                       color: "var(--status-ok)",
                       borderColor: "var(--status-ok)",
-                      fontSize: 10,
+                      fontSize: 12,
                     }}
                   >
                     {(classifiedResult.confidence * 100).toFixed(0)}% CONFIDENCE
@@ -449,7 +449,7 @@ export default function TaxonomyPage() {
                             <span className="text-mono-data" style={{ color: isSelected ? "var(--accent)" : "var(--fg-primary)", fontSize: 12 }}>
                               {item.commodity.code}
                             </span>
-                            <span className="text-mono-label" style={{ fontSize: 9 }}>
+                            <span className="text-mono-label" style={{ fontSize: 11.5 }}>
                               {item.classItem.title}
                             </span>
                           </div>
@@ -482,7 +482,7 @@ export default function TaxonomyPage() {
                           <span className="text-mono-data" style={{ color: "var(--accent)", fontSize: 11, fontWeight: "bold" }}>
                             [{seg.code}]
                           </span>
-                          <span className="text-mono-label" style={{ color: "var(--fg-primary)", fontSize: 10, flex: 1 }}>
+                          <span className="text-mono-label" style={{ color: "var(--fg-primary)", fontSize: 12, flex: 1 }}>
                             SEGMENT {seg.code}
                           </span>
                         </div>
@@ -508,7 +508,7 @@ export default function TaxonomyPage() {
                                     <span className="text-mono-data" style={{ fontSize: 11, color: "var(--fg-secondary)" }}>
                                       {fam.code}
                                     </span>
-                                    <span className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-secondary)" }}>
+                                    <span className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-secondary)" }}>
                                       {fam.title}
                                     </span>
                                   </div>
@@ -531,10 +531,10 @@ export default function TaxonomyPage() {
                                               }}
                                             >
                                               {isClsOpen ? <FolderOpen size={12} style={{ color: "var(--fg-dim)" }} /> : <FolderSimple size={12} style={{ color: "var(--fg-dim)" }} />}
-                                              <span className="text-mono-data" style={{ fontSize: 10.5, color: "var(--fg-dim)" }}>
+                                              <span className="text-mono-data" style={{ fontSize: 12, color: "var(--fg-dim)" }}>
                                                 {cls.code}
                                               </span>
-                                              <span className="text-mono-data" style={{ fontSize: 10.5, color: "var(--fg-primary)" }}>
+                                              <span className="text-mono-data" style={{ fontSize: 12, color: "var(--fg-primary)" }}>
                                                 {cls.title}
                                               </span>
                                             </div>
@@ -564,7 +564,7 @@ export default function TaxonomyPage() {
                                                       <span className="text-mono-data" style={{ color: isSelected ? "var(--accent)" : "var(--fg-primary)", fontSize: 11 }}>
                                                         {com.code}
                                                       </span>
-                                                      <span className="text-mono-label" style={{ color: isSelected ? "var(--fg-primary)" : "var(--fg-secondary)", fontSize: 10, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                                      <span className="text-mono-label" style={{ color: isSelected ? "var(--fg-primary)" : "var(--fg-secondary)", fontSize: 12, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                                                         {com.title}
                                                       </span>
                                                     </button>
@@ -628,10 +628,10 @@ export default function TaxonomyPage() {
                       alignItems: "center",
                     }}
                   >
-                    <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10, fontWeight: 600 }}>
+                    <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 12, fontWeight: 600 }}>
                       Expected Attribute Definitions for {selectedCommodity.code}
                     </span>
-                    <span className="text-mono-label" style={{ fontSize: 10 }}>
+                    <span className="text-mono-label" style={{ fontSize: 12 }}>
                       {selectedCommodity.expectedAttributes.length} GOVERNED PROPERTIES
                     </span>
                   </div>
@@ -651,7 +651,7 @@ export default function TaxonomyPage() {
                         className="text-mono-label"
                         style={{
                           padding: "8px 12px",
-                          fontSize: 9.5,
+                          fontSize: 11.5,
                           color: "var(--fg-dim)",
                           borderRight: i < 4 ? "1px solid var(--border-dim)" : "none",
                         }}
@@ -671,10 +671,10 @@ export default function TaxonomyPage() {
                         borderTop: idx > 0 ? "1px solid var(--border-dim)" : "none",
                       }}
                     >
-                      <div className="text-mono-label" style={{ padding: "10px 12px", fontSize: 10.5, borderRight: "1px solid var(--border-dim)", color: "var(--fg-primary)" }}>
+                      <div className="text-mono-label" style={{ padding: "10px 12px", fontSize: 12, borderRight: "1px solid var(--border-dim)", color: "var(--fg-primary)" }}>
                         {attr.name}
                       </div>
-                      <div className="text-mono-data" style={{ padding: "10px 12px", fontSize: 10.5, borderRight: "1px solid var(--border-dim)", color: "var(--fg-secondary)" }}>
+                      <div className="text-mono-data" style={{ padding: "10px 12px", fontSize: 12, borderRight: "1px solid var(--border-dim)", color: "var(--fg-secondary)" }}>
                         {attr.type} {attr.uom ? `(${attr.uom})` : ""}
                       </div>
                       <div style={{ padding: "10px 12px", borderRight: "1px solid var(--border-dim)" }}>
@@ -683,7 +683,7 @@ export default function TaxonomyPage() {
                           style={{
                             color: attr.required ? "var(--status-warn)" : "var(--fg-dim)",
                             borderColor: attr.required ? "var(--status-warn)" : "var(--border-dim)",
-                            fontSize: 8.5,
+                            fontSize: 11,
                           }}
                         >
                           {attr.required ? "REQUIRED" : "OPTIONAL"}
@@ -693,18 +693,18 @@ export default function TaxonomyPage() {
                         {attr.allowedValues ? (
                           <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
                             {attr.allowedValues.map((v) => (
-                              <span key={v} className="badge badge-dim" style={{ fontSize: 8.5 }}>
+                              <span key={v} className="badge badge-dim" style={{ fontSize: 11 }}>
                                 {v}
                               </span>
                             ))}
                           </div>
                         ) : (
-                          <span className="text-mono-label" style={{ fontSize: 9.5, color: "var(--mono-meta)" }}>
+                          <span className="text-mono-label" style={{ fontSize: 11.5, color: "var(--mono-meta)" }}>
                             OPEN RANGE / NUMERIC
                           </span>
                         )}
                       </div>
-                      <div className="text-mono-label" style={{ padding: "10px 12px", fontSize: 9.5, color: "var(--fg-secondary)" }}>
+                      <div className="text-mono-label" style={{ padding: "10px 12px", fontSize: 11.5, color: "var(--fg-secondary)" }}>
                         {attr.normalizationRule}
                       </div>
                     </div>
@@ -720,7 +720,7 @@ export default function TaxonomyPage() {
                       borderBottom: "1px solid var(--border-dim)",
                     }}
                   >
-                    <span className="text-mono-label" style={{ color: "var(--fg-secondary)", fontSize: 10, fontWeight: 600 }}>
+                    <span className="text-mono-label" style={{ color: "var(--fg-secondary)", fontSize: 12, fontWeight: 600 }}>
                       Sample Distributor Records for {selectedCommodity.code}
                     </span>
                   </div>
@@ -746,7 +746,7 @@ export default function TaxonomyPage() {
                           runClassification(desc);
                         }}
                         className="btn-ghost"
-                        style={{ padding: "4px 10px", fontSize: 9.5 }}
+                        style={{ padding: "4px 10px", fontSize: 11.5 }}
                       >
                         RUN IN SANDBOX
                       </button>

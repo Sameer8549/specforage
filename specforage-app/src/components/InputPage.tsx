@@ -163,7 +163,7 @@ function SingleRowForm({ onSubmit }: { onSubmit: (data: RowData) => void }) {
                 {hasErr && (
                   <span
                     className="text-mono-label"
-                    style={{ color: "var(--accent)", fontSize: 10 }}
+                    style={{ color: "var(--accent)", fontSize: 12 }}
                   >
                     {errors[field.key]}
                   </span>
@@ -205,7 +205,7 @@ function SingleRowForm({ onSubmit }: { onSubmit: (data: RowData) => void }) {
                     <Warning size={12} style={{ color: "var(--status-warn)" }} />
                     <span
                       className="text-mono-label"
-                      style={{ color: "var(--status-warn)", fontSize: 10 }}
+                      style={{ color: "var(--status-warn)", fontSize: 12 }}
                     >
                       PLACEHOLDER — WILL BE TREATED AS BLANK
                     </span>
@@ -229,7 +229,7 @@ function SingleRowForm({ onSubmit }: { onSubmit: (data: RowData) => void }) {
           gap: 16,
         }}
       >
-        <span className="text-mono-label" style={{ fontSize: 10 }}>
+        <span className="text-mono-label" style={{ fontSize: 12 }}>
           * REQUIRED FIELDS
         </span>
         <button type="submit" className="btn-primary">
@@ -361,7 +361,7 @@ function CSVUploader({ onSubmit }: { onSubmit: (rows: RowData[], headers: string
             >
               DROP CSV FILE HERE
             </div>
-            <div className="text-mono-label" style={{ fontSize: 10 }}>
+            <div className="text-mono-label" style={{ fontSize: 12 }}>
               OR CLICK TO BROWSE — MAX 5 MB
             </div>
           </div>
@@ -430,7 +430,7 @@ function CSVUploader({ onSubmit }: { onSubmit: (rows: RowData[], headers: string
                 >
                   {file?.name}
                 </span>
-                <span className="text-mono-label" style={{ fontSize: 10 }}>
+                <span className="text-mono-label" style={{ fontSize: 12 }}>
                   {file ? `${(file.size / 1024).toFixed(1)} KB` : ""}
                 </span>
               </div>
@@ -470,7 +470,7 @@ function CSVUploader({ onSubmit }: { onSubmit: (rows: RowData[], headers: string
                 />
                 <span
                   className="text-mono-label"
-                  style={{ color: "var(--status-warn)", fontSize: 10, lineHeight: 1.5 }}
+                  style={{ color: "var(--status-warn)", fontSize: 12, lineHeight: 1.5 }}
                 >
                   PLACEHOLDER VALUES DETECTED IN:{" "}
                   {Array.from(placeholderCols).join(", ")} — THESE WILL BE TREATED AS BLANK
@@ -518,7 +518,7 @@ function CSVUploader({ onSubmit }: { onSubmit: (rows: RowData[], headers: string
                       >
                         {h}
                         {placeholderCols.has(h) && (
-                          <span style={{ marginLeft: 4, fontSize: 9 }}>[BLANK]</span>
+                          <span style={{ marginLeft: 4, fontSize: 11.5 }}>[BLANK]</span>
                         )}
                       </th>
                     ))}
@@ -535,7 +535,7 @@ function CSVUploader({ onSubmit }: { onSubmit: (rows: RowData[], headers: string
                         style={{
                           padding: "8px 12px",
                           color: "var(--mono-meta)",
-                          fontSize: 10,
+                          fontSize: 12,
                           borderRight: "1px solid var(--border-dim)",
                         }}
                       >
@@ -561,10 +561,10 @@ function CSVUploader({ onSubmit }: { onSubmit: (rows: RowData[], headers: string
                   justifyContent: "space-between",
                 }}
               >
-                <span className="text-mono-label" style={{ fontSize: 10 }}>
+                <span className="text-mono-label" style={{ fontSize: 12 }}>
                   SHOWING FIRST 8 ROWS
                 </span>
-                <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10 }}>
+                <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 12 }}>
                   {preview.headers.length} COLUMNS DETECTED
                 </span>
               </div>
@@ -583,7 +583,7 @@ function CSVUploader({ onSubmit }: { onSubmit: (rows: RowData[], headers: string
                 gap: 16,
               }}
             >
-              <span className="text-mono-label" style={{ fontSize: 10 }}>
+              <span className="text-mono-label" style={{ fontSize: 12 }}>
                 PLACEHOLDER VALUES IN BRAND / MANUFACTURER COLUMNS WILL BE RESOLVED TO BLANK
               </span>
               <button
@@ -926,7 +926,7 @@ export default function InputPage() {
                       key={p}
                       style={{
                         fontFamily: "var(--font-mono)",
-                        fontSize: 10,
+                        fontSize: 12,
                         color: "var(--fg-dim)",
                         padding: "2px 6px",
                         border: "1px solid var(--border-dim)",

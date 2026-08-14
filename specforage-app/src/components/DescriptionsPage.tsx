@@ -184,7 +184,7 @@ export default function DescriptionsPage() {
               }}
             >
               <div>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-dim)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-dim)" }}>
                   VARIANT CHANNELS
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--fg-primary)", marginTop: 4 }}>
@@ -192,7 +192,7 @@ export default function DescriptionsPage() {
                 </div>
               </div>
               <div>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--status-ok)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--status-ok)" }}>
                   HALLUCINATIONS
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--status-ok)", marginTop: 4 }}>
@@ -200,7 +200,7 @@ export default function DescriptionsPage() {
                 </div>
               </div>
               <div>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--status-ok)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--status-ok)" }}>
                   TOKEN COVERAGE
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--status-ok)", marginTop: 4 }}>
@@ -222,7 +222,7 @@ export default function DescriptionsPage() {
               flexWrap: "wrap",
             }}
           >
-            <span className="text-mono-label" style={{ fontSize: 10, color: "var(--mono-meta)" }}>
+            <span className="text-mono-label" style={{ fontSize: 12, color: "var(--mono-meta)" }}>
               TARGET PRODUCT RECORD:
             </span>
 
@@ -239,7 +239,7 @@ export default function DescriptionsPage() {
                       border: "1px solid var(--border)",
                       padding: "6px 12px",
                       fontFamily: "var(--font-mono)",
-                      fontSize: 10.5,
+                      fontSize: 12,
                       letterSpacing: "0.06em",
                       cursor: "pointer",
                       display: "flex",
@@ -279,7 +279,7 @@ export default function DescriptionsPage() {
                   borderBottom: "1px solid var(--border-dim)",
                 }}
               >
-                <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10 }}>
+                <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 12 }}>
                   [ 6 PURPOSE-BUILT CHANNELS ]
                 </span>
               </div>
@@ -314,7 +314,7 @@ export default function DescriptionsPage() {
                       <span
                         className="badge badge-dim"
                         style={{
-                          fontSize: 8.5,
+                          fontSize: 11,
                           color: over ? "var(--accent)" : "var(--status-ok)",
                         }}
                       >
@@ -322,7 +322,7 @@ export default function DescriptionsPage() {
                       </span>
                     </div>
 
-                    <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--fg-secondary)", lineHeight: 1.3 }}>
+                    <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--fg-secondary)", lineHeight: 1.3 }}>
                       {ch.label}
                     </div>
                   </button>
@@ -354,13 +354,13 @@ export default function DescriptionsPage() {
                   </button>
                 </div>
 
-                <p className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-secondary)", marginBottom: 16 }}>
+                <p className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-secondary)", marginBottom: 16 }}>
                   USE CASE: {activeChannelConfig.useCase}
                 </p>
 
                 {/* Compiled Output Card */}
                 <div style={{ border: "1px solid var(--border)", padding: "16px", backgroundColor: "var(--bg-root)", marginBottom: 12 }}>
-                  <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--fg-dim)", marginBottom: 6 }}>
+                  <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--fg-dim)", marginBottom: 6 }}>
                     COMPILED OUTPUT (DETERMINISTIC SLOT REPLACEMENT)
                   </div>
 
@@ -392,11 +392,11 @@ export default function DescriptionsPage() {
                   </div>
 
                   <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6 }}>
-                    <span className="text-mono-label" style={{ fontSize: 9.5, color: isOverLimit ? "var(--accent)" : "var(--fg-secondary)" }}>
+                    <span className="text-mono-label" style={{ fontSize: 11.5, color: isOverLimit ? "var(--accent)" : "var(--fg-secondary)" }}>
                       {activeLen} / {activeLimit} CHARACTERS ({Math.round(activePct)}% of budget)
                     </span>
                     {isOverLimit && (
-                      <span className="text-mono-label" style={{ fontSize: 9.5, color: "var(--accent)" }}>
+                      <span className="text-mono-label" style={{ fontSize: 11.5, color: "var(--accent)" }}>
                         ⚠ OVERRUN: TRUNCATION REQUIRED
                       </span>
                     )}
@@ -405,7 +405,7 @@ export default function DescriptionsPage() {
 
                 {/* Formula Syntax Editor */}
                 <div>
-                  <label className="text-mono-label" style={{ fontSize: 9.5, color: "var(--fg-dim)", display: "block", marginBottom: 4 }}>
+                  <label className="text-mono-label" style={{ fontSize: 11.5, color: "var(--fg-dim)", display: "block", marginBottom: 4 }}>
                     FORMULA SYNTAX TEMPLATE (EDITABLE TOKENS)
                   </label>
                   <textarea
@@ -432,7 +432,7 @@ export default function DescriptionsPage() {
 
                 {/* Token Insertion Toolbar */}
                 <div style={{ marginTop: 12 }}>
-                  <div className="text-mono-label" style={{ fontSize: 9.5, color: "var(--mono-meta)", marginBottom: 6 }}>
+                  <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--mono-meta)", marginBottom: 6 }}>
                     CLICK TOKEN TO INSERT INTO TEMPLATE:
                   </div>
 
@@ -446,7 +446,7 @@ export default function DescriptionsPage() {
                           border: "1px solid var(--border-dim)",
                           padding: "3px 8px",
                           fontFamily: "var(--font-mono)",
-                          fontSize: 10,
+                          fontSize: 12,
                           color: "var(--fg-primary)",
                           cursor: "pointer",
                         }}
@@ -467,7 +467,7 @@ export default function DescriptionsPage() {
                     borderBottom: "1px solid var(--border-dim)",
                   }}
                 >
-                  <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10 }}>
+                  <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 12 }}>
                     [ ALL 6 CHANNELS GENERATED SIMULTANEOUSLY FOR {selectedProduct.mpn} ]
                   </span>
                 </div>
@@ -488,10 +488,10 @@ export default function DescriptionsPage() {
                       }}
                     >
                       <div>
-                        <span className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-primary)", display: "block" }}>
+                        <span className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-primary)", display: "block" }}>
                           {ch.channel}
                         </span>
-                        <span className="text-mono-label" style={{ fontSize: 9, color: "var(--mono-meta)" }}>
+                        <span className="text-mono-label" style={{ fontSize: 11.5, color: "var(--mono-meta)" }}>
                           {compiled.length}/{ch.charLimit} ch
                         </span>
                       </div>
@@ -518,7 +518,7 @@ export default function DescriptionsPage() {
                           alignItems: "center",
                           gap: 4,
                           fontFamily: "var(--font-mono)",
-                          fontSize: 10,
+                          fontSize: 12,
                         }}
                       >
                         {isCopied ? <Check size={12} /> : <Copy size={12} />}

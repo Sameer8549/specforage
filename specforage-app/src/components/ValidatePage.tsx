@@ -97,7 +97,7 @@ export default function ValidatePage() {
               }}
             >
               <div>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-dim)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-dim)" }}>
                   BENCHMARK SKU
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--fg-primary)", marginTop: 4 }}>
@@ -105,7 +105,7 @@ export default function ValidatePage() {
                 </div>
               </div>
               <div>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--status-ok)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--status-ok)" }}>
                   EXACT MATCH RATE
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--status-ok)", marginTop: 4 }}>
@@ -113,7 +113,7 @@ export default function ValidatePage() {
                 </div>
               </div>
               <div>
-                <div className="text-mono-label" style={{ fontSize: 10, color: "var(--fg-dim)" }}>
+                <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-dim)" }}>
                   FEATURES GOVERNED
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--accent)", marginTop: 4 }}>
@@ -135,7 +135,7 @@ export default function ValidatePage() {
               flexWrap: "wrap",
             }}
           >
-            <span className="text-mono-label" style={{ fontSize: 10, color: "var(--mono-meta)" }}>
+            <span className="text-mono-label" style={{ fontSize: 12, color: "var(--mono-meta)" }}>
               SELECT EVALUATION SKU:
             </span>
 
@@ -161,7 +161,7 @@ export default function ValidatePage() {
                     }}
                   >
                     <span style={{ fontWeight: 600 }}>{b.mpn}</span>
-                    <span style={{ opacity: 0.7, fontSize: 10 }}>{b.commodityTitle.split("(")[0].trim()}</span>
+                    <span style={{ opacity: 0.7, fontSize: 12 }}>{b.commodityTitle.split("(")[0].trim()}</span>
                   </button>
                 );
               })}
@@ -232,7 +232,7 @@ export default function ValidatePage() {
                         <div
                           key={h}
                           className="text-mono-label"
-                          style={{ padding: "10px 14px", fontSize: 9.5, color: "var(--fg-dim)", borderRight: i < 4 ? "1px solid var(--border-dim)" : "none" }}
+                          style={{ padding: "10px 14px", fontSize: 11.5, color: "var(--fg-dim)", borderRight: i < 4 ? "1px solid var(--border-dim)" : "none" }}
                         >
                           {h}
                         </div>
@@ -250,13 +250,13 @@ export default function ValidatePage() {
                         }}
                       >
                         {/* Field */}
-                        <div className="text-mono-label" style={{ padding: "12px 14px", fontSize: 10.5, borderRight: "1px solid var(--border-dim)", color: "var(--fg-primary)" }}>
+                        <div className="text-mono-label" style={{ padding: "12px 14px", fontSize: 12, borderRight: "1px solid var(--border-dim)", color: "var(--fg-primary)" }}>
                           {item.field}
                         </div>
 
                         {/* Category */}
                         <div style={{ padding: "12px 14px", borderRight: "1px solid var(--border-dim)" }}>
-                          <span className="badge badge-dim" style={{ fontSize: 8.5 }}>
+                          <span className="badge badge-dim" style={{ fontSize: 11 }}>
                             {item.category}
                           </span>
                         </div>
@@ -270,7 +270,7 @@ export default function ValidatePage() {
                         <div className="text-mono-data" style={{ padding: "12px 14px", fontSize: 11.5, borderRight: "1px solid var(--border-dim)", color: item.isMatch ? "var(--status-ok)" : "var(--accent)" }}>
                           {item.generatedValue}
                           {item.accuracyDelta && (
-                            <div className="text-mono-label" style={{ fontSize: 9, color: "var(--status-warn)", marginTop: 4 }}>
+                            <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--status-warn)", marginTop: 4 }}>
                               Note: {item.accuracyDelta}
                             </div>
                           )}
@@ -283,7 +283,7 @@ export default function ValidatePage() {
                             style={{
                               color: item.isMatch ? "var(--status-ok)" : "var(--accent)",
                               borderColor: item.isMatch ? "var(--status-ok)" : "var(--accent)",
-                              fontSize: 8.5,
+                              fontSize: 11,
                             }}
                           >
                             {item.isMatch ? "✓ MATCH" : "MISMATCH"}
@@ -315,10 +315,10 @@ export default function ValidatePage() {
                         justifyContent: "space-between",
                       }}
                     >
-                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 10, fontWeight: 600 }}>
+                      <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 12, fontWeight: 600 }}>
                         Structured Feature Matrix 1–20 for {activeBenchmark.mpn}
                       </span>
-                      <span className="text-mono-label" style={{ fontSize: 10 }}>
+                      <span className="text-mono-label" style={{ fontSize: 12 }}>
                         FORMULA GENERATED · DETERMINISTIC
                       </span>
                     </div>
@@ -356,7 +356,7 @@ export default function ValidatePage() {
                               alignItems: "center",
                               gap: 4,
                               fontFamily: "var(--font-mono)",
-                              fontSize: 9.5,
+                              fontSize: 11.5,
                             }}
                           >
                             {isCopied ? <Check size={12} /> : <Copy size={12} />}
