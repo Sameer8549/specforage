@@ -1,4 +1,16 @@
 import Nav from "@/components/Nav";
-export default function Page() {
-  return (<><Nav /><main style={{paddingTop:56,padding:"80px 64px"}}><span className="text-mono-label">BATCH — COMING SOON</span></main></>);
+import BatchLivePage from "@/components/BatchLivePage";
+
+export const metadata = {
+  title: "Batch Telemetry & Delivery Export — SpecForge",
+  description: "Monitor high-throughput multi-row catalog processing, stage progress, and export to standardized Delivery Format CSV.",
+};
+
+export default function BatchRoute() {
+  return (
+    <>
+      <Nav />
+      <BatchLivePage />
+    </>
+  );
 }
