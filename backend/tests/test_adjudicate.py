@@ -11,8 +11,6 @@ from specforge.contracts import (
     Verification,
     VerifyStage,
 )
-from pydantic import SecretStr
-
 from specforge.config import Settings
 from specforge.llm import LLMError, OpenAICompatibleJSONClient, build_adjudication_llm
 from specforge.stages.adjudicate import run_adjudicate_stage
@@ -188,8 +186,14 @@ async def test_conflicting_top_priority_sources_require_human_review() -> None:
     assert result.adjudicate.attributes == []
 
 
-def test_adjudication_factory_enables_nemotron_thinking() -> None:
-    client = build_adjudication_llm(Settings(nim_api_key=SecretStr("test-key")))
+def test_adjudication_factory_enables_budgeted_nemotron_thinking(monkeypatch) -> None:
+    monkeypatch.setenv("NVIDIA_API_KEY", __name__)
+    client = build_adjudication_llm(Settings(_env_file=None))
 
     assert isinstance(client.primary, OpenAICompatibleJSONClient)
-    assert client.primary.thinking_enabled is True
+    assert client.primary.model == "nvidia/nemotron-3.5-lightning-30b-a3b"
+    assert client.primary.enable_thinking is True
+    assert client.primary.extra_body == {
+        "chat_template_kwargs": {"enable_thinking": True},
+        "reasoning_budget": 16384,
+    }

@@ -1,9 +1,10 @@
-"""Minimal OpenAI-compatible JSON clients for NIM primary and Groq fallback."""
+"""OpenAI-compatible structured JSON clients for NVIDIA and Groq."""
 
+import asyncio
 import json
 from typing import Any, Protocol
 
-import httpx
+from openai import OpenAI, OpenAIError
 from pydantic import SecretStr
 
 from specforge.config import Settings
@@ -27,28 +28,43 @@ class OpenAICompatibleJSONClient:
         model: str,
         api_key: SecretStr,
         timeout_seconds: float,
-        thinking_enabled: bool | None,
+        enable_thinking: bool | None,
+        reasoning_budget: int | None = None,
         strict_schema: bool = False,
     ) -> None:
-        self.url = f"{base_url.rstrip('/')}/chat/completions"
+        if reasoning_budget is not None and enable_thinking is not True:
+            raise ValueError("A reasoning budget requires thinking to be enabled.")
         self.model = model
-        self.api_key = api_key
-        self.timeout_seconds = timeout_seconds
-        self.thinking_enabled = thinking_enabled
+        self.enable_thinking = enable_thinking
+        self.reasoning_budget = reasoning_budget
         self.strict_schema = strict_schema
+        self.client = OpenAI(
+            base_url=base_url,
+            api_key=api_key.get_secret_value(),
+            timeout=timeout_seconds,
+        )
 
-    async def complete_json(
-        self, system_prompt: str, user_prompt: str, schema: dict[str, Any]
-    ) -> dict[str, Any]:
-        payload: dict[str, Any] = {
-            "model": self.model,
-            "messages": [
+    @property
+    def extra_body(self) -> dict[str, Any] | None:
+        if self.enable_thinking is None:
+            return None
+        body: dict[str, Any] = {
+            "chat_template_kwargs": {"enable_thinking": self.enable_thinking}
+        }
+        if self.reasoning_budget is not None:
+            body["reasoning_budget"] = self.reasoning_budget
+        return body
+
+    def _complete(self, system_prompt: str, user_prompt: str, schema: dict[str, Any]) -> dict:
+        response = self.client.chat.completions.create(
+            model=self.model,
+            messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt},
             ],
-            "temperature": 0,
-            "stream": False,
-            "response_format": {
+            temperature=0,
+            stream=False,
+            response_format={
                 "type": "json_schema",
                 "json_schema": {
                     "name": "specforge_response",
@@ -56,25 +72,21 @@ class OpenAICompatibleJSONClient:
                     "schema": schema,
                 },
             },
-        }
-        if self.thinking_enabled is False:
-            payload["chat_template_kwargs"] = {"enable_thinking": False}
-        headers = {
-            "Authorization": f"Bearer {self.api_key.get_secret_value()}",
-            "Content-Type": "application/json",
-        }
-        try:
-            async with httpx.AsyncClient(timeout=self.timeout_seconds) as client:
-                response = await client.post(self.url, headers=headers, json=payload)
-                response.raise_for_status()
-                body = response.json()
-            content = body["choices"][0]["message"]["content"]
-            parsed = json.loads(content)
-        except (httpx.HTTPError, KeyError, IndexError, TypeError, ValueError) as exc:
-            raise LLMError(f"JSON completion failed for {self.model}") from exc
+            extra_body=self.extra_body,
+        )
+        content = response.choices[0].message.content
+        parsed = json.loads(content or "")
         if not isinstance(parsed, dict):
-            raise LLMError(f"JSON completion from {self.model} was not an object")
+            raise ValueError("Completion content was not a JSON object")
         return parsed
+
+    async def complete_json(
+        self, system_prompt: str, user_prompt: str, schema: dict[str, Any]
+    ) -> dict[str, Any]:
+        try:
+            return await asyncio.to_thread(self._complete, system_prompt, user_prompt, schema)
+        except (OpenAIError, IndexError, TypeError, ValueError, json.JSONDecodeError) as exc:
+            raise LLMError(f"JSON completion failed for {self.model}") from exc
 
 
 class FallbackJSONLLM:
@@ -93,49 +105,47 @@ class FallbackJSONLLM:
             return await self.fallback.complete_json(system_prompt, user_prompt, schema)
 
 
-def build_extraction_llm(settings: Settings) -> FallbackJSONLLM:
-    if settings.nim_api_key is None or not settings.nim_api_key.get_secret_value().strip():
-        raise LLMError("SPECFORGE_NIM_API_KEY is required for extraction")
-    primary = OpenAICompatibleJSONClient(
-        base_url=settings.nim_base_url,
-        model=settings.nim_model,
-        api_key=settings.nim_api_key,
+def _groq_fallback(settings: Settings) -> OpenAICompatibleJSONClient | None:
+    if settings.groq_api_key is None or not settings.groq_api_key.get_secret_value().strip():
+        return None
+    return OpenAICompatibleJSONClient(
+        base_url=settings.groq_base_url,
+        model=settings.groq_model,
+        api_key=settings.groq_api_key,
         timeout_seconds=settings.llm_timeout_seconds,
-        thinking_enabled=False,
+        enable_thinking=None,
+        strict_schema=True,
+    )
+
+
+def _require_nvidia_key(settings: Settings) -> SecretStr:
+    key = settings.nvidia_api_key
+    if key is None or not key.get_secret_value().strip():
+        raise LLMError("NVIDIA_API_KEY is required for NVIDIA inference")
+    return key
+
+
+def build_extraction_llm(settings: Settings) -> FallbackJSONLLM:
+    primary = OpenAICompatibleJSONClient(
+        base_url=settings.nvidia_base_url,
+        model=settings.nvidia_model,
+        api_key=_require_nvidia_key(settings),
+        timeout_seconds=settings.llm_timeout_seconds,
+        enable_thinking=False,
+        reasoning_budget=None,
         strict_schema=False,
     )
-    fallback: OpenAICompatibleJSONClient | None = None
-    if settings.groq_api_key is not None and settings.groq_api_key.get_secret_value().strip():
-        fallback = OpenAICompatibleJSONClient(
-            base_url=settings.groq_base_url,
-            model=settings.groq_model,
-            api_key=settings.groq_api_key,
-            timeout_seconds=settings.llm_timeout_seconds,
-            thinking_enabled=None,
-            strict_schema=True,
-        )
-    return FallbackJSONLLM(primary, fallback)
+    return FallbackJSONLLM(primary, _groq_fallback(settings))
 
 
 def build_adjudication_llm(settings: Settings) -> FallbackJSONLLM:
-    if settings.nim_api_key is None or not settings.nim_api_key.get_secret_value().strip():
-        raise LLMError("SPECFORGE_NIM_API_KEY is required for adjudication")
     primary = OpenAICompatibleJSONClient(
-        base_url=settings.nim_base_url,
-        model=settings.nim_model,
-        api_key=settings.nim_api_key,
+        base_url=settings.nvidia_base_url,
+        model=settings.nvidia_model,
+        api_key=_require_nvidia_key(settings),
         timeout_seconds=settings.llm_timeout_seconds,
-        thinking_enabled=True,
+        enable_thinking=True,
+        reasoning_budget=settings.adjudication_reasoning_budget,
         strict_schema=False,
     )
-    fallback: OpenAICompatibleJSONClient | None = None
-    if settings.groq_api_key is not None and settings.groq_api_key.get_secret_value().strip():
-        fallback = OpenAICompatibleJSONClient(
-            base_url=settings.groq_base_url,
-            model=settings.groq_model,
-            api_key=settings.groq_api_key,
-            timeout_seconds=settings.llm_timeout_seconds,
-            thinking_enabled=None,
-            strict_schema=True,
-        )
-    return FallbackJSONLLM(primary, fallback)
+    return FallbackJSONLLM(primary, _groq_fallback(settings))
