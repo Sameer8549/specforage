@@ -1,7 +1,7 @@
 from functools import lru_cache
 from pathlib import Path
 
-from pydantic import Field
+from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -27,6 +27,13 @@ class Settings(BaseSettings):
     brand_match_threshold: float = Field(default=0.86, ge=0, le=1)
     classification_threshold: float = Field(default=0.42, ge=0, le=1)
     classification_tie_margin: float = Field(default=0.03, ge=0, le=1)
+    nim_base_url: str = "https://integrate.api.nvidia.com/v1"
+    nim_model: str = "nvidia/nemotron-3-nano-30b-a3b"
+    nim_api_key: SecretStr | None = None
+    groq_base_url: str = "https://api.groq.com/openai/v1"
+    groq_model: str = "openai/gpt-oss-20b"
+    groq_api_key: SecretStr | None = None
+    llm_timeout_seconds: float = Field(default=30, gt=0)
 
     def resolve_data_path(self, path: Path) -> Path:
         return path if path.is_absolute() else BACKEND_ROOT / path
