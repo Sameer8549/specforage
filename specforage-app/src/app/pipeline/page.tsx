@@ -1,12 +1,16 @@
 import Nav from "@/components/Nav";
+import InputPage from "@/components/InputPage";
+
+export const metadata = {
+  title: "Pipeline Input — SpecForge",
+  description: "Enter a single catalog row or upload a CSV to begin processing.",
+};
 
 export default function PipelinePage() {
   return (
     <>
       <Nav />
-      <main style={{ paddingTop: 56, maxWidth: 1440, margin: "0 auto", padding: "80px 64px" }}>
-        <span className="text-mono-label">PIPELINE — COMING IN STEP 4</span>
-      </main>
+      <InputPage />
     </>
   );
 }
