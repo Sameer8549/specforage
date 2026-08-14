@@ -20,6 +20,8 @@ class Settings(BaseSettings):
     ground_truth_dataset: Path = Field(default=Path("data/ground_truth.csv"))
     expected_working_rows: int = 1000
     expected_ground_truth_rows: int = 2
+    manufacturer_match_threshold: float = Field(default=0.86, ge=0, le=1)
+    brand_match_threshold: float = Field(default=0.86, ge=0, le=1)
 
     def resolve_data_path(self, path: Path) -> Path:
         return path if path.is_absolute() else BACKEND_ROOT / path
