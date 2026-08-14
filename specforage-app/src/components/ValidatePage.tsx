@@ -219,78 +219,80 @@ export default function ValidatePage() {
                   transition={{ duration: 0.3, ease }}
                   style={{ display: "flex", flexDirection: "column", gap: 20 }}
                 >
-                  <div style={{ border: "1px solid var(--border)" }}>
-                    <div
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "160px 100px 1fr 1fr 110px",
-                        backgroundColor: "var(--bg-elevated)",
-                        borderBottom: "1px solid var(--border-dim)",
-                      }}
-                    >
-                      {["TARGET FIELD", "CATEGORY", "GROUND-TRUTH BENCHMARK", "SPECFORGE GENERATED", "VERDICT"].map((h, i) => (
-                        <div
-                          key={h}
-                          className="text-mono-label"
-                          style={{ padding: "10px 14px", fontSize: 11.5, color: "var(--fg-dim)", borderRight: i < 4 ? "1px solid var(--border-dim)" : "none" }}
-                        >
-                          {h}
-                        </div>
-                      ))}
-                    </div>
-
-                    {activeBenchmark.groundTruthItems.map((item) => (
+                  <div style={{ border: "1px solid var(--border)", overflowX: "auto" }}>
+                    <div style={{ minWidth: 780 }}>
                       <div
-                        key={item.id}
                         style={{
                           display: "grid",
                           gridTemplateColumns: "160px 100px 1fr 1fr 110px",
-                          borderTop: "1px solid var(--border-dim)",
-                          backgroundColor: item.isMatch ? "transparent" : "rgba(230,25,25,0.02)",
+                          backgroundColor: "var(--bg-elevated)",
+                          borderBottom: "1px solid var(--border-dim)",
                         }}
                       >
-                        {/* Field */}
-                        <div className="text-mono-label" style={{ padding: "12px 14px", fontSize: 12, borderRight: "1px solid var(--border-dim)", color: "var(--fg-primary)" }}>
-                          {item.field}
-                        </div>
-
-                        {/* Category */}
-                        <div style={{ padding: "12px 14px", borderRight: "1px solid var(--border-dim)" }}>
-                          <span className="badge badge-dim" style={{ fontSize: 11 }}>
-                            {item.category}
-                          </span>
-                        </div>
-
-                        {/* Benchmark */}
-                        <div className="text-mono-data" style={{ padding: "12px 14px", fontSize: 11.5, borderRight: "1px solid var(--border-dim)", color: "var(--fg-secondary)" }}>
-                          {item.expectedValue}
-                        </div>
-
-                        {/* Generated */}
-                        <div className="text-mono-data" style={{ padding: "12px 14px", fontSize: 11.5, borderRight: "1px solid var(--border-dim)", color: item.isMatch ? "var(--status-ok)" : "var(--accent)" }}>
-                          {item.generatedValue}
-                          {item.accuracyDelta && (
-                            <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--status-warn)", marginTop: 4 }}>
-                              Note: {item.accuracyDelta}
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Verdict */}
-                        <div style={{ padding: "12px 14px", display: "flex", alignItems: "center" }}>
-                          <span
-                            className="badge"
-                            style={{
-                              color: item.isMatch ? "var(--status-ok)" : "var(--accent)",
-                              borderColor: item.isMatch ? "var(--status-ok)" : "var(--accent)",
-                              fontSize: 11,
-                            }}
+                        {["TARGET FIELD", "CATEGORY", "GROUND-TRUTH BENCHMARK", "SPECFORGE GENERATED", "VERDICT"].map((h, i) => (
+                          <div
+                            key={h}
+                            className="text-mono-label"
+                            style={{ padding: "10px 14px", fontSize: 11.5, color: "var(--fg-dim)", borderRight: i < 4 ? "1px solid var(--border-dim)" : "none" }}
                           >
-                            {item.isMatch ? "✓ MATCH" : "MISMATCH"}
-                          </span>
-                        </div>
+                            {h}
+                          </div>
+                        ))}
                       </div>
-                    ))}
+
+                      {activeBenchmark.groundTruthItems.map((item) => (
+                        <div
+                          key={item.id}
+                          style={{
+                            display: "grid",
+                            gridTemplateColumns: "160px 100px 1fr 1fr 110px",
+                            borderTop: "1px solid var(--border-dim)",
+                            backgroundColor: item.isMatch ? "transparent" : "rgba(230,25,25,0.02)",
+                          }}
+                        >
+                          {/* Field */}
+                          <div className="text-mono-label" style={{ padding: "12px 14px", fontSize: 12, borderRight: "1px solid var(--border-dim)", color: "var(--fg-primary)" }}>
+                            {item.field}
+                          </div>
+
+                          {/* Category */}
+                          <div style={{ padding: "12px 14px", borderRight: "1px solid var(--border-dim)" }}>
+                            <span className="badge badge-dim" style={{ fontSize: 11 }}>
+                              {item.category}
+                            </span>
+                          </div>
+
+                          {/* Benchmark */}
+                          <div className="text-mono-data" style={{ padding: "12px 14px", fontSize: 11.5, borderRight: "1px solid var(--border-dim)", color: "var(--fg-secondary)" }}>
+                            {item.expectedValue}
+                          </div>
+
+                          {/* Generated */}
+                          <div className="text-mono-data" style={{ padding: "12px 14px", fontSize: 11.5, borderRight: "1px solid var(--border-dim)", color: item.isMatch ? "var(--status-ok)" : "var(--accent)" }}>
+                            {item.generatedValue}
+                            {item.accuracyDelta && (
+                              <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--status-warn)", marginTop: 4 }}>
+                                Note: {item.accuracyDelta}
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Verdict */}
+                          <div style={{ padding: "12px 14px", display: "flex", alignItems: "center" }}>
+                            <span
+                              className="badge"
+                              style={{
+                                color: item.isMatch ? "var(--status-ok)" : "var(--accent)",
+                                borderColor: item.isMatch ? "var(--status-ok)" : "var(--accent)",
+                                fontSize: 11,
+                              }}
+                            >
+                              {item.isMatch ? "✓ MATCH" : "✕ MISMATCH"}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </motion.div>
               )}

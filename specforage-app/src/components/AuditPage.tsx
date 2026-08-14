@@ -335,7 +335,7 @@ export default function AuditPage() {
                   transition={{ duration: 0.3, ease }}
                   style={{ display: "flex", flexDirection: "column", gap: 16 }}
                 >
-                  <div style={{ border: "1px solid var(--border)" }}>
+                  <div style={{ border: "1px solid var(--border)", overflowX: "auto" }}>
                     <div
                       style={{
                         padding: "10px 16px",
@@ -353,99 +353,101 @@ export default function AuditPage() {
                       </span>
                     </div>
 
-                    <div
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "100px 120px 140px 160px 1fr 160px",
-                        backgroundColor: "var(--bg-surface)",
-                        borderBottom: "1px solid var(--border-dim)",
-                      }}
-                    >
-                      {["CASE ID", "MPN", "FIELD", "PROPOSED VALUE", "FLAG REASON", "GOVERNOR ACTION"].map((h, i) => (
-                        <div
-                          key={h}
-                          className="text-mono-label"
-                          style={{ padding: "10px 12px", fontSize: 11.5, color: "var(--fg-dim)", borderRight: i < 5 ? "1px solid var(--border-dim)" : "none" }}
-                        >
-                          {h}
-                        </div>
-                      ))}
-                    </div>
-
-                    {queue.map((item) => {
-                      const flagBadge = getFlagTypeBadge(item.flagType);
-                      const isPending = item.status === "PENDING";
-
-                      return (
-                        <div
-                          key={item.id}
-                          style={{
-                            display: "grid",
-                            gridTemplateColumns: "100px 120px 140px 160px 1fr 160px",
-                            borderTop: "1px solid var(--border-dim)",
-                            opacity: isPending ? 1 : 0.6,
-                          }}
-                        >
-                          {/* ID */}
-                          <div className="text-mono-data" style={{ padding: "14px 12px", fontSize: 11, borderRight: "1px solid var(--border-dim)", color: "var(--fg-dim)" }}>
-                            {item.id}
+                    <div style={{ minWidth: 960 }}>
+                      <div
+                        style={{
+                          display: "grid",
+                          gridTemplateColumns: "100px 120px 130px 160px 1fr 210px",
+                          backgroundColor: "var(--bg-surface)",
+                          borderBottom: "1px solid var(--border-dim)",
+                        }}
+                      >
+                        {["CASE ID", "MPN", "FIELD", "PROPOSED VALUE", "FLAG REASON", "GOVERNOR ACTION"].map((h, i) => (
+                          <div
+                            key={h}
+                            className="text-mono-label"
+                            style={{ padding: "10px 12px", fontSize: 11.5, color: "var(--fg-dim)", borderRight: i < 5 ? "1px solid var(--border-dim)" : "none" }}
+                          >
+                            {h}
                           </div>
+                        ))}
+                      </div>
 
-                          {/* MPN */}
-                          <div className="text-mono-data" style={{ padding: "14px 12px", fontSize: 11.5, color: "var(--accent)", fontWeight: 500, borderRight: "1px solid var(--border-dim)" }}>
-                            {item.mpn}
-                          </div>
+                      {queue.map((item) => {
+                        const flagBadge = getFlagTypeBadge(item.flagType);
+                        const isPending = item.status === "PENDING";
 
-                          {/* Field */}
-                          <div className="text-mono-label" style={{ padding: "14px 12px", fontSize: 12, borderRight: "1px solid var(--border-dim)", color: "var(--fg-primary)" }}>
-                            {item.field}
-                          </div>
+                        return (
+                          <div
+                            key={item.id}
+                            style={{
+                              display: "grid",
+                              gridTemplateColumns: "100px 120px 130px 160px 1fr 210px",
+                              borderTop: "1px solid var(--border-dim)",
+                              opacity: isPending ? 1 : 0.6,
+                            }}
+                          >
+                            {/* ID */}
+                            <div className="text-mono-data" style={{ padding: "14px 12px", fontSize: 11, borderRight: "1px solid var(--border-dim)", color: "var(--fg-dim)" }}>
+                              {item.id}
+                            </div>
 
-                          {/* Value */}
-                          <div className="text-mono-data" style={{ padding: "14px 12px", fontSize: 11, color: "var(--status-ok)", borderRight: "1px solid var(--border-dim)" }}>
-                            {item.proposedValue}
-                          </div>
+                            {/* MPN */}
+                            <div className="text-mono-data" style={{ padding: "14px 12px", fontSize: 11.5, color: "var(--accent)", fontWeight: 500, borderRight: "1px solid var(--border-dim)" }}>
+                              {item.mpn}
+                            </div>
 
-                          {/* Reason */}
-                          <div style={{ padding: "14px 12px", borderRight: "1px solid var(--border-dim)" }}>
-                            <span className="badge" style={{ color: flagBadge.color, borderColor: flagBadge.color, fontSize: 11, marginBottom: 4 }}>
-                              {flagBadge.label}
-                            </span>
-                            <p className="text-mono-label" style={{ fontSize: 11.5, color: "var(--fg-secondary)", lineHeight: 1.4 }}>
-                              {item.reason}
-                            </p>
-                          </div>
+                            {/* Field */}
+                            <div className="text-mono-label" style={{ padding: "14px 12px", fontSize: 12, borderRight: "1px solid var(--border-dim)", color: "var(--fg-primary)" }}>
+                              {item.field}
+                            </div>
 
-                          {/* Action */}
-                          <div style={{ padding: "14px 12px", display: "flex", alignItems: "center", gap: 6 }}>
-                            {isPending ? (
-                              <>
-                                <button
-                                  onClick={() => handleQueueAction(item.id, "APPROVED")}
-                                  className="btn-primary"
-                                  style={{ padding: "4px 8px", fontSize: 11.5 }}
-                                >
-                                  <Check size={11} weight="bold" />
-                                  CONFIRM
-                                </button>
-                                <button
-                                  onClick={() => handleQueueAction(item.id, "DISMISSED")}
-                                  className="btn-ghost"
-                                  style={{ padding: "4px 8px", fontSize: 11.5 }}
-                                >
-                                  <X size={11} />
-                                  DISMISS
-                                </button>
-                              </>
-                            ) : (
-                              <span className="text-mono-label" style={{ fontSize: 11.5, color: item.status === "APPROVED" ? "var(--status-ok)" : "var(--accent)" }}>
-                                {item.status === "APPROVED" ? "✓ CONFIRMED" : "✕ DISMISSED"}
+                            {/* Value */}
+                            <div className="text-mono-data" style={{ padding: "14px 12px", fontSize: 11, color: "var(--status-ok)", borderRight: "1px solid var(--border-dim)" }}>
+                              {item.proposedValue}
+                            </div>
+
+                            {/* Reason */}
+                            <div style={{ padding: "14px 12px", borderRight: "1px solid var(--border-dim)" }}>
+                              <span className="badge" style={{ color: flagBadge.color, borderColor: flagBadge.color, fontSize: 11, marginBottom: 4 }}>
+                                {flagBadge.label}
                               </span>
-                            )}
+                              <p className="text-mono-label" style={{ fontSize: 11.5, color: "var(--fg-secondary)", lineHeight: 1.4 }}>
+                                {item.reason}
+                              </p>
+                            </div>
+
+                            {/* Action */}
+                            <div style={{ padding: "14px 12px", display: "flex", alignItems: "center", gap: 8, flexWrap: "nowrap" }}>
+                              {isPending ? (
+                                <>
+                                  <button
+                                    onClick={() => handleQueueAction(item.id, "APPROVED")}
+                                    className="btn-primary"
+                                    style={{ padding: "5px 10px", fontSize: 11, flexShrink: 0 }}
+                                  >
+                                    <Check size={12} weight="bold" />
+                                    CONFIRM
+                                  </button>
+                                  <button
+                                    onClick={() => handleQueueAction(item.id, "DISMISSED")}
+                                    className="btn-ghost"
+                                    style={{ padding: "5px 10px", fontSize: 11, flexShrink: 0 }}
+                                  >
+                                    <X size={12} />
+                                    DISMISS
+                                  </button>
+                                </>
+                              ) : (
+                                <span className="text-mono-label" style={{ fontSize: 11.5, color: item.status === "APPROVED" ? "var(--status-ok)" : "var(--accent)" }}>
+                                  {item.status === "APPROVED" ? "✓ CONFIRMED" : "✕ DISMISSED"}
+                                </span>
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
+                    </div>
                   </div>
                 </motion.div>
               )}

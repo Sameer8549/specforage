@@ -182,9 +182,9 @@ export default function BatchLivePage() {
             <div>
               <div
                 className="text-mono-label"
-                style={{ color: "var(--accent)", marginBottom: 8 }}
+                style={{ color: "var(--accent)", marginBottom: 8, fontSize: 12, fontWeight: 600 }}
               >
-                [ EXECUTION ENGINE / BATCH INGESTION & DELIVERY EXPORT ]
+                Batch Ingestion & Delivery Export
               </div>
               <h1
                 className="text-display"
@@ -328,24 +328,25 @@ export default function BatchLivePage() {
           >
             {/* ── LEFT: Batch Rows Table ── */}
             <div style={{ borderRight: "1px solid var(--border)", overflowX: "auto" }}>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "40px 130px 1fr 140px 110px 80px 100px",
-                  backgroundColor: "var(--bg-elevated)",
-                  borderBottom: "1px solid var(--border-dim)",
-                }}
-              >
-                {["#", "MPN", "RAW DESCRIPTION", "RESOLVED ENTITY", "UNSPSC", "STAGE", "STATUS"].map((h, i) => (
-                  <div
-                    key={h}
-                    className="text-mono-label"
-                    style={{ padding: "10px 12px", fontSize: 11.5, color: "var(--fg-dim)", borderRight: i < 6 ? "1px solid var(--border-dim)" : "none" }}
-                  >
-                    {h}
-                  </div>
-                ))}
-              </div>
+              <div style={{ minWidth: 760 }}>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "45px 140px 1fr 140px 110px 80px 110px",
+                    backgroundColor: "var(--bg-elevated)",
+                    borderBottom: "1px solid var(--border-dim)",
+                  }}
+                >
+                  {["#", "MPN", "RAW DESCRIPTION", "RESOLVED ENTITY", "UNSPSC", "STAGE", "STATUS"].map((h, i) => (
+                    <div
+                      key={h}
+                      className="text-mono-label"
+                      style={{ padding: "10px 12px", fontSize: 11.5, color: "var(--fg-dim)", borderRight: i < 6 ? "1px solid var(--border-dim)" : "none" }}
+                    >
+                      {h}
+                    </div>
+                  ))}
+                </div>
 
               {filteredRows.map((r) => {
                 const isSel = r.id === selectedRow.id;
@@ -357,7 +358,7 @@ export default function BatchLivePage() {
                     onClick={() => setSelectedRowId(r.id)}
                     style={{
                       display: "grid",
-                      gridTemplateColumns: "40px 130px 1fr 140px 110px 80px 100px",
+                      gridTemplateColumns: "45px 140px 1fr 140px 110px 80px 110px",
                       borderTop: "1px solid var(--border-dim)",
                       backgroundColor: isSel ? "var(--bg-surface)" : "transparent",
                       borderLeft: `3px solid ${isSel ? "var(--accent)" : "transparent"}`,
@@ -412,6 +413,7 @@ export default function BatchLivePage() {
                 );
               })}
             </div>
+          </div>
 
             {/* ── RIGHT: Selected Row Deep Inspector ── */}
             <div style={{ padding: "24px 28px", display: "flex", flexDirection: "column", gap: 18, backgroundColor: "var(--bg-surface)", overflowY: "auto" }}>
@@ -439,8 +441,8 @@ export default function BatchLivePage() {
 
               {/* Raw Input Telemetry */}
               <div style={{ border: "1px solid var(--border)", padding: "14px", backgroundColor: "var(--bg-root)" }}>
-                <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--fg-dim)", marginBottom: 8 }}>
-                  [ RAW DISTRIBUTOR CATALOG INGESTION ]
+                <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--accent)", marginBottom: 8, fontWeight: 600 }}>
+                  Raw Distributor Catalog Ingestion
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                   <div className="text-mono-label" style={{ fontSize: 12 }}>
