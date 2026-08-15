@@ -135,6 +135,28 @@ async def test_failed_schema_routes_to_review() -> None:
     assert result.extract is not None
     assert result.extract.extraction_failed is True
     assert result.extract.flags[-1].code == "extraction_failed"
+    assert llm.calls == 2
+
+
+@pytest.mark.asyncio
+async def test_invalid_schema_retries_once_with_strict_reminder() -> None:
+    class SchemaRetryLLM:
+        def __init__(self) -> None:
+            self.prompts: list[str] = []
+
+        async def complete_json(self, system_prompt: str, user_prompt: str, schema: dict) -> dict:
+            self.prompts.append(system_prompt)
+            if len(self.prompts) == 1:
+                return {"attributes": [{"label": "Voltage Rating"}]}
+            return {"attributes": []}
+
+    llm = SchemaRetryLLM()
+    result = await run_extract_stage(classified_record(), llm, Settings())
+
+    assert result.extract is not None
+    assert result.extract.extraction_failed is False
+    assert len(llm.prompts) == 2
+    assert "previous response did not match" in llm.prompts[1]
 
 
 @pytest.mark.asyncio

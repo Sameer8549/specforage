@@ -37,6 +37,8 @@ class Settings(BaseSettings):
     groq_model: str = "openai/gpt-oss-20b"
     groq_api_key: SecretStr | None = Field(default=None, validation_alias="GROQ_API_KEY")
     llm_timeout_seconds: float = Field(default=30, gt=0)
+    llm_max_retries: int = Field(default=2, ge=0, le=2)
+    llm_retry_backoff_seconds: float = Field(default=0.5, ge=0, le=10)
     attribute_match_threshold: float = Field(default=0.90, ge=0, le=1)
     verification_confidence_threshold: float = Field(default=0.80, ge=0, le=1)
 

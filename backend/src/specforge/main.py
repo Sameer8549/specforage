@@ -51,6 +51,7 @@ class BatchRow:
     state: str = "pending"
     record: ItemRecord | None = None
     error: str | None = None
+    error_code: str | None = None
 
 
 @dataclass(slots=True)
@@ -79,6 +80,7 @@ class BatchJob:
                     "state": row.state,
                     "record": row.record,
                     "error": row.error,
+                    "error_code": row.error_code,
                 }
                 for row in self.row_states
             ],
@@ -180,6 +182,7 @@ async def _run_batch(job_id: UUID, pipeline: Pipeline) -> None:
             state.state = "completed"
         except Exception as exc:  # Per-row isolation is part of the batch contract.
             state.state = "failed"
+            state.error_code = "processing_error"
             state.error = str(exc)
         job.updated_at = datetime.now(timezone.utc)
     job.status = "completed_with_errors" if any(

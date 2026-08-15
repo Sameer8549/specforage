@@ -28,6 +28,8 @@ class OpenAICompatibleJSONClient:
         model: str,
         api_key: SecretStr,
         timeout_seconds: float,
+        max_retries: int,
+        retry_backoff_seconds: float,
         enable_thinking: bool | None,
         reasoning_budget: int | None = None,
         strict_schema: bool = False,
@@ -38,10 +40,13 @@ class OpenAICompatibleJSONClient:
         self.enable_thinking = enable_thinking
         self.reasoning_budget = reasoning_budget
         self.strict_schema = strict_schema
+        self.max_retries = max_retries
+        self.retry_backoff_seconds = retry_backoff_seconds
         self.client = OpenAI(
             base_url=base_url,
             api_key=api_key.get_secret_value(),
             timeout=timeout_seconds,
+            max_retries=0,
         )
 
     @property
@@ -83,10 +88,19 @@ class OpenAICompatibleJSONClient:
     async def complete_json(
         self, system_prompt: str, user_prompt: str, schema: dict[str, Any]
     ) -> dict[str, Any]:
-        try:
-            return await asyncio.to_thread(self._complete, system_prompt, user_prompt, schema)
-        except (OpenAIError, IndexError, TypeError, ValueError, json.JSONDecodeError) as exc:
-            raise LLMError(f"JSON completion failed for {self.model}") from exc
+        last_error: Exception | None = None
+        for attempt in range(self.max_retries + 1):
+            try:
+                return await asyncio.to_thread(
+                    self._complete, system_prompt, user_prompt, schema
+                )
+            except (OpenAIError, IndexError, TypeError, ValueError, json.JSONDecodeError) as exc:
+                last_error = exc
+                if attempt < self.max_retries:
+                    await asyncio.sleep(self.retry_backoff_seconds * (2**attempt))
+        raise LLMError(
+            f"JSON completion failed for {self.model} after {self.max_retries + 1} attempts"
+        ) from last_error
 
 
 class FallbackJSONLLM:
@@ -113,6 +127,8 @@ def _groq_fallback(settings: Settings) -> OpenAICompatibleJSONClient | None:
         model=settings.groq_model,
         api_key=settings.groq_api_key,
         timeout_seconds=settings.llm_timeout_seconds,
+        max_retries=settings.llm_max_retries,
+        retry_backoff_seconds=settings.llm_retry_backoff_seconds,
         enable_thinking=None,
         strict_schema=True,
     )
@@ -131,6 +147,8 @@ def build_extraction_llm(settings: Settings) -> FallbackJSONLLM:
         model=settings.nvidia_model,
         api_key=_require_nvidia_key(settings),
         timeout_seconds=settings.llm_timeout_seconds,
+        max_retries=settings.llm_max_retries,
+        retry_backoff_seconds=settings.llm_retry_backoff_seconds,
         enable_thinking=False,
         reasoning_budget=None,
         strict_schema=False,
@@ -144,6 +162,8 @@ def build_adjudication_llm(settings: Settings) -> FallbackJSONLLM:
         model=settings.nvidia_model,
         api_key=_require_nvidia_key(settings),
         timeout_seconds=settings.llm_timeout_seconds,
+        max_retries=settings.llm_max_retries,
+        retry_backoff_seconds=settings.llm_retry_backoff_seconds,
         enable_thinking=True,
         reasoning_budget=settings.adjudication_reasoning_budget,
         strict_schema=False,

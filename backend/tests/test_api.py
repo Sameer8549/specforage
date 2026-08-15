@@ -113,6 +113,7 @@ def test_batch_tracks_each_row_and_isolates_failures() -> None:
     assert result.json()["completed_rows"] == 1
     assert result.json()["failed_rows"] == 1
     assert [row["state"] for row in result.json()["rows"]] == ["completed", "failed"]
+    assert result.json()["rows"][1]["error_code"] == "processing_error"
     app.dependency_overrides.clear()
 
 

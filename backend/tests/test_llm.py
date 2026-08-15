@@ -3,7 +3,7 @@ from types import SimpleNamespace
 import pytest
 
 from specforge.config import Settings
-from specforge.llm import build_extraction_llm
+from specforge.llm import FallbackJSONLLM, build_extraction_llm
 
 
 def configured_settings(monkeypatch) -> Settings:
@@ -45,3 +45,59 @@ async def test_completion_is_non_streaming_and_uses_nested_extra_body(monkeypatc
     assert captured["extra_body"] == {
         "chat_template_kwargs": {"enable_thinking": False}
     }
+
+
+@pytest.mark.asyncio
+async def test_primary_retries_twice_with_exponential_backoff(monkeypatch) -> None:
+    client = build_extraction_llm(configured_settings(monkeypatch)).primary
+    calls = 0
+    delays: list[float] = []
+
+    def complete(*args):
+        nonlocal calls
+        calls += 1
+        if calls < 3:
+            raise ValueError("temporary invalid response")
+        return {"attributes": []}
+
+    async def sleep(delay: float) -> None:
+        delays.append(delay)
+
+    monkeypatch.setattr(client, "_complete", complete)
+    monkeypatch.setattr("specforge.llm.asyncio.sleep", sleep)
+
+    assert await client.complete_json("system", "user", {}) == {"attributes": []}
+    assert calls == 3
+    assert delays == [0.5, 1.0]
+
+
+@pytest.mark.asyncio
+async def test_fallback_runs_only_after_primary_retry_budget(monkeypatch) -> None:
+    settings = configured_settings(monkeypatch)
+    primary = build_extraction_llm(settings).primary
+    attempts = 0
+
+    def fail(*args):
+        nonlocal attempts
+        attempts += 1
+        raise ValueError("provider unavailable")
+
+    class Fallback:
+        calls = 0
+
+        async def complete_json(self, *args):
+            self.calls += 1
+            return {"attributes": []}
+
+    async def no_wait(delay: float) -> None:
+        return None
+
+    fallback = Fallback()
+    monkeypatch.setattr(primary, "_complete", fail)
+    monkeypatch.setattr("specforge.llm.asyncio.sleep", no_wait)
+
+    result = await FallbackJSONLLM(primary, fallback).complete_json("system", "user", {})
+
+    assert result == {"attributes": []}
+    assert attempts == 3
+    assert fallback.calls == 1
