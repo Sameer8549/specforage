@@ -85,7 +85,8 @@ class LLMClassificationTieBreaker:
                 ],
                 "instruction": (
                     "Select exactly one supplied commodity_code only when the description "
-                    "supports it. Otherwise return genuinely_ambiguous. Residential or consumer "
+                    "supports it. Reject a semantically implausible top embedding match even when "
+                    "it has no close runner-up. Otherwise return genuinely_ambiguous. Residential or consumer "
                     "appliance listings from a distributor catalog should default toward the "
                     "domestic/consumer-grade commodity unless the item description contains "
                     "explicit commercial or industrial evidence such as 'commercial', "
@@ -97,7 +98,7 @@ class LLMClassificationTieBreaker:
         )
         try:
             raw = await self.llm.complete_json(
-                "You resolve close UNSPSC classification ties without inventing evidence.",
+                "You validate UNSPSC candidates and resolve ties without inventing evidence.",
                 prompt,
                 schema,
             )
@@ -151,13 +152,22 @@ async def run_classify_stage(
 
     if selected is not None and len(ranked) > 1:
         close = selected[1] - ranked[1][1] <= settings.classification_tie_margin
-        if close:
+        low_score = selected[1] < settings.classification_sanity_threshold
+        if close or low_score:
             if tie_breaker is None:
                 selected = None
                 flags.append(
                     ReviewFlag(
-                        code="classification_tiebreak_unavailable",
-                        message="Top UNSPSC candidates are too close and no LLM tie-breaker is configured.",
+                        code=(
+                            "classification_tiebreak_unavailable"
+                            if close
+                            else "classification_sanity_check_unavailable"
+                        ),
+                        message=(
+                            "Top UNSPSC candidates are too close and no LLM tie-breaker is configured."
+                            if close
+                            else "The top UNSPSC score requires an LLM sanity check, but none is configured."
+                        ),
                         field="unspsc_code",
                         stage="classify",
                     )

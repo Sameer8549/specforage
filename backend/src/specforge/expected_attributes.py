@@ -10,6 +10,17 @@ from specforge.data import DatasetInfo, iter_csv_rows
 
 
 _ATTRIBUTE_LABEL = re.compile(r"^ATTRIBUTE_LABEL (\d+)$")
+GENERIC_EXPECTED_ATTRIBUTES = (
+    "Series",
+    "Model",
+    "Material",
+    "Color",
+    "Dimensions",
+    "Weight",
+    "Voltage Rating",
+    "Power Rating",
+    "Certification/Compliance",
+)
 
 
 def category_similarity(query: str, choice: str) -> float:
@@ -59,7 +70,7 @@ class ExpectedAttributeCatalog:
 
     def for_classification(self, classpath: str, minimum_score: float = 55.0) -> list[str]:
         if not self.patterns:
-            return []
+            return list(GENERIC_EXPECTED_ATTRIBUTES)
         paths = [pattern.classpath for pattern in self.patterns]
         match = process.extractOne(
             classpath,
@@ -67,5 +78,5 @@ class ExpectedAttributeCatalog:
             scorer=lambda query, choice, **_: category_similarity(query, choice),
         )
         if match is None or match[1] < minimum_score:
-            return []
+            return list(GENERIC_EXPECTED_ATTRIBUTES)
         return list(self.patterns[match[2]].attributes)

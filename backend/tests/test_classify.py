@@ -6,7 +6,10 @@ import pytest
 from specforge.config import Settings
 from specforge.contracts import CleanStage, InputStage, ItemRecord
 from specforge.data import load_catalog
-from specforge.expected_attributes import ExpectedAttributeCatalog
+from specforge.expected_attributes import (
+    GENERIC_EXPECTED_ATTRIBUTES,
+    ExpectedAttributeCatalog,
+)
 from specforge.stages.classify import (
     LLMClassificationTieBreaker,
     TieBreakDecision,
@@ -84,7 +87,19 @@ def test_expected_attributes_are_derived_from_ground_truth() -> None:
     result = attributes.for_classification(dishwasher().classpath)
     assert result[:3] == ["Series", "Model", "Number of Wash Cycles"]
     assert "Sound Level" in result
-    assert attributes.for_classification("Office Supplies>Paper Products>Envelopes") == []
+    assert attributes.for_classification(
+        "Office Supplies>Paper Products>Envelopes"
+    ) == list(GENERIC_EXPECTED_ATTRIBUTES)
+
+
+def test_category_specific_attributes_take_priority_over_generic_fallback() -> None:
+    attributes = ExpectedAttributeCatalog.from_ground_truth(
+        load_catalog(Settings()).ground_truth
+    )
+
+    assert attributes.for_classification(dishwasher().classpath)[0] == "Series"
+    assert "Number of Wash Cycles" in attributes.for_classification(dishwasher().classpath)
+    assert "Dimensions" not in attributes.for_classification(dishwasher().classpath)
 
 
 @pytest.mark.asyncio
@@ -151,6 +166,32 @@ async def test_close_candidates_invoke_only_the_injected_llm_tiebreaker() -> Non
     assert result.classify.tie_break_used is True
     assert result.classify.unspsc_code == dishwasher().commodity_code
     assert result.classify.tie_break_outcome == f"selected:{dishwasher().commodity_code}"
+
+
+@pytest.mark.asyncio
+async def test_low_score_top_candidate_invokes_llm_sanity_check_without_close_tie() -> None:
+    scored = [(dishwasher(), 0.70), (oven(), 0.50)]
+
+    class StubIndex:
+        def search(self, query: str, limit: int):
+            return scored
+
+    settings = Settings(
+        classification_tie_margin=0.03,
+        classification_sanity_threshold=0.75,
+    )
+    attributes = ExpectedAttributeCatalog.from_ground_truth(load_catalog(settings).ground_truth)
+    tie_breaker = FakeTieBreaker(dishwasher().commodity_code)
+    item = ItemRecord(input=InputStage(mfg_part_num="X", part_desc="Dishwasher"))
+
+    result = await run_classify_stage(
+        item, StubIndex(), attributes, settings, tie_breaker
+    )
+
+    assert tie_breaker.calls == 1
+    assert result.classify is not None
+    assert result.classify.tie_break_used is True
+    assert result.classify.unspsc_code == dishwasher().commodity_code
 
 
 @pytest.mark.asyncio

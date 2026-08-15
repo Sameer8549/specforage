@@ -26,6 +26,7 @@ class Settings(BaseSettings):
     manufacturer_match_threshold: float = Field(default=0.86, ge=0, le=1)
     brand_match_threshold: float = Field(default=0.86, ge=0, le=1)
     classification_threshold: float = Field(default=0.42, ge=0, le=1)
+    classification_sanity_threshold: float = Field(default=0.75, ge=0, le=1)
     classification_tie_margin: float = Field(default=0.03, ge=0, le=1)
     nvidia_base_url: str = "https://integrate.api.nvidia.com/v1"
     nvidia_model: str = "nvidia/nemotron-3.5-lightning-30b-a3b"
