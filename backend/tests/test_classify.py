@@ -28,9 +28,11 @@ class FakeTieBreaker:
     def __init__(self, code: str) -> None:
         self.code = code
         self.calls = 0
+        self.candidates: list[UNSPSCRecord] = []
 
     async def choose(self, query: str, candidates: list[UNSPSCRecord]) -> TieBreakDecision:
         self.calls += 1
+        self.candidates = list(candidates)
         return TieBreakDecision(commodity_code=self.code)
 
 
@@ -142,6 +144,49 @@ async def test_close_candidates_invoke_only_the_injected_llm_tiebreaker() -> Non
     assert result.classify.tie_break_used is True
     assert result.classify.unspsc_code == dishwasher().commodity_code
     assert result.classify.tie_break_outcome == f"selected:{dishwasher().commodity_code}"
+
+
+@pytest.mark.asyncio
+async def test_close_tie_retrieves_ten_and_supplies_expanded_llm_shortlist() -> None:
+    records = [
+        UNSPSCRecord(
+            "52000000",
+            "Consumer Products",
+            "52140000",
+            "Appliances",
+            "52141500",
+            "Kitchen appliances",
+            f"521415{index:02d}",
+            "Domestic dish washers" if index == 5 else f"Dishwasher candidate {index}",
+        )
+        for index in range(1, 11)
+    ]
+    scored = [
+        (record, 0.70 - (position * 0.012)) for position, record in enumerate(records)
+    ]
+
+    class StubIndex:
+        requested_limit = 0
+
+        def search(self, query: str, limit: int):
+            self.requested_limit = limit
+            return scored[:limit]
+
+    index = StubIndex()
+    settings = Settings(classification_tie_margin=0.03)
+    attributes = ExpectedAttributeCatalog.from_ground_truth(load_catalog(settings).ground_truth)
+    tie_breaker = FakeTieBreaker(records[4].commodity_code)
+    item = ItemRecord(input=InputStage(mfg_part_num="X", part_desc="Dishwasher SS"))
+
+    result = await run_classify_stage(item, index, attributes, settings, tie_breaker)
+
+    assert index.requested_limit == 10
+    assert result.classify is not None
+    assert len(result.classify.candidates) == 10
+    assert records[4].commodity_code in {
+        candidate.commodity_code for candidate in tie_breaker.candidates
+    }
+    assert result.classify.unspsc_code == records[4].commodity_code
 
 
 @pytest.mark.asyncio

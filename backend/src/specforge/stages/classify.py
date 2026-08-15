@@ -16,6 +16,9 @@ from specforge.unspsc import UNSPSCIndex, UNSPSCRecord
 
 
 GENUINELY_AMBIGUOUS = "genuinely_ambiguous"
+CLASSIFICATION_CANDIDATE_LIMIT = 10
+TIE_BREAK_MIN_CANDIDATES = 5
+TIE_BREAK_EXTRA_SCORE_BAND = 0.05
 
 
 @dataclass(frozen=True, slots=True)
@@ -100,7 +103,7 @@ async def run_classify_stage(
     # Product description is the classification evidence. MPNs and entity names commonly
     # behave as embedding noise and belong to their own resolution stages.
     query = classification_query(source.part_desc, source.mfg_part_num)
-    ranked = index.search(query, limit=3) if query else []
+    ranked = index.search(query, limit=CLASSIFICATION_CANDIDATE_LIMIT) if query else []
     candidates = [
         Candidate(value=f"{candidate.commodity_code} | {candidate.classpath}", confidence=max(0, min(1, score)))
         for candidate, score in ranked
@@ -125,13 +128,24 @@ async def run_classify_stage(
                 )
             else:
                 tie_break_used = True
+                expanded_band = settings.classification_tie_margin + TIE_BREAK_EXTRA_SCORE_BAND
+                tie_candidates = [
+                    candidate
+                    for position, candidate in enumerate(ranked)
+                    if position < TIE_BREAK_MIN_CANDIDATES
+                    or ranked[0][1] - candidate[1] <= expanded_band
+                ]
                 decision = await tie_breaker.choose(
                     source.part_desc or query,
-                    [candidate for candidate, _ in ranked[:2]],
+                    [candidate for candidate, _ in tie_candidates],
                 )
                 chosen_code = decision.commodity_code
                 selected = next(
-                    ((candidate, score) for candidate, score in ranked[:2] if candidate.commodity_code == chosen_code),
+                    (
+                        (candidate, score)
+                        for candidate, score in tie_candidates
+                        if candidate.commodity_code == chosen_code
+                    ),
                     None,
                 )
                 if selected is not None:
