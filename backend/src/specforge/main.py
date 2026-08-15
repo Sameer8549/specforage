@@ -269,11 +269,25 @@ async def evaluate(
         if character_denominator
         else None
     )
+    attribute_expected = sum(
+        record.audit.attribute_expected_fields for record in records if record.audit
+    )
+    attribute_produced = sum(
+        record.audit.attribute_produced_fields for record in records if record.audit
+    )
+    attribute_coverage = (
+        round(100 * attribute_produced / attribute_expected, 2)
+        if attribute_expected
+        else None
+    )
     return {
         "evaluated_rows": total,
         "accuracy": aggregate_accuracy(accuracy_rows),
         "vocabulary_compliance_percent": vocabulary_percent,
         "vocabulary_compliance_evaluated_fields": vocabulary_denominator,
+        "attribute_coverage_percent": attribute_coverage,
+        "attribute_produced_fields": attribute_produced,
+        "attribute_expected_fields": attribute_expected,
         "character_limit_compliance_percent": character_percent,
         "character_limit_compliant_fields": character_passed,
         "character_limit_evaluated_fields": character_denominator,

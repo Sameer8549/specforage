@@ -3,7 +3,11 @@ import pytest
 from specforge.config import Settings
 from specforge.contracts import CleanStage, InputStage, ItemRecord
 from specforge.data import load_catalog
-from specforge.manufacturer_lookup import MPNWebManufacturerLookup, ManufacturerLookupResult
+from specforge.manufacturer_lookup import (
+    MPNWebManufacturerLookup,
+    ManufacturerLookupResult,
+    manufacturer_retrieval_queries,
+)
 from specforge.stages.brand_resolution import (
     build_resolution_vocabularies,
     run_brand_resolution_stage,
@@ -24,6 +28,12 @@ def test_vocabulary_clusters_aliases_and_returns_three_candidates() -> None:
     ranked = vocabulary.rank("Acme Company")
     assert ranked[0][0].canonical_name == "Acme Corp"
     assert len(ranked) == 3
+
+
+def test_manufacturer_retrieval_adds_bare_mpn_fallback() -> None:
+    assert manufacturer_retrieval_queries(
+        "rheem.com", "site:rheem.com PDSH4816AF"
+    ) == ("site:rheem.com PDSH4816AF", '"PDSH4816AF"')
 
 
 def test_dataset_vocabularies_are_self_derived() -> None:

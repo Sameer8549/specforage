@@ -34,6 +34,9 @@ class FakePipeline:
                     accuracy=accuracy,
                     vocabulary_compliance_percent=90,
                     vocabulary_compliance_evaluated_fields=4,
+                    attribute_coverage_percent=50,
+                    attribute_produced_fields=2,
+                    attribute_expected_fields=4,
                     character_limit_compliance_percent=95,
                     character_limit_compliant_fields=19,
                     character_limit_evaluated_fields=20,
@@ -141,6 +144,9 @@ def test_eval_returns_required_aggregate_metrics() -> None:
     assert body["accuracy"]["overall"] == 80
     assert body["vocabulary_compliance_percent"] == 90
     assert body["vocabulary_compliance_evaluated_fields"] == 8
+    assert body["attribute_coverage_percent"] == 50
+    assert body["attribute_produced_fields"] == 4
+    assert body["attribute_expected_fields"] == 8
     assert body["character_limit_compliance_percent"] == 95
     assert body["character_limit_compliant_fields"] == 38
     assert body["character_limit_evaluated_fields"] == 40

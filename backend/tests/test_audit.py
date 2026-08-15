@@ -8,8 +8,10 @@ from specforge.contracts import (
     DescriptionStage,
     EntityResolution,
     EntailmentLabel,
+    ExtractStage,
     InputStage,
     ItemRecord,
+    NormalizeStage,
     Verification,
     VerifyStage,
 )
@@ -47,6 +49,8 @@ def complete_record() -> ItemRecord:
             confidence=0.9,
             expected_attributes=expected,
         ),
+        extract=ExtractStage(attributes=attributes),
+        normalize=NormalizeStage(attributes=attributes),
         verify=VerifyStage(results=verifications),
         adjudicate=AdjudicateStage(attributes=attributes),
         description=DescriptionStage(
@@ -78,6 +82,9 @@ def test_complete_supported_record_has_full_coverage() -> None:
     assert result.audit.total_fields == 11
     assert result.audit.vocabulary_compliance_percent == 100
     assert result.audit.vocabulary_compliance_evaluated_fields == 2
+    assert result.audit.attribute_coverage_percent == 100
+    assert result.audit.attribute_produced_fields == 2
+    assert result.audit.attribute_expected_fields == 2
     assert result.audit.character_limit_compliance_percent == 100
     assert result.audit.character_limit_compliant_fields == 6
     assert result.audit.character_limit_evaluated_fields == 6
@@ -181,3 +188,22 @@ def test_vocabulary_compliance_is_not_applicable_when_nothing_was_evaluated() ->
     assert audited is not None
     assert audited.vocabulary_compliance_percent is None
     assert audited.vocabulary_compliance_evaluated_fields == 0
+
+
+def test_missing_expected_attributes_reduce_coverage_not_vocabulary_compliance() -> None:
+    record = complete_record().model_copy(
+        update={
+            "classify": complete_record().classify.model_copy(
+                update={"expected_attributes": ["Voltage Rating", "Material", "Color"]}
+            )
+        }
+    )
+
+    audited = run_audit_stage(record, Settings()).audit
+
+    assert audited is not None
+    assert audited.vocabulary_compliance_percent == 100
+    assert audited.vocabulary_compliance_evaluated_fields == 2
+    assert audited.attribute_coverage_percent == 66.67
+    assert audited.attribute_produced_fields == 2
+    assert audited.attribute_expected_fields == 3

@@ -56,6 +56,17 @@ def _search_links(document: str) -> list[tuple[str, str]]:
     ]
 
 
+def manufacturer_retrieval_queries(domain: str, query: str) -> tuple[str, ...]:
+    """Broaden a site-restricted MPN query without relaxing its URL allowlist."""
+    queries = [query]
+    site_prefix = f"site:{normalized_domain(domain)} "
+    if query.casefold().startswith(site_prefix.casefold()):
+        mpn = query[len(site_prefix) :].strip()
+        if mpn:
+            queries.append(f'"{mpn}"')
+    return tuple(queries)
+
+
 class WebOfficialDomainResolver:
     """Resolve a likely official domain from a targeted manufacturer-name search."""
 
@@ -119,17 +130,24 @@ class WebManufacturerRetriever:
                 follow_redirects=True,
                 headers={"User-Agent": "SpecForge/0.1 product-data retriever"},
             ) as client:
-                search = await client.get(
-                    "https://html.duckduckgo.com/html/", params={"q": query}
-                )
-                search.raise_for_status()
-                links = [
-                    (url, title)
-                    for url, title in _search_links(search.text)
-                    if is_official_url(url, domain)
-                ][: self.max_results]
+                links: list[tuple[str, str]] = []
+                seen_urls: set[str] = set()
+                for search_query in manufacturer_retrieval_queries(domain, query):
+                    search = await client.get(
+                        "https://html.duckduckgo.com/html/",
+                        params={"q": search_query},
+                    )
+                    search.raise_for_status()
+                    for url, title in _search_links(search.text):
+                        if url not in seen_urls and is_official_url(url, domain):
+                            links.append((url, title))
+                            seen_urls.add(url)
+                            if len(links) >= self.max_results:
+                                break
+                    if links:
+                        break
                 excerpts: list[RetrievedExcerpt] = []
-                for url, title in links:
+                for url, title in links[: self.max_results]:
                     text = title
                     try:
                         page = await client.get(url)

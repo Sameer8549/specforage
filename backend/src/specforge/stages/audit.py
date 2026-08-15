@@ -50,6 +50,15 @@ def run_audit_stage(
     verified = {
         result.label: result for result in (record.verify.results if record.verify else [])
     }
+    extracted = {
+        attribute.label: attribute
+        for attribute in (record.extract.attributes if record.extract else [])
+        if attribute.value is not None
+    }
+    normalized = {
+        attribute.label: attribute
+        for attribute in (record.normalize.attributes if record.normalize else [])
+    }
     expected = record.classify.expected_attributes if record.classify else []
     compliance_total = 0
     compliance_passed = 0
@@ -66,9 +75,10 @@ def run_audit_stage(
             and verification.uom_compliant
         )
         status[f"attribute:{label}"] = okay
-        compliance_total += 1
-        if verification and verification.vocabulary_compliant and verification.uom_compliant:
-            compliance_passed += 1
+        if label in extracted and label in normalized:
+            compliance_total += 1
+            if verification and verification.vocabulary_compliant:
+                compliance_passed += 1
         if not okay:
             flags.append(
                 make_unresolved_flag(
@@ -104,6 +114,10 @@ def run_audit_stage(
     vocabulary_compliance = (
         round(100 * compliance_passed / compliance_total, 2) if compliance_total else None
     )
+    attribute_produced = sum(label in extracted for label in expected)
+    attribute_coverage = (
+        round(100 * attribute_produced / len(expected), 2) if expected else None
+    )
     character_compliance = (
         round(100 * description_compliant_count / description_evaluated, 2)
         if description_evaluated
@@ -129,6 +143,9 @@ def run_audit_stage(
                 field_status=status,
                 vocabulary_compliance_percent=vocabulary_compliance,
                 vocabulary_compliance_evaluated_fields=compliance_total,
+                attribute_coverage_percent=attribute_coverage,
+                attribute_produced_fields=attribute_produced,
+                attribute_expected_fields=len(expected),
                 character_limit_compliance_percent=character_compliance,
                 character_limit_compliant_fields=description_compliant_count,
                 character_limit_evaluated_fields=description_evaluated,
