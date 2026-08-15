@@ -124,6 +124,21 @@ def classification_query(part_desc: str | None, mfg_part_num: str | None) -> str
     if mfg_part_num:
         query = re.sub(re.escape(mfg_part_num), " ", query, flags=re.IGNORECASE)
     query = re.sub(r"\bdisplay\s+only\b", " ", query, flags=re.IGNORECASE)
+    query = re.sub(
+        r"\bcut\s*(?:n|and)\s*grind\s+disc\b",
+        "abrasive cutting grinding disc",
+        query,
+        flags=re.IGNORECASE,
+    )
+    query = re.sub(r"\bpatio\s+dr\b", "patio door", query, flags=re.IGNORECASE)
+    if re.search(r"\bpatio\s+door\b", query, flags=re.IGNORECASE) and re.search(
+        r"\blow-?e\b", query, flags=re.IGNORECASE
+    ):
+        query = f"{query} glass door"
+    if re.search(r"\bSJ(?:E|EO|T|TO|TW|EOW|EW)A?\b", query, flags=re.IGNORECASE):
+        query = f"{query} portable electrical cord"
+    if re.search(r"\b\d{2}(?:\s*in\b|\").*\bfan\b", query, flags=re.IGNORECASE):
+        query = f"{query} ceiling fan"
     query = re.sub(r"\s+", " ", query).strip(" -_,")
     return query
 

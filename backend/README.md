@@ -13,7 +13,7 @@ python -m venv .venv
 
 The data loader validates headers and row counts at application startup. Paths and expected counts can be overridden with the environment variables shown in `.env.example`.
 
-The Classify stage uses the bundled 71,502-commodity UNSPSC hierarchy and a memory-mapped 5,313-class BGE-small float16 index (approximately 4 MB). Concrete commodities are resolved within the embedded class candidates. Run `python scripts/build_unspsc_index.py` from `backend/` to rebuild the matrix after replacing the taxonomy.
+The Classify stage loads all 71,502 bundled UNSPSC commodities and uses a memory-mapped 5,313-class BGE-small float16 index (approximately 4 MB). Class vectors contain the full segment/family/class hierarchy; classification searches a broad semantic class pool and also performs global lexical retrieval across every commodity title. Run `python scripts/build_unspsc_index.py` from `backend/` to rebuild the matrix after replacing the taxonomy.
 
 ## Supplied data
 

@@ -80,6 +80,28 @@ def _commodity_score(query: str, choice: str, **_: object) -> float:
     return max(scores, default=0.0)
 
 
+def _choice_token_coverage_score(query: str, choice: str, **_: object) -> float:
+    """Reward commodity phrases whose meaningful tokens are all present in the query."""
+
+    query_tokens = [token for token in _WORDS.findall(query.casefold()) if len(token) >= 3]
+    choice_tokens = [token for token in _WORDS.findall(choice.casefold()) if len(token) >= 3]
+    if not choice_tokens:
+        return 0.0
+    matched = sum(
+        any(
+            query_token == choice_token
+            or (
+                len(query_token) >= 4
+                and len(choice_token) >= 4
+                and query_token[:4] == choice_token[:4]
+            )
+            for query_token in query_tokens
+        )
+        for choice_token in choice_tokens
+    )
+    return 100.0 * matched / len(choice_tokens)
+
+
 class EmbeddingBackend(Protocol):
     def embed(self, texts: Sequence[str]) -> np.ndarray: ...
 
@@ -182,7 +204,11 @@ class UNSPSCIndex:
         query_vector = self.embedder.embed([query])[0].astype(np.float32, copy=False)
         matrix = np.asarray(self.embeddings, dtype=np.float32)
         class_scores = matrix @ query_vector
-        class_count = min(8, class_scores.size)
+        # A narrow class gate can hide the correct commodity even though all 71,502
+        # commodities are loaded (for example, "miter saw" behind a weak power-tools
+        # class embedding). Keep a broad semantic class pool within the same compact
+        # 5,313-class index, then let commodity evidence perform the final ranking.
+        class_count = min(128, class_scores.size)
         top_classes = np.argpartition(class_scores, -class_count)[-class_count:]
 
         commodity_pool: dict[str, tuple[UNSPSCRecord, float]] = {}
@@ -198,15 +224,39 @@ class UNSPSCIndex:
 
         # Global lexical retrieval makes concrete commodity nouns available even when a broad
         # class embedding is ambiguous (for example, dishwasher vs mechanical washers).
-        lexical_global = process.extract(
-            query, self._commodity_names, scorer=_commodity_score, limit=max(12, limit)
+        lexical_limit = max(50, limit * 5)
+        prefix_global = process.extract(
+            query,
+            self._commodity_names,
+            scorer=_commodity_score,
+            limit=lexical_limit,
         )
-        for _, lexical_score, record_index in lexical_global:
+        phrase_global = process.extract(
+            query,
+            self._commodity_names,
+            scorer=_choice_token_coverage_score,
+            limit=lexical_limit,
+        )
+        for _, lexical_score, record_index in prefix_global:
             if lexical_score <= 0:
                 continue
             record = self.records[record_index]
             class_score = float(class_scores[self._class_index[record.class_code]])
-            combined = 0.7 * class_score + 0.3 * (lexical_score / 100.0)
+            lexical_confidence = lexical_score / 100.0
+            combined = 0.7 * class_score + 0.3 * lexical_confidence
+            current = commodity_pool.get(record.commodity_code)
+            if current is None or combined > current[1]:
+                commodity_pool[record.commodity_code] = (record, combined)
+        for _, lexical_score, record_index in phrase_global:
+            if lexical_score <= 0:
+                continue
+            record = self.records[record_index]
+            class_score = float(class_scores[self._class_index[record.class_code]])
+            lexical_confidence = lexical_score / 100.0
+            combined = max(
+                0.7 * class_score + 0.3 * lexical_confidence,
+                0.85 * lexical_confidence,
+            )
             current = commodity_pool.get(record.commodity_code)
             if current is None or combined > current[1]:
                 commodity_pool[record.commodity_code] = (record, combined)

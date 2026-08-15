@@ -78,6 +78,46 @@ def test_bundled_unspsc_taxonomy_validates() -> None:
 
     assert len(records) == 71502
     assert all(len(record.commodity_code) == 8 for record in records)
+    by_code = {record.commodity_code: record for record in records}
+    assert by_code["27112748"].commodity_name == "Miter saw"
+    assert by_code["31191506"].commodity_name == "Abrasive discs"
+    assert by_code["30171501"].class_name == "Doors"
+    assert by_code["26121545"].commodity_name == "Portable electrical cord"
+    assert by_code["40101609"].commodity_name == "Ceiling fan"
+
+
+def test_global_commodity_match_survives_a_weak_semantic_class_score() -> None:
+    records = [
+        UNSPSCRecord(
+            "27000000",
+            "Tools",
+            f"2711{index:04d}",
+            f"Family {index}",
+            f"2712{index:04d}",
+            f"Class {index}",
+            f"2799{index:04d}",
+            f"Unrelated commodity {index}",
+        )
+        for index in range(129)
+    ]
+    records.append(
+        UNSPSCRecord(
+            "27000000",
+            "Tools and General Machinery",
+            "27110000",
+            "Hand tools",
+            "27112700",
+            "Power tools",
+            "27112748",
+            "Miter saw",
+        )
+    )
+    matrix = np.asarray([[1.0, 0.0]] * 129 + [[0.0, 1.0]], dtype=np.float16)
+    index = UNSPSCIndex(records, matrix, FakeEmbedder([1.0, 0.0]))
+
+    result = index.search("Dewalt 20V miter saw", limit=10)
+
+    assert any(record.commodity_code == "27112748" for record, _ in result)
 
 
 def test_expected_attributes_are_derived_from_ground_truth() -> None:
@@ -127,6 +167,16 @@ def test_classification_query_removes_identifier_and_display_noise() -> None:
     assert (
         classification_query("WDTS7024RZ Dishwasher SS - Display Only", "WDTS7024RZ")
         == "Dishwasher SS"
+    )
+
+
+def test_classification_query_expands_grounded_catalog_shorthand() -> None:
+    assert "patio door" in classification_query("1517602 Patio Dr LowE", "1517602")
+    assert "portable electrical cord" in classification_query(
+        "23346 Wire 16/3 SJEWA", "23346"
+    )
+    assert "abrasive cutting grinding disc" in classification_query(
+        "X Cut n Grind Disc", "X"
     )
 
 
