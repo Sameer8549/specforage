@@ -3,7 +3,7 @@ import pytest
 from specforge.config import Settings
 from specforge.contracts import CleanStage, InputStage, ItemRecord
 from specforge.data import load_catalog
-from specforge.manufacturer_lookup import ManufacturerLookupResult
+from specforge.manufacturer_lookup import MPNWebManufacturerLookup, ManufacturerLookupResult
 from specforge.stages.brand_resolution import (
     build_resolution_vocabularies,
     run_brand_resolution_stage,
@@ -130,6 +130,54 @@ async def test_brandless_record_attempts_mpn_lookup_before_distributor_field() -
         flag.code == "low_confidence_distributor_field_used"
         for flag in result.brand_resolution.flags
     )
+
+
+@pytest.mark.asyncio
+async def test_mpn_lookup_caches_successful_result_by_normalized_part_number() -> None:
+    settings = Settings()
+    vocabularies = build_resolution_vocabularies(load_catalog(settings))
+    lookup = MPNWebManufacturerLookup(
+        vocabularies.manufacturers,
+        vocabularies.brands,
+        vocabularies.brand_manufacturers,
+    )
+    calls = 0
+
+    async def fake_live_lookup(mfg_part_num: str, part_desc: str | None):
+        nonlocal calls
+        calls += 1
+        return ManufacturerLookupResult("Whirlpool Corporation", 0.93)
+
+    lookup._lookup_uncached = fake_live_lookup  # type: ignore[method-assign]
+
+    first = await lookup.lookup("WDTS-7024RZ", "Dishwasher")
+    second = await lookup.lookup("wdts 7024rz", "Different description")
+
+    assert first == second == ManufacturerLookupResult("Whirlpool Corporation", 0.93)
+    assert calls == 1
+
+
+@pytest.mark.asyncio
+async def test_mpn_lookup_caches_no_result_for_repeatable_fallback() -> None:
+    settings = Settings()
+    vocabularies = build_resolution_vocabularies(load_catalog(settings))
+    lookup = MPNWebManufacturerLookup(
+        vocabularies.manufacturers,
+        vocabularies.brands,
+        vocabularies.brand_manufacturers,
+    )
+    calls = 0
+
+    async def fake_live_lookup(mfg_part_num: str, part_desc: str | None):
+        nonlocal calls
+        calls += 1
+        return None
+
+    lookup._lookup_uncached = fake_live_lookup  # type: ignore[method-assign]
+
+    assert await lookup.lookup("PDSH4816AF", "Dishwasher") is None
+    assert await lookup.lookup("pdsh4816af", "Changed description") is None
+    assert calls == 1
 
 
 @pytest.mark.asyncio

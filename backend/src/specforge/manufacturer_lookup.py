@@ -1,5 +1,6 @@
 """MPN web-search lookup used when catalog brand evidence is absent."""
 
+import asyncio
 import html
 import re
 from dataclasses import dataclass
@@ -158,10 +159,17 @@ class MPNWebManufacturerLookup:
         self.brands = brands
         self.brand_manufacturers = brand_manufacturers
         self.timeout_seconds = timeout_seconds
+        self._cache: dict[str, ManufacturerLookupResult | None] = {}
+        self._cache_lock = asyncio.Lock()
 
-    async def lookup(
+    @staticmethod
+    def _cache_key(mfg_part_num: str) -> str:
+        return re.sub(r"[^a-z0-9]+", "", mfg_part_num.casefold())
+
+    async def _lookup_uncached(
         self, mfg_part_num: str, part_desc: str | None
     ) -> ManufacturerLookupResult | None:
+        """Perform one live lookup. Callers should normally use ``lookup``."""
         query = f'"{mfg_part_num}" manufacturer brand {part_desc or ""}'.strip()
         try:
             async with httpx.AsyncClient(
@@ -175,6 +183,12 @@ class MPNWebManufacturerLookup:
                 response.raise_for_status()
         except httpx.HTTPError:
             return None
+        return self._resolve_response(response)
+
+    def _resolve_response(
+        self, response: httpx.Response
+    ) -> ManufacturerLookupResult | None:
+        """Resolve a manufacturer from deterministic search-response evidence."""
         fragments = [
             html.unescape(_HTML_TAG.sub(" ", fragment))
             for fragment in _RESULT_TEXT.findall(response.text)
@@ -207,3 +221,20 @@ class MPNWebManufacturerLookup:
             if score >= 0.86
             else None
         )
+
+    async def lookup(
+        self, mfg_part_num: str, part_desc: str | None
+    ) -> ManufacturerLookupResult | None:
+        key = self._cache_key(mfg_part_num)
+        if not key:
+            return None
+        if key in self._cache:
+            return self._cache[key]
+        # Serialize cache misses so concurrent requests for one MPN cannot race and
+        # commit different live-search answers to the same pipeline instance.
+        async with self._cache_lock:
+            if key in self._cache:
+                return self._cache[key]
+            result = await self._lookup_uncached(mfg_part_num, part_desc)
+            self._cache[key] = result
+            return result
