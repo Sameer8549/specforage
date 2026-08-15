@@ -77,12 +77,18 @@ def run_audit_stage(
                 )
             )
 
-    description_compliant = bool(
-        record.description and record.description.character_limit_compliant
-    )
+    description_evaluated = 0
+    description_compliant_count = 0
     for delivery_field, contract_field in DESCRIPTION_FIELD_MAP.items():
         value = getattr(record.description, contract_field) if record.description else None
-        okay = bool(value) and description_compliant
+        okay = bool(
+            value
+            and record.description
+            and record.description.field_compliance.get(delivery_field, False)
+        )
+        if value:
+            description_evaluated += 1
+            description_compliant_count += int(okay)
         status[f"description:{delivery_field}"] = okay
         if not okay:
             flags.append(
@@ -98,11 +104,11 @@ def run_audit_stage(
     vocabulary_compliance = (
         round(100 * compliance_passed / compliance_total, 2) if compliance_total else None
     )
-    description_total = len(DESCRIPTION_FIELD_MAP)
-    description_passed = sum(
-        status[f"description:{field}"] for field in DESCRIPTION_FIELD_MAP
+    character_compliance = (
+        round(100 * description_compliant_count / description_evaluated, 2)
+        if description_evaluated
+        else None
     )
-    character_compliance = round(100 * description_passed / description_total, 2)
 
     accuracy = None
     gaps: list[str] = []
@@ -124,6 +130,8 @@ def run_audit_stage(
                 vocabulary_compliance_percent=vocabulary_compliance,
                 vocabulary_compliance_evaluated_fields=compliance_total,
                 character_limit_compliance_percent=character_compliance,
+                character_limit_compliant_fields=description_compliant_count,
+                character_limit_evaluated_fields=description_evaluated,
                 routed_to_review=routed,
                 gap_report=gaps,
                 flags=flags,

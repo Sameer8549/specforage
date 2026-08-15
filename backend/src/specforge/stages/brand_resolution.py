@@ -13,7 +13,7 @@ from specforge.contracts import (
     ReviewFlag,
 )
 from specforge.data import DatasetCatalog, iter_csv_rows
-from specforge.manufacturer_lookup import ManufacturerLookup
+from specforge.manufacturer_lookup import ManufacturerLookup, OfficialDomainResolver
 from specforge.stages.clean import clean_optional, run_clean_stage
 from specforge.vocabulary import EntityVocabulary, VocabularyEntry, entity_key
 
@@ -96,6 +96,7 @@ async def run_brand_resolution_stage(
     vocabularies: ResolutionVocabularies,
     settings: Settings,
     manufacturer_lookup: ManufacturerLookup | None = None,
+    domain_resolver: OfficialDomainResolver | None = None,
 ) -> ItemRecord:
     cleaned_record = record if record.clean is not None else run_clean_stage(record)
     clean = cleaned_record.clean
@@ -155,6 +156,15 @@ async def run_brand_resolution_stage(
             )
             manufacturer_source = "part_manuf_fallback"
             used_distributor_fallback = True
+    manufacturer_domain = None
+    if (
+        manufacturer.canonical_name
+        and manufacturer.confidence >= settings.manufacturer_match_threshold
+        and domain_resolver is not None
+    ):
+        manufacturer_domain = await domain_resolver.resolve(
+            manufacturer.canonical_name
+        )
     flags: list[ReviewFlag] = []
     if manufacturer.canonical_name is None or (
         manufacturer.confidence < settings.manufacturer_match_threshold
@@ -213,6 +223,7 @@ async def run_brand_resolution_stage(
                 brand=brand,
                 manufacturer_source=manufacturer_source,
                 mpn_lookup_attempted=mpn_lookup_attempted,
+                manufacturer_domain=manufacturer_domain,
                 flags=flags,
             ),
             "updated_at": datetime.now(timezone.utc),

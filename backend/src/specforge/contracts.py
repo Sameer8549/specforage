@@ -141,6 +141,7 @@ class DescriptionStage(ContractModel):
     retail_desc: str | None = None
     marketing_description: str | None = None
     character_limit_compliant: bool = True
+    field_compliance: dict[str, bool] = Field(default_factory=dict)
     flags: list[ReviewFlag] = Field(default_factory=list)
 
 
@@ -153,7 +154,9 @@ class AuditStage(ContractModel):
     field_status: dict[str, bool] = Field(default_factory=dict)
     vocabulary_compliance_percent: float | None = Field(default=None, ge=0, le=100)
     vocabulary_compliance_evaluated_fields: int = Field(default=0, ge=0)
-    character_limit_compliance_percent: float = Field(default=0, ge=0, le=100)
+    character_limit_compliance_percent: float | None = Field(default=None, ge=0, le=100)
+    character_limit_compliant_fields: int = Field(default=0, ge=0)
+    character_limit_evaluated_fields: int = Field(default=0, ge=0)
     routed_to_review: bool = False
     gap_report: list[str] = Field(default_factory=list)
     flags: list[ReviewFlag] = Field(default_factory=list)

@@ -35,6 +35,8 @@ class FakePipeline:
                     vocabulary_compliance_percent=90,
                     vocabulary_compliance_evaluated_fields=4,
                     character_limit_compliance_percent=95,
+                    character_limit_compliant_fields=19,
+                    character_limit_evaluated_fields=20,
                     routed_to_review=True,
                     needs_human_review=True,
                     gap_report=["Known ground-truth gap"] if ground_truth_row else [],
@@ -140,6 +142,8 @@ def test_eval_returns_required_aggregate_metrics() -> None:
     assert body["vocabulary_compliance_percent"] == 90
     assert body["vocabulary_compliance_evaluated_fields"] == 8
     assert body["character_limit_compliance_percent"] == 95
+    assert body["character_limit_compliant_fields"] == 38
+    assert body["character_limit_evaluated_fields"] == 40
     assert body["routed_to_review_percent"] == 100
     assert len(body["gap_report"]) == 2
     app.dependency_overrides.clear()

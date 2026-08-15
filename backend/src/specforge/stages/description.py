@@ -135,6 +135,14 @@ def run_description_stage(
         and len(long_desc) <= limits.long
         and len(retail) <= limits.retail
     )
+    field_compliance = {
+        "MOBILE_DESC": bool(mobile) and 60 <= len(mobile) <= limits.mobile,
+        "INVOICE_DESC": bool(invoice) and len(invoice) <= limits.invoice,
+        "SHORT_DESC": bool(short) and len(short) <= limits.short,
+        "LONG_DESC1": bool(long_desc) and len(long_desc) <= limits.long,
+        "RETAIL_DESC": bool(retail) and len(retail) <= limits.retail,
+        "MARKETING_DESCRIPTION": False,
+    }
     return record.model_copy(
         update={
             "description": DescriptionStage(
@@ -145,6 +153,7 @@ def run_description_stage(
                 retail_desc=retail or None,
                 marketing_description=None,
                 character_limit_compliant=compliant,
+                field_compliance=field_compliance,
                 flags=flags,
             ),
             "updated_at": datetime.now(timezone.utc),

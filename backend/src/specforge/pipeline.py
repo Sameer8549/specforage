@@ -9,7 +9,14 @@ from specforge.data import DatasetCatalog, load_catalog
 from specforge.descriptions import DescriptionFormulaCatalog
 from specforge.expected_attributes import ExpectedAttributeCatalog
 from specforge.llm import JSONLLM, LLMError, build_adjudication_llm, build_extraction_llm
-from specforge.manufacturer_lookup import MPNWebManufacturerLookup, ManufacturerLookup
+from specforge.manufacturer_lookup import (
+    MPNWebManufacturerLookup,
+    ManufacturerLookup,
+    OfficialDomainResolver,
+    WebManufacturerRetriever,
+    WebOfficialDomainResolver,
+)
+from specforge.retrieval import ManufacturerRetriever
 from specforge.normalization import AttributeVocabulary
 from specforge.stages.adjudicate import run_adjudicate_stage
 from specforge.stages.audit import run_audit_stage
@@ -54,6 +61,8 @@ class Pipeline:
     extraction_llm: JSONLLM
     adjudication_llm: JSONLLM
     manufacturer_lookup: ManufacturerLookup
+    domain_resolver: OfficialDomainResolver
+    manufacturer_retriever: ManufacturerRetriever
 
     async def process(
         self, record: ItemRecord, ground_truth_row: dict[str, str] | None = None
@@ -64,6 +73,7 @@ class Pipeline:
             self.resolution_vocabularies,
             self.settings,
             self.manufacturer_lookup,
+            self.domain_resolver,
         )
         current = await run_classify_stage(
             current,
@@ -72,7 +82,12 @@ class Pipeline:
             self.settings,
             LLMClassificationTieBreaker(self.extraction_llm),
         )
-        current = await run_extract_stage(current, self.extraction_llm, self.settings)
+        current = await run_extract_stage(
+            current,
+            self.extraction_llm,
+            self.settings,
+            self.manufacturer_retriever,
+        )
         current = run_normalize_stage(current, self.attribute_vocabulary, self.settings)
         current = await run_verify_stage(current, self.extraction_llm)
         current = await run_adjudicate_stage(current, self.adjudication_llm)
@@ -105,4 +120,6 @@ def build_pipeline(settings: Settings, catalog: DatasetCatalog | None = None) ->
             resolution_vocabularies.brands,
             resolution_vocabularies.brand_manufacturers,
         ),
+        domain_resolver=WebOfficialDomainResolver(),
+        manufacturer_retriever=WebManufacturerRetriever(),
     )

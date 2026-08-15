@@ -80,6 +80,14 @@ def test_whirlpool_descriptions_follow_ground_truth_grammar() -> None:
     )
     assert result.description.marketing_description is None
     assert result.description.character_limit_compliant is True
+    assert result.description.field_compliance == {
+        "MOBILE_DESC": True,
+        "INVOICE_DESC": True,
+        "SHORT_DESC": True,
+        "LONG_DESC1": True,
+        "RETAIL_DESC": True,
+        "MARKETING_DESCRIPTION": False,
+    }
 
 
 def test_cycle_count_branch_uses_depth_as_invoice_differentiator() -> None:
@@ -133,6 +141,8 @@ def test_sparse_values_are_not_padded_or_invented() -> None:
     assert result.mobile_desc == "Dishwasher, X1"
     assert result.marketing_description is None
     assert result.character_limit_compliant is False
+    assert result.field_compliance["MOBILE_DESC"] is False
+    assert result.field_compliance["INVOICE_DESC"] is True
     assert {flag.code for flag in result.flags} == {"mobile_description_below_target"}
 
 

@@ -95,9 +95,17 @@ async def test_brandless_record_attempts_mpn_lookup_before_distributor_field() -
             assert mfg_part_num == "WDTS7024RZ"
             return ManufacturerLookupResult("Whirlpool Corporation", 0.93)
 
+    class DomainResolver:
+        calls: list[str] = []
+
+        async def resolve(self, manufacturer: str) -> str | None:
+            self.calls.append(manufacturer)
+            return "whirlpool.com"
+
     settings = Settings()
     vocabularies = build_resolution_vocabularies(load_catalog(settings))
     lookup = Lookup()
+    domain_resolver = DomainResolver()
     record = ItemRecord(
         input=InputStage(mfg_part_num="WDTS7024RZ", part_desc="Dishwasher"),
         clean=CleanStage(
@@ -107,13 +115,17 @@ async def test_brandless_record_attempts_mpn_lookup_before_distributor_field() -
         ),
     )
 
-    result = await run_brand_resolution_stage(record, vocabularies, settings, lookup)
+    result = await run_brand_resolution_stage(
+        record, vocabularies, settings, lookup, domain_resolver
+    )
 
     assert lookup.calls == 1
     assert result.brand_resolution is not None
     assert result.brand_resolution.manufacturer.canonical_name == "Whirlpool Corporation"
     assert result.brand_resolution.manufacturer_source == "mpn_web_lookup"
     assert result.brand_resolution.mpn_lookup_attempted is True
+    assert result.brand_resolution.manufacturer_domain == "whirlpool.com"
+    assert domain_resolver.calls == ["Whirlpool Corporation"]
     assert not any(
         flag.code == "low_confidence_distributor_field_used"
         for flag in result.brand_resolution.flags

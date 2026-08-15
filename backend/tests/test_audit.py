@@ -57,6 +57,14 @@ def complete_record() -> ItemRecord:
             retail_desc="Dishwasher, Stainless Steel",
             marketing_description="Factual sourced description",
             character_limit_compliant=True,
+            field_compliance={
+                "MOBILE_DESC": True,
+                "INVOICE_DESC": True,
+                "SHORT_DESC": True,
+                "LONG_DESC1": True,
+                "RETAIL_DESC": True,
+                "MARKETING_DESCRIPTION": True,
+            },
         ),
     )
 
@@ -71,6 +79,8 @@ def test_complete_supported_record_has_full_coverage() -> None:
     assert result.audit.vocabulary_compliance_percent == 100
     assert result.audit.vocabulary_compliance_evaluated_fields == 2
     assert result.audit.character_limit_compliance_percent == 100
+    assert result.audit.character_limit_compliant_fields == 6
+    assert result.audit.character_limit_evaluated_fields == 6
     assert result.audit.routed_to_review is False
 
 

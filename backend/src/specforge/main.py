@@ -257,18 +257,26 @@ async def evaluate(
         if vocabulary_denominator
         else None
     )
+    character_audits = [record.audit for record in records if record.audit]
+    character_denominator = sum(
+        audit.character_limit_evaluated_fields for audit in character_audits
+    )
+    character_passed = sum(
+        audit.character_limit_compliant_fields for audit in character_audits
+    )
+    character_percent = (
+        round(100 * character_passed / character_denominator, 2)
+        if character_denominator
+        else None
+    )
     return {
         "evaluated_rows": total,
         "accuracy": aggregate_accuracy(accuracy_rows),
         "vocabulary_compliance_percent": vocabulary_percent,
         "vocabulary_compliance_evaluated_fields": vocabulary_denominator,
-        "character_limit_compliance_percent": round(
-            sum(record.audit.character_limit_compliance_percent for record in records if record.audit)
-            / total,
-            2,
-        )
-        if total
-        else 0.0,
+        "character_limit_compliance_percent": character_percent,
+        "character_limit_compliant_fields": character_passed,
+        "character_limit_evaluated_fields": character_denominator,
         "routed_to_review_percent": round(
             100 * sum(bool(record.audit and record.audit.routed_to_review) for record in records)
             / total,
