@@ -8,6 +8,14 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 BACKEND_ROOT = Path(__file__).resolve().parents[2]
 
 
+def _default_data_root() -> Path:
+    """Prefer an uploaded app root over the installed wheel location."""
+    working_directory = Path.cwd()
+    if (working_directory / "data").is_dir():
+        return working_directory
+    return BACKEND_ROOT
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=BACKEND_ROOT / ".env",
@@ -16,6 +24,7 @@ class Settings(BaseSettings):
     )
 
     env: str = "development"
+    data_root: Path = Field(default_factory=_default_data_root)
     cors_origins: str = "http://localhost:3000,http://127.0.0.1:3000"
     working_dataset: Path = Field(default=Path("data/sample_1000_items.csv"))
     ground_truth_dataset: Path = Field(default=Path("data/ground_truth.csv"))
@@ -45,7 +54,7 @@ class Settings(BaseSettings):
     verification_confidence_threshold: float = Field(default=0.80, ge=0, le=1)
 
     def resolve_data_path(self, path: Path) -> Path:
-        return path if path.is_absolute() else BACKEND_ROOT / path
+        return path if path.is_absolute() else self.data_root / path
 
     @property
     def allowed_cors_origins(self) -> list[str]:
