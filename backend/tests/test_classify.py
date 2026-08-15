@@ -314,3 +314,31 @@ async def test_llm_tiebreaker_can_explicitly_return_genuinely_ambiguous() -> Non
         genuinely_ambiguous=True,
         reasoning="Insufficient evidence.",
     )
+
+
+@pytest.mark.asyncio
+async def test_llm_tiebreaker_reports_disallowed_decision_without_calling_it_validation() -> None:
+    class FakeLLM:
+        async def complete_json(self, system_prompt: str, user_prompt: str, schema: dict) -> dict:
+            return {"decision": "99999999", "reasoning": "Wrong candidate."}
+
+    decision = await LLMClassificationTieBreaker(FakeLLM()).choose(
+        "Dishwasher", [dishwasher(), oven()]
+    )
+
+    assert decision.failure_kind == "disallowed_decision"
+    assert "99999999" in (decision.reasoning or "")
+
+
+@pytest.mark.asyncio
+async def test_llm_tiebreaker_distinguishes_schema_validation_failure() -> None:
+    class FakeLLM:
+        async def complete_json(self, system_prompt: str, user_prompt: str, schema: dict) -> dict:
+            return {"decision": dishwasher().commodity_code}
+
+    decision = await LLMClassificationTieBreaker(FakeLLM()).choose(
+        "Dishwasher", [dishwasher(), oven()]
+    )
+
+    assert decision.failure_kind == "validation_error"
+    assert "reasoning" in (decision.reasoning or "")

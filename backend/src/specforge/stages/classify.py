@@ -26,6 +26,7 @@ class TieBreakDecision:
     commodity_code: str | None
     genuinely_ambiguous: bool = False
     reasoning: str | None = None
+    failure_kind: str | None = None
 
 
 class ClassificationTieBreaker(Protocol):
@@ -103,8 +104,18 @@ class LLMClassificationTieBreaker:
                 schema,
             )
             payload = TieBreakPayload.model_validate(raw)
-        except (LLMError, ValidationError):
-            return TieBreakDecision(commodity_code=None)
+        except LLMError as exc:
+            return TieBreakDecision(
+                commodity_code=None,
+                reasoning=str(exc),
+                failure_kind="llm_error",
+            )
+        except ValidationError as exc:
+            return TieBreakDecision(
+                commodity_code=None,
+                reasoning=f"Tie-break response failed schema validation: {exc}",
+                failure_kind="validation_error",
+            )
         if payload.decision == GENUINELY_AMBIGUOUS:
             return TieBreakDecision(
                 commodity_code=None,
@@ -112,7 +123,14 @@ class LLMClassificationTieBreaker:
                 reasoning=payload.reasoning,
             )
         if payload.decision not in allowed:
-            return TieBreakDecision(commodity_code=None)
+            return TieBreakDecision(
+                commodity_code=None,
+                reasoning=(
+                    f"LLM returned disallowed decision {payload.decision!r}; "
+                    f"allowed values were {allowed!r}. Raw reasoning: {payload.reasoning}"
+                ),
+                failure_kind="disallowed_decision",
+            )
         return TieBreakDecision(
             commodity_code=payload.decision,
             reasoning=payload.reasoning,
@@ -238,11 +256,19 @@ async def run_classify_stage(
                         )
                     )
                 else:
-                    tie_break_outcome = "failed"
+                    tie_break_outcome = decision.failure_kind or "failed"
+                    failure_code = {
+                        "llm_error": "classification_tiebreak_llm_error",
+                        "validation_error": "classification_tiebreak_validation_error",
+                        "disallowed_decision": "classification_tiebreak_disallowed_decision",
+                    }.get(decision.failure_kind, "classification_tiebreak_failed")
                     flags.append(
                         ReviewFlag(
-                            code="classification_tiebreak_failed",
-                            message="The LLM tie-breaker failed to return an allowed decision.",
+                            code=failure_code,
+                            message=(
+                                decision.reasoning
+                                or "The LLM tie-breaker failed to return an allowed decision."
+                            ),
                             field="unspsc_code",
                             stage="classify",
                         )
