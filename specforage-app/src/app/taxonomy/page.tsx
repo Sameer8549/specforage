@@ -3,7 +3,7 @@ import TaxonomyPage from "@/components/TaxonomyPage";
 
 export const metadata = {
   title: "UNSPSC Taxonomy Explorer — SpecForge",
-  description: "Browse 55,000+ public UNSPSC commodity classifications, governed attribute schemas, and test live catalog text classification.",
+  description: "Browse a curated UNSPSC reference preview; live catalog classification runs through the SpecForge backend pipeline.",
 };
 
 export default function TaxonomyRoute() {

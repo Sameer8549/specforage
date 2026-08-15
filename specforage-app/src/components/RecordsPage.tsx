@@ -3,7 +3,6 @@ import { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import {
-  SAMPLE_RECORDS,
   ProductRecord,
   AttributeItem,
   DescriptionVariant,
@@ -40,10 +39,8 @@ function getVocabColor(vocab: AttributeItem["vocabState"]) {
 }
 
 export default function RecordsPage() {
-  const [records, setRecords] = useState<ProductRecord[]>(SAMPLE_RECORDS);
-  const [selectedRecordId, setSelectedRecordId] = useState<string>(
-    SAMPLE_RECORDS[0].id
-  );
+  const [records, setRecords] = useState<ProductRecord[]>([]);
+  const [selectedRecordId, setSelectedRecordId] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("ALL");
   const [statusFilter, setStatusFilter] = useState("ALL");
@@ -86,10 +83,21 @@ export default function RecordsPage() {
   }, [records, searchQuery, categoryFilter, statusFilter]);
 
   const activeRecord = useMemo(() => {
-    return (
-      records.find((r) => r.id === selectedRecordId) || records[0]
-    );
+    return records.find((r) => r.id === selectedRecordId) || records[0] || null;
   }, [records, selectedRecordId]);
+
+  if (!activeRecord) {
+    return (
+      <main style={{ padding: "120px 48px", minHeight: "100dvh" }}>
+        <div style={{ maxWidth: 760, margin: "0 auto", borderTop: "1px solid var(--border)", paddingTop: 28 }}>
+          <div className="text-mono-label" style={{ color: "var(--accent)" }}>NO LIVE PRODUCT RECORD</div>
+          <h1 className="text-display" style={{ fontSize: "clamp(2rem, 5vw, 4rem)", marginTop: 12 }}>PROCESS SOMETHING REAL.</h1>
+          <p style={{ color: "var(--fg-secondary)", margin: "18px 0 28px" }}>Sample catalog records have been removed. Submit an item to create a record backed by the pipeline trace.</p>
+          <Link href="/pipeline" className="btn-primary">GO TO INPUT <ArrowRight size={15} /></Link>
+        </div>
+      </main>
+    );
+  }
 
   function copyToClipboard(text: string, type: string) {
     navigator.clipboard.writeText(text);
@@ -163,7 +171,7 @@ export default function RecordsPage() {
                   CATALOG DEPTH
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--fg-primary)", marginTop: 4 }}>
-                  {SAMPLE_RECORDS.length} RECORDS
+                  {records.length} RECORD{records.length === 1 ? "" : "S"}
                 </div>
               </div>
               <div>
@@ -328,7 +336,7 @@ export default function RecordsPage() {
                         background: isSelected ? "var(--bg-surface)" : "transparent",
                         border: "none",
                         borderTop: "1px solid var(--border-dim)",
-                        borderLeft: `3px solid ${isSelected ? "var(--accent)" : "transparent"}`,
+                        borderLeft: `1px solid ${isSelected ? "var(--accent)" : "transparent"}`,
                         padding: "16px 20px",
                         cursor: "pointer",
                         display: "flex",

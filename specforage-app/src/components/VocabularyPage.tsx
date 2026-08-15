@@ -148,7 +148,7 @@ export default function VocabularyPage() {
                 className="text-mono-label"
                 style={{ color: "var(--accent)", marginBottom: 8, fontSize: 11, fontWeight: 600 }}
               >
-                Controlled Vocabulary Authority
+                Bundled Vocabulary Preview · Not Live Registry Telemetry
               </div>
               <h1
                 className="text-display"
@@ -173,7 +173,7 @@ export default function VocabularyPage() {
                   CANONICAL TERMS
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--fg-primary)", marginTop: 4 }}>
-                  1,480 REGISTERED
+                  {terms.length} PREVIEW TERMS
                 </div>
               </div>
               <div>
@@ -181,7 +181,7 @@ export default function VocabularyPage() {
                   MATCHED
                 </div>
                 <div className="text-mono-data" style={{ fontSize: 18, color: "var(--status-ok)", marginTop: 4 }}>
-                  94.2%
+                  {terms.filter((t) => t.status === "MATCHED").length} ENTRIES
                 </div>
               </div>
               <div>
@@ -215,7 +215,7 @@ export default function VocabularyPage() {
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <Sparkle size={15} style={{ color: "var(--accent)" }} />
                 <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 11, fontWeight: 600 }}>
-                  Real-Time Vocabulary Resolver Sandbox
+                  Local Vocabulary Preview Sandbox
                 </span>
               </div>
               <span className="text-mono-label" style={{ fontSize: 12 }}>

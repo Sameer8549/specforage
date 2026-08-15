@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import {
@@ -9,7 +9,8 @@ import {
   FormulaToken,
   ChannelType,
 } from "@/data/descriptionData";
-import { SAMPLE_RECORDS, ProductRecord } from "@/data/sampleRecords";
+import { ProductRecord } from "@/data/sampleRecords";
+import { readProcessedRecord, toProductRecord } from "@/lib/recordAdapter";
 import {
   ClipboardText,
   CheckCircle,
@@ -24,7 +25,7 @@ import {
 } from "@phosphor-icons/react";
 
 export default function DescriptionsPage() {
-  const [selectedProduct, setSelectedProduct] = useState<ProductRecord>(SAMPLE_RECORDS[0]);
+  const [selectedProduct, setSelectedProduct] = useState<ProductRecord | null>(null);
   const [selectedChannel, setSelectedChannel] = useState<ChannelType>("SHORT");
   const [channelFormulas, setChannelFormulas] = useState<Record<ChannelType, string>>({
     MOBILE: "[Brand] [Size] [InstallType] [Commodity] [PrimarySpec]",
@@ -39,6 +40,11 @@ export default function DescriptionsPage() {
   const reduce = useReducedMotion();
   const ease = [0.16, 1, 0.3, 1] as const;
 
+  useEffect(() => {
+    const processed = readProcessedRecord();
+    if (processed) setSelectedProduct(toProductRecord(processed));
+  }, []);
+
   const activeChannelConfig =
     DESCRIPTION_CHANNELS.find((c) => c.channel === selectedChannel) ||
     DESCRIPTION_CHANNELS[0];
@@ -46,55 +52,32 @@ export default function DescriptionsPage() {
   // Token map for current selected product
   const tokenValues = useMemo(() => {
     const p = selectedProduct;
+    if (!p) return {} as Record<string, string>;
     const findAttr = (name: string) =>
       p.attributes.find((a) => a.name.toLowerCase().includes(name.toLowerCase()))
         ?.normalizedValue || "";
 
-    const finishVal = findAttr("FINISH") || "Stainless Steel";
+    const finishVal = findAttr("FINISH");
     const finishAbbr = finishVal === "Stainless Steel" ? "SS" : finishVal;
-
-    let primarySpec = "47 dB";
-    let sizeVal = "24 in";
-    let materialVal = "Stainless Steel";
-    let materialAbbr = "SS";
-    let secondarySpec = "14 Place Settings";
-    let keyFeature = "EvenDry™";
-
-    if (p.mpn === "PF-90-SS-075") {
-      primarySpec = "5100 psi";
-      sizeVal = "3/4 in";
-      materialVal = "316 Stainless Steel";
-      materialAbbr = "316SS";
-      secondarySpec = "FNPT x FNPT";
-      keyFeature = "High Pressure";
-    } else if (p.mpn === "QO120") {
-      primarySpec = "10 kA AIR";
-      sizeVal = "20 A";
-      materialVal = "Molded Case";
-      materialAbbr = "MC";
-      secondarySpec = "120/240 VAC";
-      keyFeature = "Visi-Trip™";
-    } else if (p.mpn === "BV-BR-100") {
-      primarySpec = "600 psi CWP";
-      sizeVal = "1 in";
-      materialVal = "Cast Bronze";
-      materialAbbr = "Bronze";
-      secondarySpec = "Full Port";
-      keyFeature = "Lead-Free NSF 61";
-    }
+    const sizeVal = findAttr("DIMENSION") || findAttr("WIDTH") || findAttr("SIZE");
+    const materialVal = findAttr("MATERIAL");
+    const materialAbbr = materialVal;
+    const primarySpec = findAttr("RATING") || findAttr("POWER") || findAttr("VOLTAGE") || findAttr("WEIGHT");
+    const secondarySpec = p.attributes.find((attribute) => attribute.normalizedValue && attribute.normalizedValue !== primarySpec)?.normalizedValue || "";
+    const keyFeature = findAttr("SERIES") || findAttr("MODEL");
 
     return {
       "[Brand]": p.brand,
       "[MPN]": p.mpn,
       "[Manufacturer]": p.canonicalManufacturer,
-      "[Commodity]": p.class.split("—")[1]?.trim() || "Product",
+      "[Commodity]": p.commodity.split("—")[1]?.trim() || p.commodity,
       "[Size]": sizeVal,
       "[Material]": materialVal,
       "[MaterialAbbr]": materialAbbr,
       "[Finish]": finishVal,
       "[FinishAbbr]": finishAbbr,
-      "[Type]": findAttr("INSTALLATION TYPE") || findAttr("FITTING TYPE") || "Standard",
-      "[InstallType]": findAttr("INSTALLATION TYPE") || findAttr("FITTING TYPE") || "Standard",
+      "[Type]": findAttr("INSTALLATION TYPE") || findAttr("TYPE"),
+      "[InstallType]": findAttr("INSTALLATION TYPE"),
       "[PrimarySpec]": primarySpec,
       "[SecondarySpec]": secondarySpec,
       "[KeyFeature1]": keyFeature,
@@ -130,6 +113,19 @@ export default function DescriptionsPage() {
   const activeLimit = activeChannelConfig.charLimit;
   const activePct = (activeLen / activeLimit) * 100;
   const isOverLimit = activeLen > activeLimit;
+
+  if (!selectedProduct) {
+    return (
+      <main style={{ padding: "120px 48px", minHeight: "100dvh" }}>
+        <div style={{ maxWidth: 760, margin: "0 auto", borderTop: "1px solid var(--border)", paddingTop: 28 }}>
+          <div className="text-mono-label" style={{ color: "var(--accent)" }}>NO LIVE DESCRIPTION TRACE</div>
+          <h1 className="text-display" style={{ fontSize: "clamp(2rem, 5vw, 4rem)", marginTop: 12 }}>GENERATE FROM EVIDENCE.</h1>
+          <p style={{ color: "var(--fg-secondary)", margin: "18px 0 28px" }}>The item-specific demo formulas have been removed. Process an item to inspect its actual attributes and generated description fields.</p>
+          <Link href="/pipeline" className="btn-primary">PROCESS AN ITEM <ArrowRight size={15} /></Link>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <>
@@ -224,7 +220,7 @@ export default function DescriptionsPage() {
             </span>
 
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-              {SAMPLE_RECORDS.map((p) => {
+              {[selectedProduct].map((p) => {
                 const isSel = p.id === selectedProduct.id;
                 return (
                   <button
@@ -297,7 +293,7 @@ export default function DescriptionsPage() {
                       border: "none",
                       borderTop: "1px solid var(--border-dim)",
                       background: isSel ? "var(--bg-surface)" : "transparent",
-                      borderLeft: `3px solid ${isSel ? "var(--accent)" : "transparent"}`,
+                      borderLeft: `1px solid ${isSel ? "var(--accent)" : "transparent"}`,
                       cursor: "pointer",
                       display: "flex",
                       flexDirection: "column",
@@ -381,9 +377,11 @@ export default function DescriptionsPage() {
                         left: 0,
                         top: 0,
                         height: "100%",
-                        width: `${Math.min(activePct, 100)}%`,
+                        width: "100%",
+                        transform: `scaleX(${Math.min(activePct, 100) / 100})`,
+                        transformOrigin: "left",
                         backgroundColor: isOverLimit ? "var(--accent)" : "var(--status-ok)",
-                        transition: "width 300ms ease",
+                        transition: "transform 300ms ease",
                       }}
                     />
                   </div>

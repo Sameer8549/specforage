@@ -79,7 +79,7 @@ export default function MethodologyPage() {
                   Why this generalizes across any industrial category:
                 </div>
                 <p className="text-mono-label" style={{ fontSize: 11, color: "var(--fg-secondary)", lineHeight: 1.5 }}>
-                  Because the taxonomy schema is standardized across 55,000+ public commodity codes, the pipeline applies identical deterministic governance whether evaluating household dishwashers (40181501), high-pressure stainless steel pipe elbows (40141720), miniature circuit breakers (39121603), or industrial centrifugal pumps (23151501). Zero custom classification models are required for new verticals.
+                  Because the bundled taxonomy contains 71,502 public UNSPSC commodity records, the pipeline applies the same deterministic governance contract across categories. Category-specific attribute schemas still depend on available grounded examples; otherwise the generic expected-attribute fallback is used.
                 </p>
               </div>
             </div>

@@ -382,7 +382,7 @@ export default function SettingsPage() {
                         width: "100%",
                       }}
                     >
-                      <option value="v25.0901 (Public Release)">v25.0901 (Public Release - 55,000+ Codes)</option>
+                      <option value="v25.0901 (Public Release)">v25.0901 (Bundled Reference - 71,502 Records)</option>
                       <option value="v22.0501 Standard">v22.0501 Standard Edition</option>
                       <option value="v20.0601 Legacy">v20.0601 Legacy Archive</option>
                     </select>

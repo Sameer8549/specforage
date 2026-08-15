@@ -55,7 +55,7 @@ export const DEFAULT_PIPELINE_CONFIG: PipelineConfig = {
   autoEscalateUnverified: true,
   apiKeyManagement: {
     primaryProvider: "SPECFORGE_HOSTED",
-    apiKeyMasked: "sk-sf-prod-98374********************",
+    apiKeyMasked: "Configured server-side only",
     rateLimitPerMinute: 600,
     usageAlertThreshold: 50000,
   },

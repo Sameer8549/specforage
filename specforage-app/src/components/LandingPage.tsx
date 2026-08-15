@@ -27,7 +27,7 @@ const PANELS = [
   {
     tag: "UNSPSC Taxonomy",
     heading: "Universal Classification",
-    body: "Anchored directly to the public UNSPSC taxonomy across 55,000+ commodity codes. No category-specific setup. The same pipeline processes dishwashers, pipe fittings, circuit breakers, and ball valves.",
+    body: "Anchored directly to a bundled public UNSPSC taxonomy containing 71,502 commodity records. The same pipeline contract applies across product categories.",
   },
   {
     tag: "Source Discipline",

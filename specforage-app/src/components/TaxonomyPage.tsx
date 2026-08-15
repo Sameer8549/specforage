@@ -216,10 +216,10 @@ export default function TaxonomyPage() {
               }}
             >
               <div className="badge badge-dim" style={{ fontSize: 12 }}>
-                PUBLIC TAXONOMY · ZERO CUSTOM PROPRIETARY SCHEMAS
+                BUNDLED REFERENCE PREVIEW · CLASSIFICATION RUNS THROUGH /PROCESS
               </div>
               <div className="text-mono-label" style={{ fontSize: 12, color: "var(--fg-dim)" }}>
-                55,000+ COMMODITY CODES ACROSS ALL INDUSTRIAL VERTICALS
+                BACKEND TAXONOMY: 71,502 COMMODITIES · THIS BROWSER SHOWS A CURATED SUBSET
               </div>
             </div>
           </div>
@@ -236,7 +236,7 @@ export default function TaxonomyPage() {
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <Sparkle size={15} style={{ color: "var(--accent)" }} />
                 <span className="text-mono-label" style={{ color: "var(--accent)", fontSize: 11, fontWeight: 600 }}>
-                  Live Classification Sandbox
+                  Local Reference Sandbox — Not Backend Classification
                 </span>
               </div>
               <span className="text-mono-label" style={{ fontSize: 12 }}>

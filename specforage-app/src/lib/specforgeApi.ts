@@ -25,6 +25,36 @@ export interface InputRow {
   manufacturer?: string;
 }
 
+export interface EvaluationResult {
+  evaluated_rows: number;
+  accuracy: Record<string, number | null>;
+  vocabulary_compliance_percent: number | null;
+  vocabulary_compliance_evaluated_fields: number;
+  attribute_coverage_percent: number | null;
+  attribute_produced_fields: number;
+  attribute_expected_fields: number;
+  character_limit_compliance_percent: number | null;
+  character_limit_compliant_fields: number;
+  character_limit_evaluated_fields: number;
+  routed_to_review_percent: number;
+  gap_report: Array<{ item_id: string; gaps: string[] }>;
+}
+
+export interface BatchStatus {
+  job_id: string;
+  status: "queued" | "running" | "completed" | "completed_with_errors";
+  total_rows: number;
+  completed_rows: number;
+  failed_rows: number;
+  rows: Array<{
+    row_number: number;
+    state: "pending" | "running" | "completed" | "failed";
+    record: SpecForgeRecord | null;
+    error: string | null;
+    error_code: string | null;
+  }>;
+}
+
 const API_BASE = (process.env.NEXT_PUBLIC_SPECFORGE_API_URL ?? "http://127.0.0.1:8000")
   .replace(/\/$/, "");
 
@@ -65,4 +95,45 @@ export async function processItem(row: InputRow, signal?: AbortSignal): Promise<
     throw new Error("Backend returned an invalid Delivery Format output row.");
   }
   return record;
+}
+
+async function errorMessage(response: Response): Promise<string> {
+  try {
+    const body = await response.json() as { detail?: string };
+    return body.detail || `Backend returned HTTP ${response.status}.`;
+  } catch {
+    return `Backend returned HTTP ${response.status}.`;
+  }
+}
+
+export async function getEvaluation(signal?: AbortSignal): Promise<EvaluationResult> {
+  const response = await fetch(`${API_BASE}/eval`, { headers: { Accept: "application/json" }, signal });
+  if (!response.ok) throw new Error(await errorMessage(response));
+  return response.json() as Promise<EvaluationResult>;
+}
+
+function csvCell(value: string): string {
+  return /[",\r\n]/.test(value) ? `"${value.replaceAll('"', '""')}"` : value;
+}
+
+export async function startBatch(rows: InputRow[], signal?: AbortSignal): Promise<{ status_url: string }> {
+  const headers = ["Mfg_Part_Num", "Part_Desc", "E1_Brand", "Unilog_Brand", "DIB_Brand", "Part_Manuf"];
+  const body = [
+    headers.join(","),
+    ...rows.map((row) => [row.mpn || "", row.description || "", row.brand || "", "", "", row.manufacturer || ""].map(csvCell).join(",")),
+  ].join("\r\n");
+  const response = await fetch(`${API_BASE}/batch`, {
+    method: "POST",
+    headers: { "Content-Type": "text/csv", Accept: "application/json" },
+    body,
+    signal,
+  });
+  if (!response.ok) throw new Error(await errorMessage(response));
+  return response.json() as Promise<{ status_url: string }>;
+}
+
+export async function getBatchStatus(statusUrl: string, signal?: AbortSignal): Promise<BatchStatus> {
+  const response = await fetch(`${API_BASE}${statusUrl}`, { headers: { Accept: "application/json" }, signal });
+  if (!response.ok) throw new Error(await errorMessage(response));
+  return response.json() as Promise<BatchStatus>;
 }
