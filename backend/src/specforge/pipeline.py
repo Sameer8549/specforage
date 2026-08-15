@@ -9,6 +9,7 @@ from specforge.data import DatasetCatalog, load_catalog
 from specforge.descriptions import DescriptionFormulaCatalog
 from specforge.expected_attributes import ExpectedAttributeCatalog
 from specforge.llm import JSONLLM, LLMError, build_adjudication_llm, build_extraction_llm
+from specforge.manufacturer_lookup import MPNWebManufacturerLookup, ManufacturerLookup
 from specforge.normalization import AttributeVocabulary
 from specforge.stages.adjudicate import run_adjudicate_stage
 from specforge.stages.audit import run_audit_stage
@@ -17,7 +18,7 @@ from specforge.stages.brand_resolution import (
     build_resolution_vocabularies,
     run_brand_resolution_stage,
 )
-from specforge.stages.classify import run_classify_stage
+from specforge.stages.classify import LLMClassificationTieBreaker, run_classify_stage
 from specforge.stages.clean import run_clean_stage
 from specforge.stages.description import run_description_stage
 from specforge.stages.extract import run_extract_stage
@@ -52,16 +53,24 @@ class Pipeline:
     description_catalog: DescriptionFormulaCatalog
     extraction_llm: JSONLLM
     adjudication_llm: JSONLLM
+    manufacturer_lookup: ManufacturerLookup
 
     async def process(
         self, record: ItemRecord, ground_truth_row: dict[str, str] | None = None
     ) -> ItemRecord:
         current = run_clean_stage(record)
-        current = run_brand_resolution_stage(
-            current, self.resolution_vocabularies, self.settings
+        current = await run_brand_resolution_stage(
+            current,
+            self.resolution_vocabularies,
+            self.settings,
+            self.manufacturer_lookup,
         )
-        current = run_classify_stage(
-            current, self.unspsc_index, self.expected_attributes, self.settings
+        current = await run_classify_stage(
+            current,
+            self.unspsc_index,
+            self.expected_attributes,
+            self.settings,
+            LLMClassificationTieBreaker(self.extraction_llm),
         )
         current = await run_extract_stage(current, self.extraction_llm, self.settings)
         current = run_normalize_stage(current, self.attribute_vocabulary, self.settings)
@@ -80,14 +89,20 @@ def build_pipeline(settings: Settings, catalog: DatasetCatalog | None = None) ->
         settings.resolve_data_path(settings.unspsc_embeddings),
         embedder,
     )
+    resolution_vocabularies = build_resolution_vocabularies(datasets)
     return Pipeline(
         settings=settings,
         catalog=datasets,
-        resolution_vocabularies=build_resolution_vocabularies(datasets),
+        resolution_vocabularies=resolution_vocabularies,
         unspsc_index=index,
         expected_attributes=ExpectedAttributeCatalog.from_ground_truth(datasets.ground_truth),
         attribute_vocabulary=AttributeVocabulary.from_ground_truth(datasets.ground_truth),
         description_catalog=DescriptionFormulaCatalog.from_ground_truth(datasets.ground_truth),
         extraction_llm=_optional_llm(build_extraction_llm, settings),
         adjudication_llm=_optional_llm(build_adjudication_llm, settings),
+        manufacturer_lookup=MPNWebManufacturerLookup(
+            resolution_vocabularies.manufacturers,
+            resolution_vocabularies.brands,
+            resolution_vocabularies.brand_manufacturers,
+        ),
     )

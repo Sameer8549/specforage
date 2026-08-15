@@ -75,6 +75,8 @@ class BrandResolutionStage(ContractModel):
     manufacturer: EntityResolution = Field(default_factory=EntityResolution)
     brand: EntityResolution = Field(default_factory=EntityResolution)
     manufacturer_domain: str | None = None
+    manufacturer_source: str | None = None
+    mpn_lookup_attempted: bool = False
     flags: list[ReviewFlag] = Field(default_factory=list)
 
 
@@ -85,6 +87,7 @@ class ClassificationStage(ContractModel):
     expected_attributes: list[str] = Field(default_factory=list)
     candidates: list[Candidate] = Field(default_factory=list)
     tie_break_used: bool = False
+    tie_break_outcome: str | None = None
     flags: list[ReviewFlag] = Field(default_factory=list)
 
 
@@ -145,9 +148,10 @@ class AuditStage(ContractModel):
     resolved_fields: int = Field(default=0, ge=0)
     total_fields: int = Field(default=0, ge=0)
     needs_human_review: bool = False
-    accuracy: dict[str, float] | None = None
+    accuracy: dict[str, float | None] | None = None
     field_status: dict[str, bool] = Field(default_factory=dict)
-    vocabulary_compliance_percent: float = Field(default=0, ge=0, le=100)
+    vocabulary_compliance_percent: float | None = Field(default=None, ge=0, le=100)
+    vocabulary_compliance_evaluated_fields: int = Field(default=0, ge=0)
     character_limit_compliance_percent: float = Field(default=0, ge=0, le=100)
     routed_to_review: bool = False
     gap_report: list[str] = Field(default_factory=list)

@@ -226,7 +226,7 @@ async def evaluate(
     catalog: DatasetCatalog = Depends(get_dataset_catalog),
 ) -> dict:
     records: list[ItemRecord] = []
-    accuracy_rows: list[dict[str, float]] = []
+    accuracy_rows: list[dict[str, float | None]] = []
     for row_number, ground_truth in enumerate(iter_csv_rows(catalog.ground_truth), start=1):
         record = await pipeline.process(
             item_record_from_row(ground_truth, row_number), ground_truth
@@ -235,16 +235,33 @@ async def evaluate(
         if record.audit and record.audit.accuracy:
             accuracy_rows.append(record.audit.accuracy)
     total = len(records)
+    vocabulary_audits = [
+        record.audit
+        for record in records
+        if record.audit and record.audit.vocabulary_compliance_percent is not None
+    ]
+    vocabulary_denominator = sum(
+        audit.vocabulary_compliance_evaluated_fields for audit in vocabulary_audits
+    )
+    vocabulary_percent = (
+        round(
+            sum(
+                audit.vocabulary_compliance_percent
+                * audit.vocabulary_compliance_evaluated_fields
+                for audit in vocabulary_audits
+                if audit.vocabulary_compliance_percent is not None
+            )
+            / vocabulary_denominator,
+            2,
+        )
+        if vocabulary_denominator
+        else None
+    )
     return {
         "evaluated_rows": total,
         "accuracy": aggregate_accuracy(accuracy_rows),
-        "vocabulary_compliance_percent": round(
-            sum(record.audit.vocabulary_compliance_percent for record in records if record.audit)
-            / total,
-            2,
-        )
-        if total
-        else 0.0,
+        "vocabulary_compliance_percent": vocabulary_percent,
+        "vocabulary_compliance_evaluated_fields": vocabulary_denominator,
         "character_limit_compliance_percent": round(
             sum(record.audit.character_limit_compliance_percent for record in records if record.audit)
             / total,

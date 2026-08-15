@@ -1,12 +1,18 @@
 from pathlib import Path
 
 import numpy as np
+import pytest
 
 from specforge.config import Settings
 from specforge.contracts import CleanStage, InputStage, ItemRecord
 from specforge.data import load_catalog
 from specforge.expected_attributes import ExpectedAttributeCatalog
-from specforge.stages.classify import classification_query, run_classify_stage
+from specforge.stages.classify import (
+    LLMClassificationTieBreaker,
+    TieBreakDecision,
+    classification_query,
+    run_classify_stage,
+)
 from specforge.unspsc import UNSPSCIndex, UNSPSCRecord, iter_unspsc
 
 
@@ -23,9 +29,9 @@ class FakeTieBreaker:
         self.code = code
         self.calls = 0
 
-    def choose(self, query: str, candidates: list[UNSPSCRecord]) -> str:
+    async def choose(self, query: str, candidates: list[UNSPSCRecord]) -> TieBreakDecision:
         self.calls += 1
-        return self.code
+        return TieBreakDecision(commodity_code=self.code)
 
 
 def dishwasher() -> UNSPSCRecord:
@@ -72,7 +78,8 @@ def test_expected_attributes_are_derived_from_ground_truth() -> None:
     assert attributes.for_classification("Office Supplies>Paper Products>Envelopes") == []
 
 
-def test_classifier_returns_unspsc_and_expected_attributes() -> None:
+@pytest.mark.asyncio
+async def test_classifier_returns_unspsc_and_expected_attributes() -> None:
     records = [dishwasher(), oven()]
     matrix = np.asarray([[1.0, 0.0], [0.0, 1.0]], dtype=np.float16)
     index = UNSPSCIndex(records, matrix, FakeEmbedder([1.0, 0.0]))
@@ -83,7 +90,7 @@ def test_classifier_returns_unspsc_and_expected_attributes() -> None:
         clean=CleanStage(mfg_part_num="PDSH", part_desc="Built-in dishwasher"),
     )
 
-    result = run_classify_stage(item, index, attributes, settings)
+    result = await run_classify_stage(item, index, attributes, settings)
 
     assert result.classify is not None
     assert result.classify.unspsc_code == "52141505"
@@ -99,7 +106,8 @@ def test_classification_query_removes_identifier_and_display_noise() -> None:
     )
 
 
-def test_close_candidates_without_llm_are_unresolved() -> None:
+@pytest.mark.asyncio
+async def test_close_candidates_without_llm_are_unresolved() -> None:
     records = [dishwasher(), oven()]
     matrix = np.asarray([[1.0, 0.0], [0.995, 0.005]], dtype=np.float16)
     index = UNSPSCIndex(records, matrix, FakeEmbedder([1.0, 0.0]))
@@ -107,7 +115,7 @@ def test_close_candidates_without_llm_are_unresolved() -> None:
     attributes = ExpectedAttributeCatalog.from_ground_truth(load_catalog(settings).ground_truth)
     item = ItemRecord(input=InputStage(mfg_part_num="X", part_desc="Kitchen appliance"))
 
-    result = run_classify_stage(item, index, attributes, settings)
+    result = await run_classify_stage(item, index, attributes, settings)
 
     assert result.classify is not None
     assert result.classify.unspsc_code is None
@@ -117,7 +125,8 @@ def test_close_candidates_without_llm_are_unresolved() -> None:
     }
 
 
-def test_close_candidates_invoke_only_the_injected_llm_tiebreaker() -> None:
+@pytest.mark.asyncio
+async def test_close_candidates_invoke_only_the_injected_llm_tiebreaker() -> None:
     records = [dishwasher(), oven()]
     matrix = np.asarray([[1.0, 0.0], [0.995, 0.005]], dtype=np.float16)
     index = UNSPSCIndex(records, matrix, FakeEmbedder([1.0, 0.0]))
@@ -126,9 +135,25 @@ def test_close_candidates_invoke_only_the_injected_llm_tiebreaker() -> None:
     tie_breaker = FakeTieBreaker(dishwasher().commodity_code)
     item = ItemRecord(input=InputStage(mfg_part_num="X", part_desc="Kitchen appliance"))
 
-    result = run_classify_stage(item, index, attributes, settings, tie_breaker)
+    result = await run_classify_stage(item, index, attributes, settings, tie_breaker)
 
     assert tie_breaker.calls == 1
     assert result.classify is not None
     assert result.classify.tie_break_used is True
     assert result.classify.unspsc_code == dishwasher().commodity_code
+    assert result.classify.tie_break_outcome == f"selected:{dishwasher().commodity_code}"
+
+
+@pytest.mark.asyncio
+async def test_llm_tiebreaker_can_explicitly_return_genuinely_ambiguous() -> None:
+    class FakeLLM:
+        async def complete_json(self, system_prompt: str, user_prompt: str, schema: dict) -> dict:
+            assert "item_description" in user_prompt
+            assert schema["properties"]["decision"]["enum"][-1] == "genuinely_ambiguous"
+            return {"decision": "genuinely_ambiguous", "reasoning": "Insufficient evidence."}
+
+    decision = await LLMClassificationTieBreaker(FakeLLM()).choose(
+        "Generic kitchen appliance", [dishwasher(), oven()]
+    )
+
+    assert decision == TieBreakDecision(commodity_code=None, genuinely_ambiguous=True)

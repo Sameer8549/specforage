@@ -13,19 +13,22 @@ from specforge.contracts import (
     ReviewFlag,
 )
 from specforge.data import DatasetCatalog, iter_csv_rows
+from specforge.manufacturer_lookup import ManufacturerLookup
 from specforge.stages.clean import clean_optional, run_clean_stage
-from specforge.vocabulary import EntityVocabulary, VocabularyEntry
+from specforge.vocabulary import EntityVocabulary, VocabularyEntry, entity_key
 
 
 @dataclass(frozen=True, slots=True)
 class ResolutionVocabularies:
     manufacturers: EntityVocabulary
     brands: EntityVocabulary
+    brand_manufacturers: dict[str, str]
 
 
 def build_resolution_vocabularies(catalog: DatasetCatalog) -> ResolutionVocabularies:
     manufacturers: list[str] = []
     brands: list[str] = []
+    brand_manufacturers: dict[str, str] = {}
     for row in iter_csv_rows(catalog.working):
         manufacturer = clean_optional(row.get("Part_Manuf"))
         if manufacturer is not None:
@@ -34,9 +37,19 @@ def build_resolution_vocabularies(catalog: DatasetCatalog) -> ResolutionVocabula
             brand = clean_optional(row.get(field))
             if brand is not None:
                 brands.append(brand)
+    for row in iter_csv_rows(catalog.ground_truth):
+        manufacturer = clean_optional(row.get("MANUFACTURER_NAME"))
+        brand = clean_optional(row.get("BRAND_NAME"))
+        if manufacturer is not None:
+            manufacturers.append(manufacturer)
+        if brand is not None:
+            brands.append(brand)
+        if manufacturer is not None and brand is not None:
+            brand_manufacturers[entity_key(brand)] = manufacturer
     return ResolutionVocabularies(
         manufacturers=EntityVocabulary(manufacturers),
         brands=EntityVocabulary(brands),
+        brand_manufacturers=brand_manufacturers,
     )
 
 
@@ -78,29 +91,89 @@ def _resolve_one(
     ), False
 
 
-def run_brand_resolution_stage(
+async def run_brand_resolution_stage(
     record: ItemRecord,
     vocabularies: ResolutionVocabularies,
     settings: Settings,
+    manufacturer_lookup: ManufacturerLookup | None = None,
 ) -> ItemRecord:
     cleaned_record = record if record.clean is not None else run_clean_stage(record)
     clean = cleaned_record.clean
     assert clean is not None
 
-    manufacturer, manufacturer_conflict = _resolve_one(
-        [clean.part_manuf], vocabularies.manufacturers, settings.manufacturer_match_threshold
-    )
     brand, brand_conflict = _resolve_one(
         [clean.e1_brand, clean.unilog_brand, clean.dib_brand],
         vocabularies.brands,
         settings.brand_match_threshold,
     )
+    manufacturer = EntityResolution()
+    manufacturer_conflict = False
+    manufacturer_source: str | None = None
+    mpn_lookup_attempted = False
+    paired_manufacturer = (
+        vocabularies.brand_manufacturers.get(entity_key(brand.canonical_name))
+        if brand.canonical_name
+        else None
+    )
+    if paired_manufacturer:
+        manufacturer = EntityResolution(
+            canonical_name=paired_manufacturer,
+            confidence=0.98,
+            candidates=[Candidate(value=paired_manufacturer, confidence=0.98)],
+        )
+        manufacturer_source = "brand_manufacturer_pair"
+    elif not any((clean.e1_brand, clean.unilog_brand, clean.dib_brand)):
+        mpn_lookup_attempted = manufacturer_lookup is not None
+        lookup_result = (
+            await manufacturer_lookup.lookup(clean.mfg_part_num or "", clean.part_desc)
+            if manufacturer_lookup is not None and clean.mfg_part_num
+            else None
+        )
+        if lookup_result is not None:
+            manufacturer = EntityResolution(
+                canonical_name=lookup_result.manufacturer,
+                confidence=lookup_result.confidence,
+                candidates=[
+                    Candidate(
+                        value=lookup_result.manufacturer,
+                        confidence=lookup_result.confidence,
+                    )
+                ],
+            )
+            manufacturer_source = "mpn_web_lookup"
+
+    used_distributor_fallback = False
+    if manufacturer.canonical_name is None and clean.part_manuf:
+        ranked = vocabularies.manufacturers.rank(clean.part_manuf)
+        if ranked:
+            entry, raw_score = ranked[0]
+            fallback_confidence = min(raw_score, 0.65)
+            manufacturer = EntityResolution(
+                canonical_name=entry.canonical_name,
+                confidence=fallback_confidence,
+                candidates=_candidate_list(ranked),
+            )
+            manufacturer_source = "part_manuf_fallback"
+            used_distributor_fallback = True
     flags: list[ReviewFlag] = []
-    if manufacturer.canonical_name is None:
+    if manufacturer.canonical_name is None or (
+        manufacturer.confidence < settings.manufacturer_match_threshold
+    ):
         flags.append(
             ReviewFlag(
                 code="manufacturer_unresolved",
                 message="Manufacturer did not meet the resolution threshold.",
+                field="manufacturer",
+                stage="brand_resolution",
+            )
+        )
+    if used_distributor_fallback:
+        flags.append(
+            ReviewFlag(
+                code="low_confidence_distributor_field_used",
+                message=(
+                    "Part_Manuf was used only as a last resort and may identify a distributor."
+                ),
                 field="manufacturer",
                 stage="brand_resolution",
             )
@@ -138,6 +211,8 @@ def run_brand_resolution_stage(
             "brand_resolution": BrandResolutionStage(
                 manufacturer=manufacturer,
                 brand=brand,
+                manufacturer_source=manufacturer_source,
+                mpn_lookup_attempted=mpn_lookup_attempted,
                 flags=flags,
             ),
             "updated_at": datetime.now(timezone.utc),

@@ -96,7 +96,7 @@ def run_audit_stage(
     total = len(status)
     coverage = round(100 * resolved / total, 2) if total else 0.0
     vocabulary_compliance = (
-        round(100 * compliance_passed / compliance_total, 2) if compliance_total else 100.0
+        round(100 * compliance_passed / compliance_total, 2) if compliance_total else None
     )
     description_total = len(DESCRIPTION_FIELD_MAP)
     description_passed = sum(
@@ -122,6 +122,7 @@ def run_audit_stage(
                 accuracy=accuracy,
                 field_status=status,
                 vocabulary_compliance_percent=vocabulary_compliance,
+                vocabulary_compliance_evaluated_fields=compliance_total,
                 character_limit_compliance_percent=character_compliance,
                 routed_to_review=routed,
                 gap_report=gaps,

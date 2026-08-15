@@ -76,12 +76,6 @@ def evaluate_against_ground_truth(
         row.get("BRAND_NAME", ""),
         remove_trademarks=True,
     )
-    scalar(
-        "classpath",
-        record.classify.classpath if record.classify else None,
-        row.get("Classpath", ""),
-    )
-
     actual_attributes = {
         attribute.label: (attribute.value or "", attribute.uom)
         for attribute in (record.adjudicate.attributes if record.adjudicate else [])
@@ -111,28 +105,39 @@ def evaluate_against_ground_truth(
 
     total_correct = sum(value.correct for value in counts.values())
     total_compared = sum(value.compared for value in counts.values())
-    accuracy = {name: value.percent for name, value in counts.items()}
+    accuracy: dict[str, float | None] = {
+        name: value.percent for name, value in counts.items()
+    }
+    accuracy["classpath"] = None
     accuracy["overall"] = AccuracyCounts(total_correct, total_compared).percent
 
     gaps: list[str] = []
     for field in ("UNSPSC", "Country Of Origin"):
         if not row.get(field, "").strip():
             gaps.append(f"Ground truth leaves {field} blank; excluded from accuracy denominator.")
-    for name in ("manufacturer", "brand", "classpath"):
+    if row.get("Classpath", "").strip():
+        gaps.append(
+            "Classpath accuracy is not directly comparable: the classifier emits the public "
+            "UNSPSC taxonomy while ground truth uses an unmapped private merchandising taxonomy; "
+            "excluded from accuracy denominator."
+        )
+    for name in ("manufacturer", "brand"):
         result = counts.get(name)
         if result is not None and result.compared and not result.correct:
             gaps.append(f"{name.title()} differs from the populated ground-truth value.")
     return accuracy, gaps
 
 
-def aggregate_accuracy(audits: Iterable[dict[str, float]]) -> dict[str, float]:
+def aggregate_accuracy(
+    audits: Iterable[dict[str, float | None]],
+) -> dict[str, float | None]:
     rows = list(audits)
     keys = sorted({key for row in rows for key in row})
-    return {
-        key: round(sum(row[key] for row in rows if key in row) / sum(key in row for row in rows), 2)
-        for key in keys
-        if any(key in row for row in rows)
-    }
+    result: dict[str, float | None] = {}
+    for key in keys:
+        values = [row[key] for row in rows if key in row and row[key] is not None]
+        result[key] = round(sum(values) / len(values), 2) if values else None
+    return result
 
 
 def make_unresolved_flag(field: str, message: str) -> ReviewFlag:

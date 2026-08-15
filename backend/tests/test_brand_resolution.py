@@ -1,6 +1,9 @@
+import pytest
+
 from specforge.config import Settings
 from specforge.contracts import CleanStage, InputStage, ItemRecord
 from specforge.data import load_catalog
+from specforge.manufacturer_lookup import ManufacturerLookupResult
 from specforge.stages.brand_resolution import (
     build_resolution_vocabularies,
     run_brand_resolution_stage,
@@ -29,9 +32,11 @@ def test_dataset_vocabularies_are_self_derived() -> None:
     assert any(entry.canonical_name == "Freud Inc" for entry in vocabularies.manufacturers.entries)
     assert any(entry.canonical_name == "Diablo" for entry in vocabularies.brands.entries)
     assert all("No Unilog Brand" not in entry.canonical_name for entry in vocabularies.brands.entries)
+    assert vocabularies.brand_manufacturers[entity_key("Whirlpool®")] == "Whirlpool Corporation"
 
 
-def test_resolution_returns_canonical_values_and_top_three() -> None:
+@pytest.mark.asyncio
+async def test_resolved_brand_uses_known_manufacturer_pair_before_part_manuf() -> None:
     settings = Settings()
     vocabularies = build_resolution_vocabularies(load_catalog(settings))
     record = ItemRecord(
@@ -39,21 +44,23 @@ def test_resolution_returns_canonical_values_and_top_three() -> None:
         clean=CleanStage(
             mfg_part_num="X",
             part_desc="Example",
-            dib_brand="diablos",
-            part_manuf="Freud Incorporated",
+            dib_brand="Whirlpool",
+            part_manuf="Appliance Dealers Cooperative (APPDE)",
         ),
     )
 
-    result = run_brand_resolution_stage(record, vocabularies, settings)
+    result = await run_brand_resolution_stage(record, vocabularies, settings)
 
     assert result.brand_resolution is not None
-    assert result.brand_resolution.manufacturer.canonical_name == "Freud Inc"
-    assert result.brand_resolution.brand.canonical_name == "Diablo"
+    assert result.brand_resolution.manufacturer.canonical_name == "Whirlpool Corporation"
+    assert result.brand_resolution.manufacturer_source == "brand_manufacturer_pair"
+    assert entity_key(result.brand_resolution.brand.canonical_name) == "whirlpool"
     assert len(result.brand_resolution.brand.candidates) == 3
     assert not result.brand_resolution.flags
 
 
-def test_unresolved_and_conflicting_values_are_flagged() -> None:
+@pytest.mark.asyncio
+async def test_unresolved_and_conflicting_values_are_flagged() -> None:
     settings = Settings()
     vocabularies = build_resolution_vocabularies(load_catalog(settings))
     record = ItemRecord(
@@ -67,7 +74,7 @@ def test_unresolved_and_conflicting_values_are_flagged() -> None:
         ),
     )
 
-    result = run_brand_resolution_stage(record, vocabularies, settings)
+    result = await run_brand_resolution_stage(record, vocabularies, settings)
     assert result.brand_resolution is not None
     assert result.brand_resolution.manufacturer.canonical_name is None
     assert result.brand_resolution.brand.canonical_name is None
@@ -75,4 +82,65 @@ def test_unresolved_and_conflicting_values_are_flagged() -> None:
         "manufacturer_unresolved",
         "brand_unresolved",
         "brand_conflict",
+    }
+
+
+@pytest.mark.asyncio
+async def test_brandless_record_attempts_mpn_lookup_before_distributor_field() -> None:
+    class Lookup:
+        calls = 0
+
+        async def lookup(self, mfg_part_num: str, part_desc: str | None):
+            self.calls += 1
+            assert mfg_part_num == "WDTS7024RZ"
+            return ManufacturerLookupResult("Whirlpool Corporation", 0.93)
+
+    settings = Settings()
+    vocabularies = build_resolution_vocabularies(load_catalog(settings))
+    lookup = Lookup()
+    record = ItemRecord(
+        input=InputStage(mfg_part_num="WDTS7024RZ", part_desc="Dishwasher"),
+        clean=CleanStage(
+            mfg_part_num="WDTS7024RZ",
+            part_desc="Dishwasher",
+            part_manuf="Appliance Dealers Cooperative (APPDE)",
+        ),
+    )
+
+    result = await run_brand_resolution_stage(record, vocabularies, settings, lookup)
+
+    assert lookup.calls == 1
+    assert result.brand_resolution is not None
+    assert result.brand_resolution.manufacturer.canonical_name == "Whirlpool Corporation"
+    assert result.brand_resolution.manufacturer_source == "mpn_web_lookup"
+    assert result.brand_resolution.mpn_lookup_attempted is True
+    assert not any(
+        flag.code == "low_confidence_distributor_field_used"
+        for flag in result.brand_resolution.flags
+    )
+
+
+@pytest.mark.asyncio
+async def test_part_manuf_fallback_is_capped_and_explicitly_flagged() -> None:
+    settings = Settings()
+    vocabularies = build_resolution_vocabularies(load_catalog(settings))
+    record = ItemRecord(
+        input=InputStage(mfg_part_num="X", part_desc="Unknown"),
+        clean=CleanStage(
+            mfg_part_num="X",
+            part_desc="Unknown",
+            part_manuf="Appliance Dealers Cooperative (APPDE)",
+        ),
+    )
+
+    result = await run_brand_resolution_stage(record, vocabularies, settings)
+
+    assert result.brand_resolution is not None
+    assert result.brand_resolution.manufacturer.canonical_name == "Appliance Dealers Cooperative"
+    assert result.brand_resolution.manufacturer.confidence == 0.65
+    assert result.brand_resolution.manufacturer_source == "part_manuf_fallback"
+    assert {flag.code for flag in result.brand_resolution.flags} >= {
+        "manufacturer_unresolved",
+        "brand_unresolved",
+        "low_confidence_distributor_field_used",
     }

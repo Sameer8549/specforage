@@ -69,6 +69,7 @@ def test_complete_supported_record_has_full_coverage() -> None:
     assert result.audit.resolved_fields == 11
     assert result.audit.total_fields == 11
     assert result.audit.vocabulary_compliance_percent == 100
+    assert result.audit.vocabulary_compliance_evaluated_fields == 2
     assert result.audit.character_limit_compliance_percent == 100
     assert result.audit.routed_to_review is False
 
@@ -123,6 +124,8 @@ def test_evaluation_ignores_blank_targets_and_reports_known_gaps() -> None:
     assert any("UNSPSC" in gap for gap in gaps)
     assert any("Country Of Origin" in gap for gap in gaps)
     assert any("Manufacturer differs" in gap for gap in gaps)
+    assert accuracy["classpath"] is None
+    assert any("not directly comparable" in gap for gap in gaps)
 
 
 def test_evaluation_mode_attaches_accuracy_and_gap_report() -> None:
@@ -144,3 +147,27 @@ def test_aggregate_accuracy_uses_only_present_breakdowns() -> None:
     )
 
     assert result == {"brand": 100.0, "manufacturer": 0.0, "overall": 75.0}
+
+
+def test_aggregate_accuracy_preserves_not_comparable_metric() -> None:
+    result = aggregate_accuracy(
+        [{"overall": 50.0, "classpath": None}, {"overall": 100.0, "classpath": None}]
+    )
+
+    assert result == {"classpath": None, "overall": 75.0}
+
+
+def test_vocabulary_compliance_is_not_applicable_when_nothing_was_evaluated() -> None:
+    record = complete_record().model_copy(
+        update={
+            "classify": complete_record().classify.model_copy(
+                update={"expected_attributes": []}
+            )
+        }
+    )
+
+    audited = run_audit_stage(record, Settings()).audit
+
+    assert audited is not None
+    assert audited.vocabulary_compliance_percent is None
+    assert audited.vocabulary_compliance_evaluated_fields == 0
