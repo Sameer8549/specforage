@@ -3,6 +3,8 @@ export type StageObject = Record<string, unknown>;
 export interface SpecForgeRecord {
   item_id: string;
   schema_version: string;
+  created_at: string;
+  updated_at: string;
   input: StageObject;
   clean?: StageObject | null;
   brand_resolution?: StageObject | null;
@@ -50,5 +52,17 @@ export async function processItem(row: InputRow, signal?: AbortSignal): Promise<
     } catch {}
     throw new Error(detail);
   }
-  return response.json() as Promise<SpecForgeRecord>;
+  const record = await response.json() as SpecForgeRecord;
+  const requiredStages = [
+    "clean", "brand_resolution", "classify", "extract", "normalize",
+    "verify", "adjudicate", "description", "audit", "output_row",
+  ] as const;
+  if (!record.item_id || !record.schema_version || requiredStages.some((stage) => !record[stage])) {
+    throw new Error("Backend returned an incomplete SpecForge stage trace.");
+  }
+  const output = record.output_row as { values?: unknown; header_order?: unknown };
+  if (!output || typeof output.values !== "object" || !Array.isArray(output.header_order)) {
+    throw new Error("Backend returned an invalid Delivery Format output row.");
+  }
+  return record;
 }

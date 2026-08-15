@@ -3,7 +3,21 @@ import io
 
 from fastapi.testclient import TestClient
 
-from specforge.contracts import AuditStage, ItemRecord
+from specforge.contracts import (
+    AdjudicateStage,
+    AuditStage,
+    BrandResolutionStage,
+    ClassificationStage,
+    CleanStage,
+    DescriptionStage,
+    ExtractStage,
+    ItemRecord,
+    NormalizeStage,
+    OutputRowStage,
+    VerifyStage,
+)
+from specforge.data import load_catalog
+from specforge.config import get_settings
 from specforge.main import app, get_pipeline
 
 
@@ -25,8 +39,20 @@ class FakePipeline:
             if ground_truth_row is not None
             else None
         )
+        headers = load_catalog(get_settings()).ground_truth.headers
         return record.model_copy(
             update={
+                "clean": CleanStage(
+                    mfg_part_num=record.input.mfg_part_num,
+                    part_desc=record.input.part_desc,
+                ),
+                "brand_resolution": BrandResolutionStage(),
+                "classify": ClassificationStage(),
+                "extract": ExtractStage(),
+                "normalize": NormalizeStage(),
+                "verify": VerifyStage(),
+                "adjudicate": AdjudicateStage(),
+                "description": DescriptionStage(),
                 "audit": AuditStage(
                     coverage_percent=75,
                     resolved_fields=3,
@@ -43,7 +69,11 @@ class FakePipeline:
                     routed_to_review=True,
                     needs_human_review=True,
                     gap_report=["Known ground-truth gap"] if ground_truth_row else [],
-                )
+                ),
+                "output_row": OutputRowStage(
+                    values={header: None for header in headers},
+                    header_order=headers,
+                ),
             },
             deep=True,
         )
@@ -97,6 +127,24 @@ def test_process_returns_versioned_stage_trace() -> None:
     assert body["input"]["mfg_part_num"] == "ABC-1"
     assert body["audit"]["coverage_percent"] == 75
     assert "schema_version" in body
+    assert [
+        stage
+        for stage in (
+            "clean",
+            "brand_resolution",
+            "classify",
+            "extract",
+            "normalize",
+            "verify",
+            "adjudicate",
+            "description",
+            "audit",
+            "output_row",
+        )
+        if body[stage] is None
+    ] == []
+    assert body["output_row"]["header_order"]
+    assert list(body["output_row"]["values"]) == body["output_row"]["header_order"]
     app.dependency_overrides.clear()
 
 

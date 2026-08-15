@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import {
@@ -8,6 +8,7 @@ import {
   AttributeItem,
   DescriptionVariant,
 } from "@/data/sampleRecords";
+import { readProcessedRecord, toProductRecord } from "@/lib/recordAdapter";
 import {
   MagnifyingGlass,
   CheckCircle,
@@ -39,6 +40,7 @@ function getVocabColor(vocab: AttributeItem["vocabState"]) {
 }
 
 export default function RecordsPage() {
+  const [records, setRecords] = useState<ProductRecord[]>(SAMPLE_RECORDS);
   const [selectedRecordId, setSelectedRecordId] = useState<string>(
     SAMPLE_RECORDS[0].id
   );
@@ -51,9 +53,17 @@ export default function RecordsPage() {
   const reduce = useReducedMotion();
   const ease = [0.16, 1, 0.3, 1] as const;
 
+  useEffect(() => {
+    const processed = readProcessedRecord();
+    if (!processed) return;
+    const live = toProductRecord(processed);
+    setRecords((current) => [live, ...current.filter((record) => record.id !== live.id)]);
+    setSelectedRecordId(live.id);
+  }, []);
+
   // Filtered records list
   const filteredRecords = useMemo(() => {
-    return SAMPLE_RECORDS.filter((rec) => {
+    return records.filter((rec) => {
       const matchSearch =
         searchQuery.trim() === "" ||
         rec.mpn.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -73,13 +83,13 @@ export default function RecordsPage() {
 
       return matchSearch && matchCat && matchStatus;
     });
-  }, [searchQuery, categoryFilter, statusFilter]);
+  }, [records, searchQuery, categoryFilter, statusFilter]);
 
   const activeRecord = useMemo(() => {
     return (
-      SAMPLE_RECORDS.find((r) => r.id === selectedRecordId) || SAMPLE_RECORDS[0]
+      records.find((r) => r.id === selectedRecordId) || records[0]
     );
-  }, [selectedRecordId]);
+  }, [records, selectedRecordId]);
 
   function copyToClipboard(text: string, type: string) {
     navigator.clipboard.writeText(text);
