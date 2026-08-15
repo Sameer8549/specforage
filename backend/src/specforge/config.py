@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     )
 
     env: str = "development"
+    cors_origins: str = "http://localhost:3000,http://127.0.0.1:3000"
     working_dataset: Path = Field(default=Path("data/sample_1000_items.csv"))
     ground_truth_dataset: Path = Field(default=Path("data/ground_truth.csv"))
     unspsc_dataset: Path = Field(default=Path("data/unspsc_codes.csv"))
@@ -45,6 +46,10 @@ class Settings(BaseSettings):
 
     def resolve_data_path(self, path: Path) -> Path:
         return path if path.is_absolute() else BACKEND_ROOT / path
+
+    @property
+    def allowed_cors_origins(self) -> list[str]:
+        return [origin.strip().rstrip("/") for origin in self.cors_origins.split(",") if origin.strip()]
 
 
 @lru_cache

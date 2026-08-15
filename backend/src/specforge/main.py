@@ -10,6 +10,7 @@ from typing import AsyncIterator
 from uuid import UUID, uuid4
 
 from fastapi import BackgroundTasks, Body, Depends, FastAPI, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, ConfigDict, Field
 
 from specforge.audit import aggregate_accuracy
@@ -101,6 +102,13 @@ app = FastAPI(
     version="0.1.0",
     description="Controlled-vocabulary product enrichment pipeline",
     lifespan=lifespan,
+)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=get_settings().allowed_cors_origins,
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type", "Accept"],
 )
 
 

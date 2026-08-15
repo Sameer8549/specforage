@@ -2,6 +2,7 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import Link from "next/link";
+import { processItem, SpecForgeRecord, StageObject } from "@/lib/specforgeApi";
 import {
   CheckCircle, ArrowRight, Warning, MagnifyingGlass,
   ArrowsClockwise, Gavel, FileText, ClipboardText,
@@ -19,6 +20,45 @@ interface Stage {
   shortLabel: string;
   duration: number; // ms
   icon: React.ReactNode;
+}
+
+const RECORD_STAGE_KEYS = [
+  "clean", "brand_resolution", "classify", "extract", "normalize",
+  "verify", "adjudicate", "description", "audit", "output_row",
+] as const;
+
+function displayValue(value: unknown): string {
+  if (value === null || value === undefined || value === "") return "—";
+  if (typeof value === "boolean") return value ? "YES" : "NO";
+  if (typeof value === "object") return JSON.stringify(value);
+  return String(value);
+}
+
+function LiveStageContent({ data }: { data: StageObject | null | undefined }) {
+  if (!data) {
+    return (
+      <div style={{ border: "1px solid var(--border)", padding: 20 }}>
+        <span className="text-mono-label" style={{ color: "var(--fg-dim)" }}>
+          THIS STAGE RETURNED NO DATA
+        </span>
+      </div>
+    );
+  }
+  return (
+    <div style={{ border: "1px solid var(--border)", minWidth: 0 }}>
+      <SectionHead label="[ LIVE BACKEND RESPONSE ]" />
+      {Object.entries(data).map(([key, value]) => (
+        <div key={key} style={{ display: "grid", gridTemplateColumns: "minmax(150px, 220px) minmax(0, 1fr)", borderTop: "1px solid var(--border-dim)" }}>
+          <div className="text-mono-label" style={{ padding: "9px 12px", fontSize: 12, borderRight: "1px solid var(--border-dim)", overflowWrap: "anywhere" }}>
+            {key.replaceAll("_", " ").toUpperCase()}
+          </div>
+          <div className="text-mono-data" style={{ padding: "9px 12px", fontSize: 12, overflowWrap: "anywhere", whiteSpace: "pre-wrap" }}>
+            {displayValue(value)}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -420,7 +460,7 @@ function Stage08Content() {
               <p style={{ fontSize: 13, color: "var(--fg-primary)", lineHeight: 1.5, marginBottom: 10 }}>{item.value}</p>
               {/* Character limit bar */}
               <div style={{ height: 2, backgroundColor: "var(--border)", position: "relative" }}>
-                <div style={{ position: "absolute", left: 0, top: 0, height: "100%", width: `${Math.min(pct, 100)}%`, backgroundColor: over ? "var(--accent)" : "var(--status-ok)", transition: "width 400ms ease" }} />
+                <div style={{ position: "absolute", left: 0, top: 0, height: "100%", width: `${Math.min(pct, 100)}%`, backgroundColor: over ? "var(--accent)" : "var(--status-ok)" }} />
               </div>
             </div>
           </div>
@@ -559,6 +599,10 @@ export default function PipelineLivePage() {
   const [progress, setProgress] = useState<number>(0);   // 0-100 for active stage bar
   const progRef  = useRef<ReturnType<typeof setInterval> | null>(null);
   const stageRef = useRef(0);
+  const [record, setRecord] = useState<SpecForgeRecord | null>(null);
+  const [requestError, setRequestError] = useState<string | null>(null);
+  const [retryKey, setRetryKey] = useState(0);
+  const [inputMpn, setInputMpn] = useState("PENDING INPUT");
 
   const advanceStage = useCallback((idx: number) => {
     if (idx >= STAGES.length) return;
@@ -603,11 +647,47 @@ export default function PipelineLivePage() {
     };
   }, [advanceStage]);
 
+  useEffect(() => {
+    const controller = new AbortController();
+    setRequestError(null);
+    setRecord(null);
+    let row: { mpn?: string; description?: string; brand?: string; manufacturer?: string };
+    try {
+      const raw = sessionStorage.getItem("sf_row");
+      if (!raw) throw new Error("No input row was found. Return to Input and submit an item first.");
+      row = JSON.parse(raw);
+      if (!row.mpn?.trim() || !row.description?.trim()) {
+        throw new Error("The saved row is missing its MPN or description.");
+      }
+      setInputMpn(row.mpn);
+    } catch (error) {
+      setRequestError(error instanceof Error ? error.message : "The saved input could not be read.");
+      return () => controller.abort();
+    }
+    processItem(row, controller.signal)
+      .then((result) => {
+        if (progRef.current) clearInterval(progRef.current);
+        setRecord(result);
+        sessionStorage.setItem("sf_processed_record", JSON.stringify(result));
+        if (result.output_row) sessionStorage.setItem("sf_output_row", JSON.stringify(result.output_row));
+        setStatuses(STAGES.map(() => "done"));
+        setProgress(100);
+        setSelected(STAGES.length - 1);
+      })
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        setRequestError(error instanceof Error ? error.message : "The backend request failed.");
+        setStatuses((previous) => previous.map((status) => status === "active" ? "error" : status));
+      });
+    return () => controller.abort();
+  }, [retryKey]);
+
   const totalDone = statuses.filter((s) => s === "done").length;
   const overallPct = Math.round((totalDone / STAGES.length) * 100);
   const allDone = totalDone === STAGES.length;
 
   const StageContent = STAGE_CONTENT[selected];
+  const liveStage = record?.[RECORD_STAGE_KEYS[selected]] as StageObject | null | undefined;
 
   return (
     <>
@@ -623,7 +703,7 @@ export default function PipelineLivePage() {
                 Active SKU Processing
               </div>
               <div className="text-display" style={{ fontSize: "1.4rem", marginBottom: 16 }}>
-                FGID2466QF4A
+                {inputMpn}
               </div>
               {/* Overall progress bar */}
               <div style={{ marginBottom: 6 }}>
@@ -663,7 +743,7 @@ export default function PipelineLivePage() {
                       background: isSelected ? "var(--bg-surface)" : "transparent",
                       border: "none",
                       borderTop: "1px solid var(--border-dim)",
-                      borderLeft: `3px solid ${isActive ? "var(--accent)" : isDone ? "var(--status-ok)" : "transparent"}`,
+                      borderLeft: `1px solid ${isActive ? "var(--accent)" : isDone ? "var(--status-ok)" : "transparent"}`,
                       padding: "12px 16px",
                       cursor: "pointer",
                       display: "flex",
@@ -684,7 +764,7 @@ export default function PipelineLivePage() {
                       </div>
                       {isDone && (
                         <div className="text-mono-label" style={{ fontSize: 11.5, color: "var(--mono-meta)", lineHeight: 1.4, whiteSpace: "normal" }}>
-                          {STAGE_SUMMARIES[i]}
+                          {record ? `${RECORD_STAGE_KEYS[i].replaceAll("_", " ")} returned by backend` : STAGE_SUMMARIES[i]}
                         </div>
                       )}
                     </div>
@@ -742,13 +822,25 @@ export default function PipelineLivePage() {
                   exit={{ opacity: 0, y: -8 }}
                   transition={{ duration: 0.35, ease }}
                 >
-                  {statuses[selected] === "queued" ? (
+                  {requestError ? (
+                    <div role="alert" style={{ border: "1px solid var(--status-warn)", padding: 20, display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 14 }}>
+                      <div>
+                        <div className="text-mono-label" style={{ color: "var(--status-warn)", marginBottom: 8 }}>PROCESSING FAILED</div>
+                        <p style={{ color: "var(--fg-secondary)", lineHeight: 1.6, overflowWrap: "anywhere" }}>{requestError}</p>
+                      </div>
+                      <button type="button" className="btn-primary" onClick={() => setRetryKey((value) => value + 1)}>
+                        RETRY BACKEND REQUEST
+                      </button>
+                    </div>
+                  ) : statuses[selected] === "queued" ? (
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "60px 0", gap: 12 }}>
                       <span style={{ width: 8, height: 8, backgroundColor: "var(--border)", display: "block" }} />
                       <span className="text-mono-label" style={{ color: "var(--fg-dim)" }}>
                         STAGE QUEUED — AWAITING PREVIOUS STAGES
                       </span>
                     </div>
+                  ) : record ? (
+                    <LiveStageContent data={liveStage} />
                   ) : (
                     <StageContent />
                   )}

@@ -69,6 +69,22 @@ def test_health_reports_bundled_dataset_counts_without_loading_pipeline() -> Non
     app.dependency_overrides.clear()
 
 
+def test_cors_allows_configured_frontend_origin() -> None:
+    with client() as api:
+        response = api.options(
+            "/process",
+            headers={
+                "Origin": "http://localhost:3000",
+                "Access-Control-Request-Method": "POST",
+                "Access-Control-Request-Headers": "content-type",
+            },
+        )
+
+    assert response.status_code == 200
+    assert response.headers["access-control-allow-origin"] == "http://localhost:3000"
+    app.dependency_overrides.clear()
+
+
 def test_process_returns_versioned_stage_trace() -> None:
     with client() as api:
         response = api.post(
