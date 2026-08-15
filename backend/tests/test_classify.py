@@ -30,7 +30,14 @@ class FakeTieBreaker:
         self.calls = 0
         self.candidates: list[UNSPSCRecord] = []
 
-    async def choose(self, query: str, candidates: list[UNSPSCRecord]) -> TieBreakDecision:
+    async def choose(
+        self,
+        query: str,
+        candidates: list[UNSPSCRecord],
+        manufacturer: str | None = None,
+        brand: str | None = None,
+        manufacturer_source: str | None = None,
+    ) -> TieBreakDecision:
         self.calls += 1
         self.candidates = list(candidates)
         return TieBreakDecision(commodity_code=self.code)
@@ -194,11 +201,25 @@ async def test_llm_tiebreaker_can_explicitly_return_genuinely_ambiguous() -> Non
     class FakeLLM:
         async def complete_json(self, system_prompt: str, user_prompt: str, schema: dict) -> dict:
             assert "item_description" in user_prompt
+            assert "resolved_context" in user_prompt
+            assert "Rheem Manufacturing" in user_prompt
+            assert "mpn_web_lookup" in user_prompt
+            assert "segment_name" in user_prompt
+            assert "commodity_name" in user_prompt
+            assert "Display Only" in user_prompt
+            assert "not evidence of commercial-grade equipment" in user_prompt
             assert schema["properties"]["decision"]["enum"][-1] == "genuinely_ambiguous"
             return {"decision": "genuinely_ambiguous", "reasoning": "Insufficient evidence."}
 
     decision = await LLMClassificationTieBreaker(FakeLLM()).choose(
-        "Generic kitchen appliance", [dishwasher(), oven()]
+        "Generic kitchen appliance",
+        [dishwasher(), oven()],
+        manufacturer="Rheem Manufacturing",
+        manufacturer_source="mpn_web_lookup",
     )
 
-    assert decision == TieBreakDecision(commodity_code=None, genuinely_ambiguous=True)
+    assert decision == TieBreakDecision(
+        commodity_code=None,
+        genuinely_ambiguous=True,
+        reasoning="Insufficient evidence.",
+    )

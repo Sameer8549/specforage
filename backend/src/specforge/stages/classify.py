@@ -25,11 +25,17 @@ TIE_BREAK_EXTRA_SCORE_BAND = 0.05
 class TieBreakDecision:
     commodity_code: str | None
     genuinely_ambiguous: bool = False
+    reasoning: str | None = None
 
 
 class ClassificationTieBreaker(Protocol):
     async def choose(
-        self, query: str, candidates: Sequence[UNSPSCRecord]
+        self,
+        query: str,
+        candidates: Sequence[UNSPSCRecord],
+        manufacturer: str | None = None,
+        brand: str | None = None,
+        manufacturer_source: str | None = None,
     ) -> TieBreakDecision: ...
 
 
@@ -45,7 +51,12 @@ class LLMClassificationTieBreaker:
         self.llm = llm
 
     async def choose(
-        self, query: str, candidates: Sequence[UNSPSCRecord]
+        self,
+        query: str,
+        candidates: Sequence[UNSPSCRecord],
+        manufacturer: str | None = None,
+        brand: str | None = None,
+        manufacturer_source: str | None = None,
     ) -> TieBreakDecision:
         allowed = [candidate.commodity_code for candidate in candidates]
         schema = TieBreakPayload.model_json_schema()
@@ -53,16 +64,33 @@ class LLMClassificationTieBreaker:
         prompt = json.dumps(
             {
                 "item_description": query,
+                "resolved_context": {
+                    "manufacturer": manufacturer,
+                    "brand": brand,
+                    "manufacturer_source": manufacturer_source,
+                },
                 "candidates": [
                     {
                         "commodity_code": candidate.commodity_code,
+                        "segment_code": candidate.segment_code,
+                        "segment_name": candidate.segment_name,
+                        "family_code": candidate.family_code,
+                        "family_name": candidate.family_name,
+                        "class_code": candidate.class_code,
+                        "class_name": candidate.class_name,
+                        "commodity_name": candidate.commodity_name,
                         "classpath": candidate.classpath,
                     }
                     for candidate in candidates
                 ],
                 "instruction": (
                     "Select exactly one supplied commodity_code only when the description "
-                    "supports it. Otherwise return genuinely_ambiguous."
+                    "supports it. Otherwise return genuinely_ambiguous. Residential or consumer "
+                    "appliance listings from a distributor catalog should default toward the "
+                    "domestic/consumer-grade commodity unless the item description contains "
+                    "explicit commercial or industrial evidence such as 'commercial', "
+                    "'restaurant grade', or 'NSF certified'. 'Display Only' is a retail "
+                    "merchandising note and is not evidence of commercial-grade equipment."
                 ),
             },
             ensure_ascii=False,
@@ -77,10 +105,17 @@ class LLMClassificationTieBreaker:
         except (LLMError, ValidationError):
             return TieBreakDecision(commodity_code=None)
         if payload.decision == GENUINELY_AMBIGUOUS:
-            return TieBreakDecision(commodity_code=None, genuinely_ambiguous=True)
+            return TieBreakDecision(
+                commodity_code=None,
+                genuinely_ambiguous=True,
+                reasoning=payload.reasoning,
+            )
         if payload.decision not in allowed:
             return TieBreakDecision(commodity_code=None)
-        return TieBreakDecision(commodity_code=payload.decision)
+        return TieBreakDecision(
+            commodity_code=payload.decision,
+            reasoning=payload.reasoning,
+        )
 
 
 def classification_query(part_desc: str | None, mfg_part_num: str | None) -> str:
@@ -112,6 +147,7 @@ async def run_classify_stage(
     selected: tuple[UNSPSCRecord, float] | None = ranked[0] if ranked else None
     tie_break_used = False
     tie_break_outcome: str | None = None
+    tie_break_reasoning: str | None = None
 
     if selected is not None and len(ranked) > 1:
         close = selected[1] - ranked[1][1] <= settings.classification_tie_margin
@@ -138,7 +174,23 @@ async def run_classify_stage(
                 decision = await tie_breaker.choose(
                     source.part_desc or query,
                     [candidate for candidate, _ in tie_candidates],
+                    (
+                        record.brand_resolution.manufacturer.canonical_name
+                        if record.brand_resolution
+                        else None
+                    ),
+                    (
+                        record.brand_resolution.brand.canonical_name
+                        if record.brand_resolution
+                        else None
+                    ),
+                    (
+                        record.brand_resolution.manufacturer_source
+                        if record.brand_resolution
+                        else None
+                    ),
                 )
+                tie_break_reasoning = decision.reasoning
                 chosen_code = decision.commodity_code
                 selected = next(
                     (
@@ -193,6 +245,7 @@ async def run_classify_stage(
         candidates=candidates,
         tie_break_used=tie_break_used,
         tie_break_outcome=tie_break_outcome,
+        tie_break_reasoning=tie_break_reasoning,
         flags=flags,
     )
     return record.model_copy(

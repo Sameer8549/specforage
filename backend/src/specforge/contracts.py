@@ -88,6 +88,7 @@ class ClassificationStage(ContractModel):
     candidates: list[Candidate] = Field(default_factory=list)
     tie_break_used: bool = False
     tie_break_outcome: str | None = None
+    tie_break_reasoning: str | None = None
     flags: list[ReviewFlag] = Field(default_factory=list)
 
 
