@@ -119,7 +119,8 @@ function StageBody({ stageKey, data, record }: { stageKey: string; data: StageOb
     ))}</div> : <Empty message="No classification candidates were returned." />}
   </>;
   if (stageKey === "extract" || stageKey === "normalize") return <>
-    {stageKey === "extract" ? <KeyValueGrid entries={[["manufacturer retrieval attempted", stage.retrieval_attempted], ["extraction failed", stage.extraction_failed], ["flags", stage.flags]]} /> : null}
+    {stageKey === "extract" ? <><KeyValueGrid entries={[["manufacturer retrieval attempted", stage.retrieval_attempted], ["retrieved source count", stage.retrieved_source_count], ["extraction failed", stage.extraction_failed], ["flags", stage.flags]]} />
+      {stage.retrieval_attempted === true && Number(stage.retrieved_source_count || 0) === 0 ? <div className="retrieval-notice"><Warning size={17} /><div><strong>No product page found on {text(object(record.brand_resolution).manufacturer_domain, "the resolved manufacturer domain")}</strong><p>Extraction was limited to the supplied catalog description. No value was invented to fill the gap.</p></div></div> : null}</> : null}
     <AttributeRows items={array(stage.attributes)} verification={stageKey === "extract" ? verifyResults : undefined} />
   </>;
   if (stageKey === "verify") {
@@ -132,7 +133,7 @@ function StageBody({ stageKey, data, record }: { stageKey: string; data: StageOb
     ))}</div> : <Empty message="No attributes reached verification." />;
   }
   if (stageKey === "adjudicate") return <>
-    <KeyValueGrid entries={[["needs human review", stage.needs_human_review], ["reasoning", stage.reasoning], ["rejected values", stage.rejected_values]]} />
+    <KeyValueGrid entries={[["LLM invoked", stage.llm_invoked], ["forced debug run", stage.forced], ["needs human review", stage.needs_human_review], ["reasoning", stage.reasoning], ["rejected values", stage.rejected_values]]} />
     <div className="trace-subhead">Final adjudicated attributes</div><AttributeRows items={array(stage.attributes)} verification={verifyResults} />
   </>;
   if (stageKey === "description") {
@@ -165,7 +166,7 @@ function StageDisclosure({ stage, record, defaultOpen }: { stage: typeof STAGES[
 
 function adjudicationFired(record: SpecForgeRecord): boolean {
   const adjudicate = object(record.adjudicate);
-  return Boolean(adjudicate.needs_human_review || array(adjudicate.rejected_values).length || (Array.isArray(adjudicate.reasoning) && adjudicate.reasoning.length));
+  return Boolean(adjudicate.llm_invoked || adjudicate.forced || adjudicate.needs_human_review || array(adjudicate.rejected_values).length || (Array.isArray(adjudicate.reasoning) && adjudicate.reasoning.length));
 }
 
 function DownloadButton({ record }: { record: SpecForgeRecord }) {
@@ -201,6 +202,7 @@ export default function PipelineLivePage() {
   const [mpn, setMpn] = useState("");
   const [brand, setBrand] = useState("");
   const [description, setDescription] = useState("");
+  const [forceAdjudication, setForceAdjudication] = useState(false);
   const [record, setRecord] = useState<SpecForgeRecord | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -221,7 +223,7 @@ export default function PipelineLivePage() {
     if (!mpn.trim() || !description.trim() || loading) return;
     setLoading(true); setElapsed(0); setError(null); setRecord(null);
     try {
-      const result = await processItem({ mpn, brand, description });
+      const result = await processItem({ mpn, brand, description, forceAdjudication });
       setRecord(result);
       sessionStorage.setItem("sf_processed_record", JSON.stringify(result));
     } catch (reason) {
@@ -239,7 +241,7 @@ export default function PipelineLivePage() {
         <label className="description-input"><span className="text-mono-label">Description *</span><textarea value={description} onChange={(event) => setDescription(event.target.value)} placeholder="Raw distributor catalog description" required disabled={loading} rows={3} /></label>
         <button className="btn-primary process-button" type="submit" disabled={loading || !mpn.trim() || !description.trim()}>{loading ? <SpinnerGap className="loading-spinner" size={16} /> : <Play size={15} weight="fill" />}{loading ? "Processing" : "Process"}</button>
       </form>
-      <div className="live-endpoint"><span className="badge badge-ok">Live</span><span className="text-mono-label">Railway /process</span></div>
+      <div className="playground-controls"><div className="live-endpoint"><span className="badge badge-ok">Live</span><span className="text-mono-label">Railway /process</span></div><label className="debug-toggle"><input type="checkbox" checked={forceAdjudication} onChange={(event) => setForceAdjudication(event.target.checked)} disabled={loading} /><span><strong>Force Adjudicate thinking on</strong><small>Debug/demo only · runs stage 07 even without a detected conflict</small></span></label></div>
     </section>
     <AnimatePresence mode="wait">
       {loading ? <motion.section key="loading" initial={reduce ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="playground-results"><LoadingTrace elapsed={elapsed} /></motion.section>

@@ -23,6 +23,7 @@ export interface InputRow {
   description?: string;
   brand?: string;
   manufacturer?: string;
+  forceAdjudication?: boolean;
 }
 
 export interface EvaluationResult {
@@ -69,6 +70,7 @@ export async function processItem(row: InputRow, signal?: AbortSignal): Promise<
       unilog_brand: null,
       dib_brand: null,
       part_manuf: row.manufacturer?.trim() || null,
+      force_adjudication: Boolean(row.forceAdjudication),
     }),
     signal,
   });
@@ -94,6 +96,8 @@ export async function processItem(row: InputRow, signal?: AbortSignal): Promise<
   if (!output || typeof output.values !== "object" || !Array.isArray(output.header_order)) {
     throw new Error("Backend returned an invalid Delivery Format output row.");
   }
+  const { recordSessionAudit } = await import("@/lib/sessionAudit");
+  recordSessionAudit(record);
   return record;
 }
 
@@ -135,5 +139,10 @@ export async function startBatch(rows: InputRow[], signal?: AbortSignal): Promis
 export async function getBatchStatus(statusUrl: string, signal?: AbortSignal): Promise<BatchStatus> {
   const response = await fetch(`${API_BASE}${statusUrl}`, { headers: { Accept: "application/json" }, signal });
   if (!response.ok) throw new Error(await errorMessage(response));
-  return response.json() as Promise<BatchStatus>;
+  const status = await response.json() as BatchStatus;
+  if (status.rows.some((row) => row.record)) {
+    const { recordSessionAudit } = await import("@/lib/sessionAudit");
+    status.rows.forEach((row) => { if (row.record) recordSessionAudit(row.record); });
+  }
+  return status;
 }

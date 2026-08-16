@@ -40,6 +40,11 @@ class FakeRetriever:
         ]
 
 
+class EmptyRetriever:
+    async def retrieve(self, domain: str, query: str) -> list[RetrievedExcerpt]:
+        return []
+
+
 def classified_record(description: str = "Dishwasher, 120 V, 15 A") -> ItemRecord:
     return ItemRecord(
         input=InputStage(mfg_part_num="ABC", part_desc=description),
@@ -122,9 +127,31 @@ async def test_retrieval_is_restricted_to_confident_manufacturer_domain() -> Non
     prompt = json.loads(llm.user_prompt)
     assert result.extract is not None
     assert result.extract.retrieval_attempted is True
+    assert result.extract.retrieved_source_count == 1
     assert len(prompt["SOURCE_BLOCKS"]) == 2
     assert prompt["SOURCE_BLOCKS"][1]["url"] == "https://support.acme.com/spec"
     assert {flag.code for flag in result.extract.flags} == {"non_official_sources_rejected"}
+
+
+@pytest.mark.asyncio
+async def test_empty_manufacturer_retrieval_is_explicitly_flagged() -> None:
+    record = classified_record("Dishwasher")
+    record = record.model_copy(
+        update={
+            "brand_resolution": BrandResolutionStage(
+                manufacturer=EntityResolution(canonical_name="Acme", confidence=0.99),
+                manufacturer_domain="acme.com",
+            )
+        }
+    )
+
+    result = await run_extract_stage(record, FakeLLM(), Settings(), EmptyRetriever())
+
+    assert result.extract is not None
+    assert result.extract.retrieval_attempted is True
+    assert result.extract.retrieved_source_count == 0
+    flag = next(flag for flag in result.extract.flags if flag.code == "manufacturer_retrieval_no_results")
+    assert "acme.com" in flag.message
 
 
 @pytest.mark.asyncio

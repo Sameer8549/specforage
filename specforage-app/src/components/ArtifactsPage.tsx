@@ -3,6 +3,8 @@ import manufacturerBrand from "../../public/artifacts/manufacturer_brand_vocabul
 import attributeVocabulary from "../../public/artifacts/attribute_vocabulary.json";
 import uomRules from "../../public/artifacts/uom_rules.json";
 import taxonomyBridge from "../../public/artifacts/taxonomy_bridge.json";
+import confidenceSelfCheck from "../../public/artifacts/confidence_self_check.json";
+import SessionAuditPanel from "@/components/SessionAuditPanel";
 
 const DOWNLOADS = [
   ["Manufacturer + brand vocabulary", "/artifacts/manufacturer_brand_vocabulary.json", "JSON"],
@@ -11,6 +13,8 @@ const DOWNLOADS = [
   ["Taxonomy bridge", "/artifacts/taxonomy_bridge.json", "JSON"],
   ["Taxonomy bridge", "/artifacts/taxonomy_bridge.csv", "CSV"],
   ["Methodology + examples", "/artifacts/VOCABULARIES.md", "MD"],
+  ["Confidence self-consistency", "/artifacts/confidence_self_check.json", "JSON"],
+  ["Confidence self-consistency", "/artifacts/CONFIDENCE_SELF_CHECK.md", "MD"],
 ] as const;
 
 function Percent({ value }: { value: number }) {
@@ -46,6 +50,16 @@ export default function ArtifactsPage() {
       <div className="artifact-downloads">{DOWNLOADS.map(([label, href, format]) => <a key={`${href}-${format}`} className="artifact-download" href={href} download>
         <span><strong>{label}</strong><small className="text-mono-label">{format}</small></span><DownloadSimple size={18} aria-hidden="true" />
       </a>)}</div>
+    </section>
+
+    <section className="artifact-section" aria-labelledby="audit-export-title">
+      <div className="artifact-section-heading"><div><div className="text-mono-label" style={{ color: "var(--accent)" }}>Live, local audit trail</div><h2 id="audit-export-title" className="text-display">Export processed records.</h2></div><p>Every Playground and completed Batch response is retained in this browser with all ten stage objects intact.</p></div>
+      <SessionAuditPanel />
+    </section>
+
+    <section className="artifact-section" aria-labelledby="confidence-title">
+      <div className="artifact-section-heading"><div><div className="text-mono-label" style={{ color: "var(--accent)" }}>Self-consistency, not calibration accuracy</div><h2 id="confidence-title" className="text-display">Confidence behavior.</h2></div><p>{confidenceSelfCheck.scope} The manual “correct-looking” review is subjective and is not a substitute for labeled validation data.</p></div>
+      <div className="artifact-table-wrap"><table className="artifact-table"><thead><tr><th>Entailment label</th><th>Observations</th><th>Retained</th><th>Manually correct-looking</th></tr></thead><tbody>{confidenceSelfCheck.by_entailment.map((row) => <tr key={row.entailment}><td>{row.entailment}</td><td className="text-mono-data">{row.observations}</td><td>{row.retained_percent.toFixed(1)}%</td><td>{row.manual_correct_looking_percent.toFixed(1)}%</td></tr>)}</tbody></table></div>
     </section>
 
     <section className="artifact-section" aria-labelledby="entities-title">

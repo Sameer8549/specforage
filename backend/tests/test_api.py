@@ -148,6 +148,22 @@ def test_process_returns_versioned_stage_trace() -> None:
     app.dependency_overrides.clear()
 
 
+def test_process_accepts_force_adjudication_debug_flag() -> None:
+    with client() as api:
+        response = api.post(
+            "/process",
+            json={
+                "mfg_part_num": "ABC-1",
+                "part_desc": "Dishwasher, 120 V",
+                "force_adjudication": True,
+            },
+        )
+
+    assert response.status_code == 200
+    assert response.json()["processing_metadata"]["force_adjudication"] is True
+    app.dependency_overrides.clear()
+
+
 def _csv_payload(rows: list[dict[str, str]]) -> bytes:
     handle = io.StringIO(newline="")
     writer = csv.DictWriter(

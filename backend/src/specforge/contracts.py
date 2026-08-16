@@ -96,6 +96,7 @@ class ClassificationStage(ContractModel):
 class ExtractStage(ContractModel):
     attributes: list[AttributeValue] = Field(default_factory=list)
     retrieval_attempted: bool = False
+    retrieved_source_count: int = Field(default=0, ge=0)
     extraction_failed: bool = False
     flags: list[ReviewFlag] = Field(default_factory=list)
 
@@ -132,6 +133,8 @@ class AdjudicateStage(ContractModel):
     rejected_values: list[RejectedValue] = Field(default_factory=list)
     needs_human_review: bool = False
     reasoning: list[str] = Field(default_factory=list)
+    llm_invoked: bool = False
+    forced: bool = False
 
 
 class DescriptionStage(ContractModel):

@@ -37,6 +37,7 @@ class ProcessRequest(APIModel):
     unilog_brand: str | None = None
     dib_brand: str | None = None
     part_manuf: str | None = None
+    force_adjudication: bool = False
 
 
 class BatchAccepted(APIModel):
@@ -149,7 +150,8 @@ async def process_item(
             unilog_brand=request.unilog_brand,
             dib_brand=request.dib_brand,
             part_manuf=request.part_manuf,
-        )
+        ),
+        processing_metadata={"force_adjudication": request.force_adjudication},
     )
     return await pipeline.process(record)
 

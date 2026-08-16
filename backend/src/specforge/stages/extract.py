@@ -121,6 +121,18 @@ async def run_extract_stage(
                     stage="extract",
                 )
             )
+        if not retrieved:
+            flags.append(
+                ReviewFlag(
+                    code="manufacturer_retrieval_no_results",
+                    message=(
+                        f"No product page was found on {official_domain}; "
+                        "extraction was limited to the catalog description."
+                    ),
+                    field="sources",
+                    stage="extract",
+                )
+            )
 
     source_blocks = [{"source_type": "description", "text": description}]
     source_blocks.extend(
@@ -155,6 +167,7 @@ async def run_extract_stage(
             update={
                 "extract": ExtractStage(
                     retrieval_attempted=retrieval_attempted,
+                    retrieved_source_count=len(retrieved),
                     extraction_failed=True,
                     flags=flags,
                 ),
@@ -201,6 +214,7 @@ async def run_extract_stage(
             "extract": ExtractStage(
                 attributes=attributes,
                 retrieval_attempted=retrieval_attempted,
+                retrieved_source_count=len(retrieved),
                 flags=flags,
             ),
             "updated_at": datetime.now(timezone.utc),

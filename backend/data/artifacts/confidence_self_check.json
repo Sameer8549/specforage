@@ -1,0 +1,361 @@
+{
+  "title": "Working-set confidence and entailment self-consistency check",
+  "scope": "27 extracted attribute observations across the published 30-row unlabeled working set.",
+  "warning": "This is not a calibration accuracy estimate. Ground truth is unavailable for these rows; 'correct-looking' is a documented manual plausibility review of excerpt grounding, label semantics, and final disposition.",
+  "manual_review_policy": {
+    "supported": "Counted correct-looking only when the excerpt supports both the value and its assigned attribute label.",
+    "partially_supported": "Counted correct-looking when normalization explains the partial label and the output remains faithful to the excerpt.",
+    "not_supported": "Counted correct-looking when rejection prevents an unsupported attribute; counted questionable when verbatim evidence appears to have been rejected."
+  },
+  "by_entailment": [
+    {
+      "entailment": "not_supported",
+      "observations": 2,
+      "retained": 0,
+      "retained_percent": 0.0,
+      "manual_correct_looking": 1,
+      "manual_correct_looking_percent": 50.0
+    },
+    {
+      "entailment": "partially_supported",
+      "observations": 2,
+      "retained": 2,
+      "retained_percent": 100.0,
+      "manual_correct_looking": 2,
+      "manual_correct_looking_percent": 100.0
+    },
+    {
+      "entailment": "supported",
+      "observations": 23,
+      "retained": 23,
+      "retained_percent": 100.0,
+      "manual_correct_looking": 17,
+      "manual_correct_looking_percent": 73.91
+    }
+  ],
+  "by_confidence_tier": [
+    {
+      "confidence_tier": "high (0.95\u20131.00)",
+      "observations": 25,
+      "retained": 23,
+      "retained_percent": 92.0,
+      "manual_correct_looking": 18,
+      "manual_correct_looking_percent": 72.0
+    },
+    {
+      "confidence_tier": "low (<0.80)",
+      "observations": 1,
+      "retained": 1,
+      "retained_percent": 100.0,
+      "manual_correct_looking": 1,
+      "manual_correct_looking_percent": 100.0
+    },
+    {
+      "confidence_tier": "medium (0.80\u20130.949)",
+      "observations": 1,
+      "retained": 1,
+      "retained_percent": 100.0,
+      "manual_correct_looking": 1,
+      "manual_correct_looking_percent": 100.0
+    }
+  ],
+  "observations": [
+    {
+      "mpn": "49-94-0907",
+      "attribute": "Series",
+      "value": "Milw",
+      "entailment": "not_supported",
+      "confidence": 0.95,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": false,
+      "manual_correct_looking": true,
+      "manual_review_note": "Unsupported brand abbreviation was correctly rejected as Series."
+    },
+    {
+      "mpn": "49-94-0907",
+      "attribute": "Model",
+      "value": "49-94-0907",
+      "entailment": "supported",
+      "confidence": 1.0,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": true,
+      "manual_correct_looking": true,
+      "manual_review_note": "Excerpt-grounded and manually plausible for its assigned label."
+    },
+    {
+      "mpn": "44-A",
+      "attribute": "Series",
+      "value": "44-A",
+      "entailment": "supported",
+      "confidence": 1.0,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": true,
+      "manual_correct_looking": true,
+      "manual_review_note": "Excerpt-grounded and manually plausible for its assigned label."
+    },
+    {
+      "mpn": "44-A",
+      "attribute": "Model",
+      "value": "Light Chocolate 44-A Mortar - Type N",
+      "entailment": "supported",
+      "confidence": 1.0,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": true,
+      "manual_correct_looking": false,
+      "manual_review_note": "Excerpt-grounded, but the attribute label is semantically questionable."
+    },
+    {
+      "mpn": "ADR5117512FW",
+      "attribute": "Series",
+      "value": "Landmark",
+      "entailment": "supported",
+      "confidence": 1.0,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": true,
+      "manual_correct_looking": true,
+      "manual_review_note": "Excerpt-grounded and manually plausible for its assigned label."
+    },
+    {
+      "mpn": "ADR5117512FW",
+      "attribute": "Model",
+      "value": "1x12-12' French White Oak",
+      "entailment": "supported",
+      "confidence": 1.0,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": true,
+      "manual_correct_looking": false,
+      "manual_review_note": "Excerpt-grounded, but the attribute label is semantically questionable."
+    },
+    {
+      "mpn": "543340896",
+      "attribute": "Material",
+      "value": "Alum",
+      "entailment": "supported",
+      "confidence": 1.0,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": true,
+      "manual_correct_looking": true,
+      "manual_review_note": "Excerpt-grounded and manually plausible for its assigned label."
+    },
+    {
+      "mpn": "543340896",
+      "attribute": "Color",
+      "value": "Black",
+      "entailment": "supported",
+      "confidence": 1.0,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": true,
+      "manual_correct_looking": true,
+      "manual_review_note": "Excerpt-grounded and manually plausible for its assigned label."
+    },
+    {
+      "mpn": "1517602",
+      "attribute": "Series",
+      "value": "6068R",
+      "entailment": "supported",
+      "confidence": 1.0,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": true,
+      "manual_correct_looking": true,
+      "manual_review_note": "Excerpt-grounded and manually plausible for its assigned label."
+    },
+    {
+      "mpn": "1517602",
+      "attribute": "Model",
+      "value": "Gliding Patio Dr 4500",
+      "entailment": "supported",
+      "confidence": 1.0,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": true,
+      "manual_correct_looking": true,
+      "manual_review_note": "Excerpt-grounded and manually plausible for its assigned label."
+    },
+    {
+      "mpn": "FS C01 2004S",
+      "attribute": "Series",
+      "value": "FS C01",
+      "entailment": "supported",
+      "confidence": 0.95,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": true,
+      "manual_correct_looking": true,
+      "manual_review_note": "Excerpt-grounded and manually plausible for its assigned label."
+    },
+    {
+      "mpn": "174-0CSB3-15W",
+      "attribute": "Series",
+      "value": "OCSB3",
+      "entailment": "supported",
+      "confidence": 1.0,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": true,
+      "manual_correct_looking": true,
+      "manual_review_note": "Excerpt-grounded and manually plausible for its assigned label."
+    },
+    {
+      "mpn": "174-0CSB3-15W",
+      "attribute": "Model",
+      "value": "174-OCSB3-15A Toggle 3-Way Switch Wh",
+      "entailment": "supported",
+      "confidence": 1.0,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": true,
+      "manual_correct_looking": false,
+      "manual_review_note": "Excerpt-grounded, but the attribute label is semantically questionable."
+    },
+    {
+      "mpn": "e28cnkha",
+      "attribute": "Series",
+      "value": "Prebena",
+      "entailment": "supported",
+      "confidence": 1.0,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": true,
+      "manual_correct_looking": false,
+      "manual_review_note": "Excerpt-grounded, but the attribute label is semantically questionable."
+    },
+    {
+      "mpn": "e28cnkha",
+      "attribute": "Model",
+      "value": "E28CNKHA",
+      "entailment": "supported",
+      "confidence": 1.0,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": true,
+      "manual_correct_looking": true,
+      "manual_review_note": "Excerpt-grounded and manually plausible for its assigned label."
+    },
+    {
+      "mpn": "55227",
+      "attribute": "Series",
+      "value": "55227",
+      "entailment": "supported",
+      "confidence": 0.95,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": true,
+      "manual_correct_looking": false,
+      "manual_review_note": "Excerpt-grounded, but the attribute label is semantically questionable."
+    },
+    {
+      "mpn": "924422",
+      "attribute": "Series",
+      "value": "Mafell Carpentry",
+      "entailment": "supported",
+      "confidence": 1.0,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": true,
+      "manual_correct_looking": false,
+      "manual_review_note": "Excerpt-grounded, but the attribute label is semantically questionable."
+    },
+    {
+      "mpn": "924422",
+      "attribute": "Model",
+      "value": "ZH 320 Ec",
+      "entailment": "supported",
+      "confidence": 1.0,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": true,
+      "manual_correct_looking": true,
+      "manual_review_note": "Excerpt-grounded and manually plausible for its assigned label."
+    },
+    {
+      "mpn": "924422",
+      "attribute": "Voltage Rating",
+      "value": "120V",
+      "entailment": "partially_supported",
+      "confidence": 0.5,
+      "confidence_tier": "low (<0.80)",
+      "retained": true,
+      "manual_correct_looking": true,
+      "manual_review_note": "Value is verbatim and the partial label reflects value/UOM normalization."
+    },
+    {
+      "mpn": "JT1-549",
+      "attribute": "Voltage Rating",
+      "value": "115V",
+      "entailment": "not_supported",
+      "confidence": 0.95,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": false,
+      "manual_correct_looking": false,
+      "manual_review_note": "Likely incorrect rejection: 115V appears verbatim in the bandsaw description."
+    },
+    {
+      "mpn": "JT1-549",
+      "attribute": "Power Rating",
+      "value": "1.75HP",
+      "entailment": "supported",
+      "confidence": 1.0,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": true,
+      "manual_correct_looking": true,
+      "manual_review_note": "Excerpt-grounded and manually plausible for its assigned label."
+    },
+    {
+      "mpn": "DCS714B",
+      "attribute": "Series",
+      "value": "20V",
+      "entailment": "supported",
+      "confidence": 1.0,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": true,
+      "manual_correct_looking": true,
+      "manual_review_note": "Excerpt-grounded and manually plausible for its assigned label."
+    },
+    {
+      "mpn": "DCS714B",
+      "attribute": "Model",
+      "value": "DCS714B",
+      "entailment": "supported",
+      "confidence": 1.0,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": true,
+      "manual_correct_looking": true,
+      "manual_review_note": "Excerpt-grounded and manually plausible for its assigned label."
+    },
+    {
+      "mpn": "DCS714B",
+      "attribute": "Voltage Rating",
+      "value": "20V",
+      "entailment": "partially_supported",
+      "confidence": 0.8,
+      "confidence_tier": "medium (0.80\u20130.949)",
+      "retained": true,
+      "manual_correct_looking": true,
+      "manual_review_note": "Value is verbatim and the partial label reflects value/UOM normalization."
+    },
+    {
+      "mpn": "BCB2A20A",
+      "attribute": "Series",
+      "value": "20V",
+      "entailment": "supported",
+      "confidence": 1.0,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": true,
+      "manual_correct_looking": true,
+      "manual_review_note": "Excerpt-grounded and manually plausible for its assigned label."
+    },
+    {
+      "mpn": "BCB2A20A",
+      "attribute": "Model",
+      "value": "BCB2A20A",
+      "entailment": "supported",
+      "confidence": 1.0,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": true,
+      "manual_correct_looking": true,
+      "manual_review_note": "Excerpt-grounded and manually plausible for its assigned label."
+    },
+    {
+      "mpn": "T27417",
+      "attribute": "Series",
+      "value": "T27417",
+      "entailment": "supported",
+      "confidence": 0.95,
+      "confidence_tier": "high (0.95\u20131.00)",
+      "retained": true,
+      "manual_correct_looking": true,
+      "manual_review_note": "Excerpt-grounded and manually plausible for its assigned label."
+    }
+  ]
+}

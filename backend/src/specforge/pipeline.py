@@ -90,7 +90,11 @@ class Pipeline:
         )
         current = run_normalize_stage(current, self.attribute_vocabulary, self.settings)
         current = await run_verify_stage(current, self.extraction_llm)
-        current = await run_adjudicate_stage(current, self.adjudication_llm)
+        current = await run_adjudicate_stage(
+            current,
+            self.adjudication_llm,
+            force=bool(current.processing_metadata.get("force_adjudication", False)),
+        )
         current = run_description_stage(current, self.description_catalog)
         current = run_audit_stage(current, self.settings, ground_truth_row)
         return run_output_mapper_stage(current, self.settings)
