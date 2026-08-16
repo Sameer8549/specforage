@@ -1,0 +1,128 @@
+{
+  "artifact": "Universal UOM and decimal-to-fraction rules",
+  "canonical_uom_count": 16,
+  "alias_count_including_canonical": 64,
+  "uom_aliases": {
+    "V": [
+      "v",
+      "volt",
+      "volts"
+    ],
+    "A": [
+      "a",
+      "amp",
+      "amps",
+      "ampere",
+      "amperes"
+    ],
+    "in": [
+      "in",
+      "inch",
+      "inches",
+      "\""
+    ],
+    "ft": [
+      "ft",
+      "foot",
+      "feet",
+      "'"
+    ],
+    "lb": [
+      "lb",
+      "lbs",
+      "pound",
+      "pounds"
+    ],
+    "W": [
+      "w",
+      "watt",
+      "watts"
+    ],
+    "Hz": [
+      "hz",
+      "hertz"
+    ],
+    "dBA": [
+      "dba"
+    ],
+    "GPM": [
+      "gpm",
+      "gal/min",
+      "gallons per minute"
+    ],
+    "PSI": [
+      "psi",
+      "lb/in2",
+      "lb/in²"
+    ],
+    "°F": [
+      "°f",
+      "deg f",
+      "degree f",
+      "degrees f",
+      "fahrenheit"
+    ],
+    "°C": [
+      "°c",
+      "deg c",
+      "degree c",
+      "degrees c",
+      "celsius"
+    ],
+    "rpm": [
+      "rpm",
+      "rev/min"
+    ],
+    "%": [
+      "%",
+      "percent"
+    ],
+    "hr": [
+      "hr",
+      "hrs",
+      "hour",
+      "hours"
+    ],
+    "kW-hr": [
+      "kw-hr",
+      "kwh",
+      "kilowatt-hour",
+      "kilowatt-hours"
+    ]
+  },
+  "decimal_to_fraction": {
+    "maximum_denominator": 64,
+    "rounding": "ROUND_HALF_UP to the nearest 1/64",
+    "application": "Applied to inch/foot values and dimensional attribute labels only.",
+    "examples": [
+      {
+        "before": "1.5",
+        "after": "1-1/2"
+      },
+      {
+        "before": "2.25",
+        "after": "2-1/4"
+      },
+      {
+        "before": "0.125",
+        "after": "1/8"
+      },
+      {
+        "before": "3.875",
+        "after": "3-7/8"
+      },
+      {
+        "before": "-1.5",
+        "after": "-1-1/2"
+      },
+      {
+        "before": "24.25 in",
+        "after": "24-1/4 in"
+      },
+      {
+        "before": "50.1875",
+        "after": "50-3/16"
+      }
+    ]
+  }
+}

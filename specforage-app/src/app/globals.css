@@ -350,6 +350,59 @@ body {
   .trace-grid-key { border-right: 0; border-bottom: 1px solid var(--border-dim); padding-bottom: 7px; }
 }
 
+/* Published reference artifacts */
+.artifacts-page { min-height: 100dvh; padding-top: 52px; }
+.artifacts-hero { padding: 48px clamp(20px, 5vw, 72px) 38px; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr); gap: 48px; align-items: end; }
+.artifacts-hero h1 { font-size: clamp(2.6rem, 6vw, 5.5rem); }
+.artifacts-hero p, .artifact-section-heading p { color: var(--fg-secondary); max-width: 62ch; }
+.artifact-metrics { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-bottom: 1px solid var(--border); }
+.artifact-metrics > div { padding: 22px clamp(16px, 2.2vw, 30px); border-right: 1px solid var(--border); display: grid; gap: 6px; }
+.artifact-metrics > div:last-child { border-right: 0; }
+.artifact-metrics strong { font-family: var(--font-display), sans-serif; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1; }
+.artifact-metrics small { color: var(--fg-dim); }
+.artifact-section { padding: 46px clamp(20px, 5vw, 72px); border-bottom: 1px solid var(--border); }
+.artifact-section-heading { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, .75fr); gap: 40px; align-items: end; margin-bottom: 24px; }
+.artifact-section-heading h2 { font-size: clamp(1.8rem, 4vw, 3.5rem); margin-top: 8px; }
+.artifact-downloads { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--border); }
+.artifact-download { color: var(--fg-primary); text-decoration: none; padding: 18px; border-right: 1px solid var(--border-dim); border-bottom: 1px solid var(--border-dim); display: flex; justify-content: space-between; gap: 20px; align-items: center; transition: background-color 150ms ease, color 150ms ease; }
+.artifact-download:hover { background: var(--bg-surface); color: var(--accent); }
+.artifact-download span { display: grid; gap: 4px; }
+.artifact-rule { border: 1px solid var(--border); padding: 16px; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 20px; margin-bottom: 16px; background: var(--bg-surface); }
+.artifact-disclosure { border: 1px solid var(--border); margin-top: -1px; }
+.artifact-disclosure summary { cursor: pointer; list-style: none; padding: 16px; display: flex; justify-content: space-between; gap: 24px; align-items: center; }
+.artifact-disclosure summary::-webkit-details-marker { display: none; }
+.artifact-disclosure summary:hover { background: var(--bg-surface); }
+.artifact-table-wrap { overflow-x: auto; border: 1px solid var(--border); }
+.artifact-disclosure .artifact-table-wrap { border-width: 1px 0 0; }
+.artifact-table { width: 100%; border-collapse: collapse; min-width: 760px; }
+.artifact-table th { text-align: left; color: var(--fg-secondary); font-family: var(--font-mono), monospace; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; background: var(--bg-surface); }
+.artifact-table th, .artifact-table td { padding: 12px 14px; border-right: 1px solid var(--border-dim); border-bottom: 1px solid var(--border-dim); vertical-align: top; }
+.artifact-table td { font-size: 13px; color: var(--fg-secondary); }
+.artifact-table td:first-child { color: var(--fg-primary); }
+.bridge-table { min-width: 1120px; }
+.uom-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid var(--border); }
+.uom-row { display: grid; grid-template-columns: 90px minmax(0, 1fr); gap: 14px; padding: 12px 14px; border-right: 1px solid var(--border-dim); border-bottom: 1px solid var(--border-dim); color: var(--fg-secondary); }
+.fraction-examples { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.fraction-examples > div { border: 1px solid var(--border); padding: 8px 10px; display: flex; gap: 9px; align-items: center; }
+.taxonomy-paths { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--border); background: var(--bg-root); }
+.taxonomy-paths > div { padding: 14px 16px; border-right: 1px solid var(--border-dim); }
+.taxonomy-paths > div:last-child { border-right: 0; }
+.taxonomy-paths p { margin-top: 6px; color: var(--fg-primary); overflow-wrap: anywhere; }
+.taxonomy-paths small { display: block; margin-top: 7px; color: var(--fg-dim); }
+.stage-taxonomy-paths { border-width: 0 0 1px; }
+.provenance-panel > .taxonomy-paths { margin-bottom: 18px; }
+@media (max-width: 900px) {
+  .artifact-metrics { grid-template-columns: repeat(2, 1fr); }
+  .artifact-downloads { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 700px) {
+  .artifacts-hero, .artifact-section-heading { grid-template-columns: 1fr; gap: 20px; }
+  .artifact-metrics, .artifact-downloads, .uom-grid, .taxonomy-paths { grid-template-columns: 1fr; }
+  .artifact-rule { grid-template-columns: 1fr; }
+  .taxonomy-paths > div { border-right: 0; border-bottom: 1px solid var(--border-dim); }
+  .taxonomy-paths > div:last-child { border-bottom: 0; }
+}
+
 /* ─── Hide Next.js Dev Badge & Indicators ────────────────────── */
 [data-nextjs-dev-tools-button],
 [data-nextjs-toast],

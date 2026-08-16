@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { CaretDown, CheckCircle, DownloadSimple, Play, SpinnerGap, Warning } from "@phosphor-icons/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { processItem, SpecForgeRecord, StageObject } from "@/lib/specforgeApi";
+import taxonomyBridge from "../../public/artifacts/taxonomy_bridge.json";
 
 type DataObject = Record<string, unknown>;
 
@@ -34,6 +35,21 @@ function text(value: unknown, fallback = "Not available"): string {
 
 function score(value: unknown): string {
   return typeof value === "number" ? value.toFixed(3) : "Not scored";
+}
+
+function bridgeFor(value: unknown) {
+  const code = typeof value === "string" ? value : "";
+  return taxonomyBridge.mappings.find((mapping) => mapping.unspsc_code === code);
+}
+
+function TaxonomyPaths({ record }: { record: SpecForgeRecord }) {
+  const classify = object(record.classify);
+  const bridge = bridgeFor(classify.unspsc_code);
+  if (!bridge) return null;
+  return <div className="taxonomy-paths">
+    <div><span className="text-mono-label">UNSPSC classpath</span><p>{text(classify.classpath)}</p></div>
+    <div><span className="text-mono-label">Unilog-style bridge · {bridge.confidence} confidence</span><p>{bridge.unilog_style_classpath.replaceAll(">", " › ")}</p><small>{bridge.caveat}</small></div>
+  </div>;
 }
 
 function Scalar({ value }: { value: unknown }) {
@@ -91,8 +107,9 @@ function StageBody({ stageKey, data, record }: { stageKey: string; data: StageOb
     ]} /><KeyValueGrid entries={[["manufacturer candidates", manufacturer.candidates], ["brand candidates", brand.candidates], ["flags", stage.flags]]} /></>;
   }
   if (stageKey === "classify") return <>
+    {bridgeFor(stage.unspsc_code) ? <div className="taxonomy-paths stage-taxonomy-paths"><div><span className="text-mono-label">UNSPSC classpath</span><p>{text(stage.classpath)}</p></div><div><span className="text-mono-label">Unilog-style bridge · {bridgeFor(stage.unspsc_code)?.confidence} confidence</span><p>{bridgeFor(stage.unspsc_code)?.unilog_style_classpath.replaceAll(">", " › ")}</p><small>{bridgeFor(stage.unspsc_code)?.caveat}</small></div></div> : null}
     <KeyValueGrid entries={[
-      ["UNSPSC", stage.unspsc_code], ["classpath", stage.classpath], ["confidence", score(stage.confidence)],
+      ["UNSPSC", stage.unspsc_code], ["confidence", score(stage.confidence)],
       ["expected attributes", stage.expected_attributes], ["sanity check used", stage.tie_break_used],
       ["decision", stage.tie_break_outcome], ["reasoning", stage.tie_break_reasoning], ["flags", stage.flags],
     ]} />
@@ -132,7 +149,7 @@ function StageBody({ stageKey, data, record }: { stageKey: string; data: StageOb
   if (stageKey === "audit") return <KeyValueGrid entries={Object.entries(stage)} />;
   if (stageKey === "output_row") {
     const populated = Object.entries(object(stage.values)).filter(([, value]) => value != null && value !== "");
-    return <><div className="trace-subhead">Populated Delivery Format fields ({populated.length})</div><KeyValueGrid entries={populated} /><div className="trace-subhead">Output provenance map</div><KeyValueGrid entries={Object.entries(object(stage.provenance))} /></>;
+    return <><TaxonomyPaths record={record} /><div className="trace-subhead">Populated Delivery Format fields ({populated.length})</div><KeyValueGrid entries={populated} /><div className="trace-subhead">Output provenance map</div><KeyValueGrid entries={Object.entries(object(stage.provenance))} /></>;
   }
   return <KeyValueGrid entries={Object.entries(stage)} />;
 }
@@ -167,6 +184,7 @@ function DownloadButton({ record }: { record: SpecForgeRecord }) {
 function ProvenancePanel({ record }: { record: SpecForgeRecord }) {
   return <section className="provenance-panel" aria-labelledby="provenance-title">
     <div className="section-heading-row"><div><div className="text-mono-label" style={{ color: "var(--accent)" }}>Final evidence</div><h2 id="provenance-title" className="text-display">Attribute provenance.</h2></div><DownloadButton record={record} /></div>
+    <TaxonomyPaths record={record} />
     <AttributeRows items={array(object(record.adjudicate).attributes)} verification={array(object(record.verify).results)} />
   </section>;
 }

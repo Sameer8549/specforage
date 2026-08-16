@@ -1,0 +1,156 @@
+{
+  "artifact": "Small manually curated UNSPSC-to-Unilog-style taxonomy bridge",
+  "method": "Manual curation from the one private classpath pattern present in ground truth plus merchandising-style names for categories exercised in testing.",
+  "coverage": {
+    "mapped_unspsc_commodities": 18,
+    "observed_private_paths": 1,
+    "comprehensive": false
+  },
+  "warning": "This table is presentation metadata, not pipeline classification logic. Low-confidence rows and known misclassifications remain visibly caveated.",
+  "mappings": [
+    {
+      "unspsc_code": "52141505",
+      "commodity": "Domestic dish washers",
+      "unilog_style_classpath": "Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers",
+      "confidence": "high",
+      "basis": "Exact private classpath observed in both supplied ground-truth rows; UNSPSC association manually curated.",
+      "caveat": "Ground-truth UNSPSC cells are blank, so the code-to-path link is curator-supplied."
+    },
+    {
+      "unspsc_code": "27111507",
+      "commodity": "Metal cutters",
+      "unilog_style_classpath": "Tools & Hardware>Cutting Tools>Metal Cutters",
+      "confidence": "medium",
+      "basis": "Manual merchandising-style label from the resolved UNSPSC hierarchy.",
+      "caveat": "Dual cut/grind discs may merchandise under Abrasive Discs or Grinders instead."
+    },
+    {
+      "unspsc_code": "31191506",
+      "commodity": "Abrasive discs",
+      "unilog_style_classpath": "Tools & Hardware>Abrasives>Abrasive Discs",
+      "confidence": "medium",
+      "basis": "Manual curation for the sibling candidate observed in disc tests.",
+      "caveat": "No supplied private-taxonomy row confirms this path."
+    },
+    {
+      "unspsc_code": "30103102",
+      "commodity": "Aluminum rail",
+      "unilog_style_classpath": "Building Materials>Decking & Railing>Aluminum Railing",
+      "confidence": "medium",
+      "basis": "Manual curation from the explicit railing product noun and UNSPSC hierarchy.",
+      "caveat": "No supplied private-taxonomy row confirms this path."
+    },
+    {
+      "unspsc_code": "30171501",
+      "commodity": "Glass doors",
+      "unilog_style_classpath": "Building Materials>Doors & Windows>Glass & Patio Doors",
+      "confidence": "medium",
+      "basis": "Manual curation from the tested Low-E patio-door listings.",
+      "caveat": "The path groups patio and general glass doors for this small bridge."
+    },
+    {
+      "unspsc_code": "40101609",
+      "commodity": "Ceiling fan",
+      "unilog_style_classpath": "Appliances & Consumer Electronics>Heating, Cooling & Air Quality>Ceiling Fans",
+      "confidence": "medium",
+      "basis": "Manual curation from ceiling-fan tests and the UNSPSC hierarchy.",
+      "caveat": "No supplied private-taxonomy row confirms this path."
+    },
+    {
+      "unspsc_code": "27112748",
+      "commodity": "Miter saw",
+      "unilog_style_classpath": "Tools & Hardware>Power Tools>Miter Saws",
+      "confidence": "medium",
+      "basis": "Manual curation from the explicit DeWalt miter-saw test.",
+      "caveat": "No supplied private-taxonomy row confirms this path."
+    },
+    {
+      "unspsc_code": "30111504",
+      "commodity": "Mortars",
+      "unilog_style_classpath": "Building Materials>Concrete, Cement & Masonry>Mortar",
+      "confidence": "medium",
+      "basis": "Manual curation from the mortar working-set item.",
+      "caveat": "No supplied private-taxonomy row confirms this path."
+    },
+    {
+      "unspsc_code": "39122211",
+      "commodity": "Toggle switch",
+      "unilog_style_classpath": "Electrical>Switches & Controls>Toggle Switches",
+      "confidence": "medium",
+      "basis": "Manual curation from the toggle-switch working-set item.",
+      "caveat": "No supplied private-taxonomy row confirms this path."
+    },
+    {
+      "unspsc_code": "44122107",
+      "commodity": "Staples",
+      "unilog_style_classpath": "Tools & Hardware>Fasteners>Staples",
+      "confidence": "medium",
+      "basis": "Manual curation from the staples working-set item.",
+      "caveat": "No supplied private-taxonomy row confirms this path."
+    },
+    {
+      "unspsc_code": "27112812",
+      "commodity": "Countersinks",
+      "unilog_style_classpath": "Tools & Hardware>Drill Bits & Accessories>Countersinks",
+      "confidence": "medium",
+      "basis": "Manual curation from the countersink working-set item.",
+      "caveat": "No supplied private-taxonomy row confirms this path."
+    },
+    {
+      "unspsc_code": "23101514",
+      "commodity": "Planing machines",
+      "unilog_style_classpath": "Tools & Hardware>Woodworking Tools>Planers",
+      "confidence": "medium",
+      "basis": "Manual curation from the Mafell planer working-set item.",
+      "caveat": "No supplied private-taxonomy row confirms this path."
+    },
+    {
+      "unspsc_code": "23101525",
+      "commodity": "Oscillating spindle sander",
+      "unilog_style_classpath": "Tools & Hardware>Woodworking Tools>Spindle Sanders",
+      "confidence": "medium",
+      "basis": "Manual curation from the Grizzly sander working-set item.",
+      "caveat": "No supplied private-taxonomy row confirms this path."
+    },
+    {
+      "unspsc_code": "26111710",
+      "commodity": "Product specific battery packs",
+      "unilog_style_classpath": "Tools & Hardware>Power Tool Accessories>Batteries & Chargers",
+      "confidence": "low",
+      "basis": "Manual curation from a combined Kreg battery/charger kit.",
+      "caveat": "A kit is broader than the selected battery-pack commodity."
+    },
+    {
+      "unspsc_code": "23231101",
+      "commodity": "Bandsaw wheel",
+      "unilog_style_classpath": "Tools & Hardware>Power Tool Accessories>Band Saw Parts",
+      "confidence": "low",
+      "basis": "Manual commodity-level bridge for the resolved UNSPSC code.",
+      "caveat": "The tested item was a complete bandsaw and is likely misclassified as this component."
+    },
+    {
+      "unspsc_code": "25172608",
+      "commodity": "Fascias",
+      "unilog_style_classpath": "Automotive>Exterior Accessories>Fascias",
+      "confidence": "low",
+      "basis": "Manual commodity-level bridge from the vehicle UNSPSC hierarchy.",
+      "caveat": "Do not apply to the tested PVC building fascia; that classification is a known domain collision."
+    },
+    {
+      "unspsc_code": "51287008",
+      "commodity": "Solasulfone",
+      "unilog_style_classpath": "Healthcare>Pharmaceuticals>Antibacterial Sulfones",
+      "confidence": "low",
+      "basis": "Manual commodity-level bridge from the pharmaceutical UNSPSC hierarchy.",
+      "caveat": "Do not apply to the tested skylight; that classification is a known lexical collision."
+    },
+    {
+      "unspsc_code": "26121545",
+      "commodity": "Portable electrical cord",
+      "unilog_style_classpath": "Electrical>Wire & Cable>Portable Cord",
+      "confidence": "medium",
+      "basis": "Manual curation from the prior SJEWA portable-cord test.",
+      "caveat": "Does not cover every wire construction, including unresolved aluminum triplex wire."
+    }
+  ]
+}

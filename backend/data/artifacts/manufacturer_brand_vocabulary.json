@@ -1,0 +1,1303 @@
+{
+  "artifact": "Self-derived manufacturer and brand vocabulary",
+  "source_files": [
+    "sample_1000_items.csv",
+    "ground_truth.csv"
+  ],
+  "cluster_threshold_percent": 96,
+  "canonical_policy": "Most frequent observed spelling; ties prefer the shortest sourced display name.",
+  "legal_suffix_normalization": {
+    "comparison_only": true,
+    "suffixes_removed_when_trailing": [
+      "Co",
+      "Company",
+      "Corp",
+      "Corporation",
+      "Inc",
+      "Incorporated",
+      "LLC",
+      "Ltd",
+      "Limited",
+      "PLC"
+    ],
+    "additional_rules": [
+      "Convert ampersand to the token 'and' for comparison.",
+      "Remove punctuation and case-fold for comparison.",
+      "Remove one trailing parenthesized vendor identifier from display names.",
+      "Preserve the selected sourced spelling as the canonical display value."
+    ]
+  },
+  "manufacturers": {
+    "canonical_entries": 77,
+    "unique_observed_strings": 77,
+    "total_observations": 961,
+    "fuzzy_collapsed_aliases": 0,
+    "fuzzy_collapsed_percent": 0.0,
+    "rule_normalized_aliases": 0,
+    "entries": [
+      {
+        "canonical_name": "3 M Co",
+        "comparison_key": "3 m",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "3 M Co (5293)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "A J Manufacturing Inc",
+        "comparison_key": "a j manufacturing",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "A J Manufacturing Inc (AJMAN)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "ACG Brands",
+        "comparison_key": "acg brands",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "ACG Brands (1154)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Amana Tool Corp",
+        "comparison_key": "amana tool",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Amana Tool Corp (AMATO)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Appliance Dealers Cooperative",
+        "comparison_key": "appliance dealers cooperative",
+        "frequency": 84,
+        "aliases": [
+          {
+            "observed": "Appliance Dealers Cooperative (APPDE)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Black & Decker/dewlt",
+        "comparison_key": "black and decker dewlt",
+        "frequency": 55,
+        "aliases": [
+          {
+            "observed": "Black & Decker/dewlt (2585)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Boise Cascade Building Materials",
+        "comparison_key": "boise cascade building materials",
+        "frequency": 85,
+        "aliases": [
+          {
+            "observed": "Boise Cascade Building Materials (BOICA)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Bow Products",
+        "comparison_key": "bow products",
+        "frequency": 5,
+        "aliases": [
+          {
+            "observed": "Bow Products (BOWPR)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Certainteed Gypsum",
+        "comparison_key": "certainteed gypsum",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "Certainteed Gypsum (2765)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "CMT USA Inc",
+        "comparison_key": "cmt usa",
+        "frequency": 3,
+        "aliases": [
+          {
+            "observed": "CMT USA Inc (CMTUS)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Cooper Lighting",
+        "comparison_key": "cooper lighting",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "Cooper Lighting (7638)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Cooper Wiring Devices",
+        "comparison_key": "cooper wiring devices",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Cooper Wiring Devices (3560)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Edge Eyewear Inc",
+        "comparison_key": "edge eyewear",
+        "frequency": 10,
+        "aliases": [
+          {
+            "observed": "Edge Eyewear Inc (EDGSA)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Emseal Joint Systems Ltd",
+        "comparison_key": "emseal joint systems",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Emseal Joint Systems Ltd (EMSJO)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Feit Electric",
+        "comparison_key": "feit electric",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "Feit Electric (3468)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Fenton Bros Electric Inc",
+        "comparison_key": "fenton bros electric",
+        "frequency": 3,
+        "aliases": [
+          {
+            "observed": "Fenton Bros Electric Inc (FENBR)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Festool USA",
+        "comparison_key": "festool usa",
+        "frequency": 16,
+        "aliases": [
+          {
+            "observed": "Festool USA (FESTO)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "First Alert - B R K Brands",
+        "comparison_key": "first alert b r k brands",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "First Alert - B R K Brands (2754)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Freud Inc",
+        "comparison_key": "freud",
+        "frequency": 46,
+        "aliases": [
+          {
+            "observed": "Freud Inc (2435)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Hager Hinge Co",
+        "comparison_key": "hager hinge",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "Hager Hinge Co (4189)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Huber Eng Wood LLC",
+        "comparison_key": "huber eng wood",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Huber Eng Wood LLC (3158)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Hunter Fan Co",
+        "comparison_key": "hunter fan",
+        "frequency": 9,
+        "aliases": [
+          {
+            "observed": "Hunter Fan Co (4381)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Irwin Industrial Tools",
+        "comparison_key": "irwin industrial tools",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Irwin Industrial Tools (5863)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "J&G Machinery",
+        "comparison_key": "j and g machinery",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "J&G Machinery (JGMAC)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Jam Industrial Supply LLC",
+        "comparison_key": "jam industrial supply",
+        "frequency": 6,
+        "aliases": [
+          {
+            "observed": "Jam Industrial Supply LLC (JAMIN)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "JPW Industries",
+        "comparison_key": "jpw industries",
+        "frequency": 3,
+        "aliases": [
+          {
+            "observed": "JPW Industries (JPWIN)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Keystone",
+        "comparison_key": "keystone",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Keystone (5702)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Kichler Lighting",
+        "comparison_key": "kichler lighting",
+        "frequency": 56,
+        "aliases": [
+          {
+            "observed": "Kichler Lighting (KICLI)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "King Canada Inc",
+        "comparison_key": "king canada",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "King Canada Inc (KINCA)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Kreg Tool Company",
+        "comparison_key": "kreg tool",
+        "frequency": 11,
+        "aliases": [
+          {
+            "observed": "Kreg Tool Company (KRETO)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Leviton Mfg Co",
+        "comparison_key": "leviton mfg",
+        "frequency": 17,
+        "aliases": [
+          {
+            "observed": "Leviton Mfg Co (4927)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Lithonia Lighting",
+        "comparison_key": "lithonia lighting",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Lithonia Lighting (2776)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Makita Usa Inc",
+        "comparison_key": "makita usa",
+        "frequency": 23,
+        "aliases": [
+          {
+            "observed": "Makita Usa Inc (5142)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Malco Prod",
+        "comparison_key": "malco prod",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "Malco Prod (2370)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Marshalltown Trowel",
+        "comparison_key": "marshalltown trowel",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "Marshalltown Trowel (5155)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Maxsa Innovations",
+        "comparison_key": "maxsa innovations",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Maxsa Innovations (MAXIN)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Metalmark Industrial Inc",
+        "comparison_key": "metalmark industrial",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Metalmark Industrial Inc (METIN)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "MillerTech Energy Solutions",
+        "comparison_key": "millertech energy solutions",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "MillerTech Energy Solutions (MILTE)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Milwaukee Accessory",
+        "comparison_key": "milwaukee accessory",
+        "frequency": 108,
+        "aliases": [
+          {
+            "observed": "Milwaukee Accessory (4031)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Mirka Abrasives Inc",
+        "comparison_key": "mirka abrasives",
+        "frequency": 9,
+        "aliases": [
+          {
+            "observed": "Mirka Abrasives Inc (MIRUS)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "National Nail Corp",
+        "comparison_key": "national nail",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "National Nail Corp (7439)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Ohio Firewatch Protection Inc",
+        "comparison_key": "ohio firewatch protection",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "Ohio Firewatch Protection Inc (HOLFS)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Oliver Machinery Company",
+        "comparison_key": "oliver machinery",
+        "frequency": 6,
+        "aliases": [
+          {
+            "observed": "Oliver Machinery Company (OLIMA)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Palmer Donavin Mfg Company",
+        "comparison_key": "palmer donavin mfg",
+        "frequency": 9,
+        "aliases": [
+          {
+            "observed": "Palmer Donavin Mfg Company (PALDO)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Parksite",
+        "comparison_key": "parksite",
+        "frequency": 55,
+        "aliases": [
+          {
+            "observed": "Parksite (6151)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Phillips Lighting",
+        "comparison_key": "phillips lighting",
+        "frequency": 111,
+        "aliases": [
+          {
+            "observed": "Phillips Lighting (5831)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Police Security",
+        "comparison_key": "police security",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Police Security (9470)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Prebena",
+        "comparison_key": "prebena",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "Prebena (PREBE)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Premier Metals",
+        "comparison_key": "premier metals",
+        "frequency": 8,
+        "aliases": [
+          {
+            "observed": "Premier Metals (PREME)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Prime Wire & Cable",
+        "comparison_key": "prime wire and cable",
+        "frequency": 5,
+        "aliases": [
+          {
+            "observed": "Prime Wire & Cable (3562)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "ProVia",
+        "comparison_key": "provia",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "ProVia (PRODO)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Radians",
+        "comparison_key": "radians",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Radians (7363)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Rees Cast Stone Company",
+        "comparison_key": "rees cast stone",
+        "frequency": 4,
+        "aliases": [
+          {
+            "observed": "Rees Cast Stone Company (REECA)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Rheem Manufacturing",
+        "comparison_key": "rheem manufacturing",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Rheem Manufacturing",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Robt Bosch Tool Corp",
+        "comparison_key": "robt bosch tool",
+        "frequency": 4,
+        "aliases": [
+          {
+            "observed": "Robt Bosch Tool Corp (6564)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Sabre",
+        "comparison_key": "sabre",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Sabre (9195)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Satco Prod Inc",
+        "comparison_key": "satco prod",
+        "frequency": 41,
+        "aliases": [
+          {
+            "observed": "Satco Prod Inc (5573)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Saw Stop LLC",
+        "comparison_key": "saw stop",
+        "frequency": 5,
+        "aliases": [
+          {
+            "observed": "Saw Stop LLC (SAWST)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Senco Products Inc",
+        "comparison_key": "senco products",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "Senco Products Inc (4650)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Southwire/g Turner",
+        "comparison_key": "southwire g turner",
+        "frequency": 19,
+        "aliases": [
+          {
+            "observed": "Southwire/g Turner (6603)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Square D Con Prod Dv",
+        "comparison_key": "square d con prod dv",
+        "frequency": 3,
+        "aliases": [
+          {
+            "observed": "Square D Con Prod Dv (6825)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Streamlight",
+        "comparison_key": "streamlight",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Streamlight (7277)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Tech Gear 5.7 Inc",
+        "comparison_key": "tech gear 5 7",
+        "frequency": 11,
+        "aliases": [
+          {
+            "observed": "Tech Gear 5.7 Inc (TECGE)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Thomas & Betts",
+        "comparison_key": "thomas and betts",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Thomas & Betts (7405)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "U S Lumber",
+        "comparison_key": "u s lumber",
+        "frequency": 43,
+        "aliases": [
+          {
+            "observed": "U S Lumber (3073)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "U S Tape Company",
+        "comparison_key": "u s tape",
+        "frequency": 10,
+        "aliases": [
+          {
+            "observed": "U S Tape Company (6694)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "United Window & Door Manufacturing",
+        "comparison_key": "united window and door manufacturing",
+        "frequency": 4,
+        "aliases": [
+          {
+            "observed": "United Window & Door Manufacturing (UNIWI)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "V & V Appliance Parts Inc",
+        "comparison_key": "v and v appliance parts",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "V & V Appliance Parts Inc (VVAPP)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Velux America Inc",
+        "comparison_key": "velux america",
+        "frequency": 3,
+        "aliases": [
+          {
+            "observed": "Velux America Inc (VELAM)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Vessel Tools USA Inc",
+        "comparison_key": "vessel tools usa",
+        "frequency": 6,
+        "aliases": [
+          {
+            "observed": "Vessel Tools USA Inc (VESTO)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Wera Tools NA Inc",
+        "comparison_key": "wera tools na",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "Wera Tools NA Inc (WERTO)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Westwood Lumber Sales",
+        "comparison_key": "westwood lumber sales",
+        "frequency": 4,
+        "aliases": [
+          {
+            "observed": "Westwood Lumber Sales (WESLU)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Whirlpool Corporation",
+        "comparison_key": "whirlpool",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Whirlpool Corporation",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Whiteside Machine & Repair Co",
+        "comparison_key": "whiteside machine and repair",
+        "frequency": 3,
+        "aliases": [
+          {
+            "observed": "Whiteside Machine & Repair Co (WHIMA)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Woodpeckers Inc",
+        "comparison_key": "woodpeckers",
+        "frequency": 4,
+        "aliases": [
+          {
+            "observed": "Woodpeckers Inc (WOODP)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Woods Wire Southwire",
+        "comparison_key": "woods wire southwire",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Woods Wire Southwire (7579)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Woodstock Intl",
+        "comparison_key": "woodstock intl",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "Woodstock Intl (3658)",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      }
+    ]
+  },
+  "brands": {
+    "canonical_entries": 36,
+    "unique_observed_strings": 36,
+    "total_observations": 444,
+    "fuzzy_collapsed_aliases": 0,
+    "fuzzy_collapsed_percent": 0.0,
+    "rule_normalized_aliases": 0,
+    "entries": [
+      {
+        "canonical_name": "3M",
+        "comparison_key": "3m",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "3M",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "AJM",
+        "comparison_key": "ajm",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "AJM",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "ANDERSEN",
+        "comparison_key": "andersen",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "ANDERSEN",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "BRK",
+        "comparison_key": "brk",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "BRK",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Carlon",
+        "comparison_key": "carlon",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Carlon",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "CENTURY COMPONENTS",
+        "comparison_key": "century components",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "CENTURY COMPONENTS",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "DEWALT",
+        "comparison_key": "dewalt",
+        "frequency": 28,
+        "aliases": [
+          {
+            "observed": "DEWALT",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Diablo",
+        "comparison_key": "diablo",
+        "frequency": 30,
+        "aliases": [
+          {
+            "observed": "Diablo",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Dremel",
+        "comparison_key": "dremel",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "Dremel",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "DSI Westbury",
+        "comparison_key": "dsi westbury",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "DSI Westbury",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Feit Electric",
+        "comparison_key": "feit electric",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "Feit Electric",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "First Alert",
+        "comparison_key": "first alert",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "First Alert",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "FRIGIDAIRE®",
+        "comparison_key": "frigidaire",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "FRIGIDAIRE®",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "GT-Lite",
+        "comparison_key": "gt lite",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "GT-Lite",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "HAGER",
+        "comparison_key": "hager",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "HAGER",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Hunter",
+        "comparison_key": "hunter",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Hunter",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Irwin",
+        "comparison_key": "irwin",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Irwin",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "JAMESHARDIE",
+        "comparison_key": "jameshardie",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "JAMESHARDIE",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Leviton",
+        "comparison_key": "leviton",
+        "frequency": 16,
+        "aliases": [
+          {
+            "observed": "Leviton",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "LP SMARTSIDE",
+        "comparison_key": "lp smartside",
+        "frequency": 4,
+        "aliases": [
+          {
+            "observed": "LP SMARTSIDE",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Milwaukee",
+        "comparison_key": "milwaukee",
+        "frequency": 9,
+        "aliases": [
+          {
+            "observed": "Milwaukee",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Nicholson",
+        "comparison_key": "nicholson",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Nicholson",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Philips",
+        "comparison_key": "philips",
+        "frequency": 109,
+        "aliases": [
+          {
+            "observed": "Philips",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Police Security",
+        "comparison_key": "police security",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Police Security",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Prime",
+        "comparison_key": "prime",
+        "frequency": 5,
+        "aliases": [
+          {
+            "observed": "Prime",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "PROVIA",
+        "comparison_key": "provia",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "PROVIA",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Satco",
+        "comparison_key": "satco",
+        "frequency": 15,
+        "aliases": [
+          {
+            "observed": "Satco",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Schumacher",
+        "comparison_key": "schumacher",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Schumacher",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Southwire",
+        "comparison_key": "southwire",
+        "frequency": 14,
+        "aliases": [
+          {
+            "observed": "Southwire",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Square D",
+        "comparison_key": "square d",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "Square D",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "StealthMounts",
+        "comparison_key": "stealthmounts",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "StealthMounts",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "TIMBERTECH",
+        "comparison_key": "timbertech",
+        "frequency": 55,
+        "aliases": [
+          {
+            "observed": "TIMBERTECH",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "TREX",
+        "comparison_key": "trex",
+        "frequency": 122,
+        "aliases": [
+          {
+            "observed": "TREX",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "United Window & Door",
+        "comparison_key": "united window and door",
+        "frequency": 5,
+        "aliases": [
+          {
+            "observed": "United Window & Door",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Whirlpool®",
+        "comparison_key": "whirlpool",
+        "frequency": 1,
+        "aliases": [
+          {
+            "observed": "Whirlpool®",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      },
+      {
+        "canonical_name": "Wiz",
+        "comparison_key": "wiz",
+        "frequency": 2,
+        "aliases": [
+          {
+            "observed": "Wiz",
+            "collapse_reason": "canonical_or_repeated"
+          }
+        ]
+      }
+    ]
+  },
+  "brand_manufacturer_pairings": [
+    {
+      "brand": "FRIGIDAIRE®",
+      "manufacturer": "Rheem Manufacturing"
+    },
+    {
+      "brand": "Whirlpool®",
+      "manufacturer": "Whirlpool Corporation"
+    }
+  ]
+}

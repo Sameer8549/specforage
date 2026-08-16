@@ -1,0 +1,19 @@
+unspsc_code,commodity,unilog_style_classpath,confidence,basis,caveat
+52141505,Domestic dish washers,Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers,high,Exact private classpath observed in both supplied ground-truth rows; UNSPSC association manually curated.,"Ground-truth UNSPSC cells are blank, so the code-to-path link is curator-supplied."
+27111507,Metal cutters,Tools & Hardware>Cutting Tools>Metal Cutters,medium,Manual merchandising-style label from the resolved UNSPSC hierarchy.,Dual cut/grind discs may merchandise under Abrasive Discs or Grinders instead.
+31191506,Abrasive discs,Tools & Hardware>Abrasives>Abrasive Discs,medium,Manual curation for the sibling candidate observed in disc tests.,No supplied private-taxonomy row confirms this path.
+30103102,Aluminum rail,Building Materials>Decking & Railing>Aluminum Railing,medium,Manual curation from the explicit railing product noun and UNSPSC hierarchy.,No supplied private-taxonomy row confirms this path.
+30171501,Glass doors,Building Materials>Doors & Windows>Glass & Patio Doors,medium,Manual curation from the tested Low-E patio-door listings.,The path groups patio and general glass doors for this small bridge.
+40101609,Ceiling fan,"Appliances & Consumer Electronics>Heating, Cooling & Air Quality>Ceiling Fans",medium,Manual curation from ceiling-fan tests and the UNSPSC hierarchy.,No supplied private-taxonomy row confirms this path.
+27112748,Miter saw,Tools & Hardware>Power Tools>Miter Saws,medium,Manual curation from the explicit DeWalt miter-saw test.,No supplied private-taxonomy row confirms this path.
+30111504,Mortars,"Building Materials>Concrete, Cement & Masonry>Mortar",medium,Manual curation from the mortar working-set item.,No supplied private-taxonomy row confirms this path.
+39122211,Toggle switch,Electrical>Switches & Controls>Toggle Switches,medium,Manual curation from the toggle-switch working-set item.,No supplied private-taxonomy row confirms this path.
+44122107,Staples,Tools & Hardware>Fasteners>Staples,medium,Manual curation from the staples working-set item.,No supplied private-taxonomy row confirms this path.
+27112812,Countersinks,Tools & Hardware>Drill Bits & Accessories>Countersinks,medium,Manual curation from the countersink working-set item.,No supplied private-taxonomy row confirms this path.
+23101514,Planing machines,Tools & Hardware>Woodworking Tools>Planers,medium,Manual curation from the Mafell planer working-set item.,No supplied private-taxonomy row confirms this path.
+23101525,Oscillating spindle sander,Tools & Hardware>Woodworking Tools>Spindle Sanders,medium,Manual curation from the Grizzly sander working-set item.,No supplied private-taxonomy row confirms this path.
+26111710,Product specific battery packs,Tools & Hardware>Power Tool Accessories>Batteries & Chargers,low,Manual curation from a combined Kreg battery/charger kit.,A kit is broader than the selected battery-pack commodity.
+23231101,Bandsaw wheel,Tools & Hardware>Power Tool Accessories>Band Saw Parts,low,Manual commodity-level bridge for the resolved UNSPSC code.,The tested item was a complete bandsaw and is likely misclassified as this component.
+25172608,Fascias,Automotive>Exterior Accessories>Fascias,low,Manual commodity-level bridge from the vehicle UNSPSC hierarchy.,Do not apply to the tested PVC building fascia; that classification is a known domain collision.
+51287008,Solasulfone,Healthcare>Pharmaceuticals>Antibacterial Sulfones,low,Manual commodity-level bridge from the pharmaceutical UNSPSC hierarchy.,Do not apply to the tested skylight; that classification is a known lexical collision.
+26121545,Portable electrical cord,Electrical>Wire & Cable>Portable Cord,medium,Manual curation from the prior SJEWA portable-cord test.,"Does not cover every wire construction, including unresolved aluminum triplex wire."

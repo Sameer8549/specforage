@@ -16,6 +16,7 @@ const NAV_ITEMS = [
   { label: "Batch", href: "/batch" },
   { label: "Audit", href: "/audit" },
   { label: "Methodology", href: "/methodology" },
+  { label: "Artifacts", href: "/artifacts" },
   { label: "Settings", href: "/settings" },
 ];
 

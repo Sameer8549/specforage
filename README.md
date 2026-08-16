@@ -4,6 +4,7 @@ SpecForge turns sparse distributor catalog rows into UNSPSC-classified, evidence
 
 **Live frontend:** [specforage.vercel.app](https://specforage.vercel.app)  
 **Live backend:** [specforge-backend-production.up.railway.app](https://specforge-backend-production.up.railway.app) ([API docs](https://specforge-backend-production.up.railway.app/docs))  
+**Published artifacts:** [specforage.vercel.app/artifacts](https://specforage.vercel.app/artifacts)
 **Repository:** [github.com/Sameer8549/specforage](https://github.com/Sameer8549/specforage)
 
 ## Never Invents Values
@@ -97,6 +98,8 @@ The [full gallery](RESULTS.md#example-gallery) also includes miter saw, mortar, 
 10. **Output Mapper.** Maps accepted values into the original Delivery Format columns and attaches field provenance so every output can be traced back through the pipeline.
 
 Manufacturer web retrieval is deliberately domain-restricted. Once an official domain is confidently resolved, retrieval may use that site as evidence; marketplaces and unrelated distributor pages cannot silently become authoritative sources.
+
+The self-derived manufacturer/brand vocabulary, attribute snapshot, UOM rules, and limited 18-commodity taxonomy bridge are versioned under [`backend/data/artifacts/`](backend/data/artifacts/). Their measured sizes, collapse rates, normalization examples, curation method, and caveats are documented in [`VOCABULARIES.md`](backend/data/artifacts/VOCABULARIES.md) and can also be inspected or downloaded from the [live Artifacts page](https://specforage.vercel.app/artifacts). The bridge is presentation metadata only and does not alter pipeline classifications or evaluation scores.
 
 ## Model Stack, Cost, and Memory
 

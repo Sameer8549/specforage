@@ -1,0 +1,656 @@
+{
+  "artifact": "Self-building attribute vocabulary snapshot",
+  "scope": "Seeded by the two supplied truth rows and extended with accepted values in the published 30-row trace.",
+  "matching_threshold": 0.9,
+  "canonical_entries": 46,
+  "observed_values": 48,
+  "fuzzy_collapsed_values": 0,
+  "fuzzy_collapsed_percent": 0.0,
+  "note": "No fuzzy near-duplicate collapse occurred in the currently published traces; this is reported as 0%, not backfilled with invented aliases.",
+  "entries": [
+    {
+      "classpath": "Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers",
+      "label": "Additional Information",
+      "canonical_value": "240 kW-hr Annual Energy, 1 to 12 hr Delay Start Hours",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "240 kW-hr Annual Energy, 1 to 12 hr Delay Start Hours",
+          "uom": null,
+          "source": "ground_truth",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers",
+      "label": "Additional Information",
+      "canonical_value": "Folding Tines, Leak Detection System, Moisture Repellent Silverware Basket, Normal Cycle, Quick Wash Cycle, Sani Rinse Option, Sensor Cycle, Triple Wash Spray",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "Folding Tines, Leak Detection System, Moisture Repellent Silverware Basket, Normal Cycle, Quick Wash Cycle, Sani Rinse Option, Sensor Cycle, Triple Wash Spray",
+          "uom": null,
+          "source": "ground_truth",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers",
+      "label": "Amperage Rating",
+      "canonical_value": "10",
+      "canonical_uom": "A",
+      "observed_aliases": [
+        {
+          "value": "10",
+          "uom": "A",
+          "source": "ground_truth",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers",
+      "label": "Amperage Rating",
+      "canonical_value": "15",
+      "canonical_uom": "A",
+      "observed_aliases": [
+        {
+          "value": "15",
+          "uom": "A",
+          "source": "ground_truth",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers",
+      "label": "Color",
+      "canonical_value": "Stainless Steel",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "Stainless Steel",
+          "uom": null,
+          "source": "ground_truth",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers",
+      "label": "Depth With Door Open",
+      "canonical_value": "50-1/4",
+      "canonical_uom": "in",
+      "observed_aliases": [
+        {
+          "value": "50-1/4",
+          "uom": "in",
+          "source": "ground_truth",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers",
+      "label": "Depth With Door Open",
+      "canonical_value": "50-3/16",
+      "canonical_uom": "in",
+      "observed_aliases": [
+        {
+          "value": "50-3/16",
+          "uom": "in",
+          "source": "ground_truth",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers",
+      "label": "Material",
+      "canonical_value": "Stainless Steel",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "Stainless Steel",
+          "uom": null,
+          "source": "ground_truth",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers",
+      "label": "Maximum Height",
+      "canonical_value": "10-3/8 in Upper Rack, 13-1/4 in Lower Rack",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "10-3/8 in Upper Rack, 13-1/4 in Lower Rack",
+          "uom": null,
+          "source": "ground_truth",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers",
+      "label": "Minimum Height",
+      "canonical_value": "33-7/16",
+      "canonical_uom": "in",
+      "observed_aliases": [
+        {
+          "value": "33-7/16",
+          "uom": "in",
+          "source": "ground_truth",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers",
+      "label": "Minimum Height",
+      "canonical_value": "8-1/2 in Upper Rack, 11-1/4 in Lower Rack",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "8-1/2 in Upper Rack, 11-1/4 in Lower Rack",
+          "uom": null,
+          "source": "ground_truth",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers",
+      "label": "Mounting Type",
+      "canonical_value": "Built-in",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "Built-in",
+          "uom": null,
+          "source": "ground_truth",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers",
+      "label": "Mounting Type",
+      "canonical_value": "Leg",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "Leg",
+          "uom": null,
+          "source": "ground_truth",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers",
+      "label": "Number of Wash Cycles",
+      "canonical_value": "5",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "5",
+          "uom": null,
+          "source": "ground_truth",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers",
+      "label": "Series",
+      "canonical_value": "Eco Series",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "Eco Series",
+          "uom": null,
+          "source": "ground_truth",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers",
+      "label": "Series",
+      "canonical_value": "Professional Series",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "Professional Series",
+          "uom": null,
+          "source": "ground_truth",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers",
+      "label": "Size",
+      "canonical_value": "24 in W x 24-1/4 in D",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "24 in W x 24-1/4 in D",
+          "uom": null,
+          "source": "ground_truth",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers",
+      "label": "Size",
+      "canonical_value": "33-7/16 in H x 23-7/8 in W x 22-5/8 in D",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "33-7/16 in H x 23-7/8 in W x 22-5/8 in D",
+          "uom": null,
+          "source": "ground_truth",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers",
+      "label": "Sound Level",
+      "canonical_value": "41",
+      "canonical_uom": "dBA",
+      "observed_aliases": [
+        {
+          "value": "41",
+          "uom": "dBA",
+          "source": "ground_truth",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers",
+      "label": "Sound Level",
+      "canonical_value": "47",
+      "canonical_uom": "dBA",
+      "observed_aliases": [
+        {
+          "value": "47",
+          "uom": "dBA",
+          "source": "ground_truth",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers",
+      "label": "Voltage Rating",
+      "canonical_value": "120",
+      "canonical_uom": "V",
+      "observed_aliases": [
+        {
+          "value": "120",
+          "uom": "V",
+          "source": "ground_truth",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Commercial and Military and Private Vehicles and their Accessories and Components>Transportation components and systems>Vehicle trim and exterior covering>Fascias",
+      "label": "Model",
+      "canonical_value": "1x12-12' French White Oak",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "1x12-12' French White Oak",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Commercial and Military and Private Vehicles and their Accessories and Components>Transportation components and systems>Vehicle trim and exterior covering>Fascias",
+      "label": "Series",
+      "canonical_value": "Landmark",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "Landmark",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Drugs and Pharmaceutical Products>Antibacterials>Antibacterial sulfones>Solasulfone",
+      "label": "Series",
+      "canonical_value": "FS C01",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "FS C01",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Electrical Systems and Lighting and Components and Accessories and Supplies>Electrical equipment and components and supplies>Electrical switches and accessories>Toggle switch",
+      "label": "Model",
+      "canonical_value": "174-OCSB3-15A Toggle 3-Way Switch Wh",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "174-OCSB3-15A Toggle 3-Way Switch Wh",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Electrical Systems and Lighting and Components and Accessories and Supplies>Electrical equipment and components and supplies>Electrical switches and accessories>Toggle switch",
+      "label": "Series",
+      "canonical_value": "OCSB3",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "OCSB3",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Industrial Manufacturing and Processing Machinery and Accessories>Raw materials processing machinery>Machinery for working wood and stone and ceramic and the like>Oscillating spindle sander",
+      "label": "Series",
+      "canonical_value": "T27417",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "T27417",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Industrial Manufacturing and Processing Machinery and Accessories>Raw materials processing machinery>Machinery for working wood and stone and ceramic and the like>Planing machines",
+      "label": "Model",
+      "canonical_value": "ZH 320 Ec",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "ZH 320 Ec",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Industrial Manufacturing and Processing Machinery and Accessories>Raw materials processing machinery>Machinery for working wood and stone and ceramic and the like>Planing machines",
+      "label": "Series",
+      "canonical_value": "Mafell Carpentry",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "Mafell Carpentry",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Industrial Manufacturing and Processing Machinery and Accessories>Raw materials processing machinery>Machinery for working wood and stone and ceramic and the like>Planing machines",
+      "label": "Voltage Rating",
+      "canonical_value": "120V",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "120V",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Industrial Manufacturing and Processing Machinery and Accessories>Sawmilling and lumber processing machinery and equipment>Bandsaws and accessories>Bandsaw wheel",
+      "label": "Power Rating",
+      "canonical_value": "1.75HP",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "1.75HP",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Office Equipment and Accessories and Supplies>Office supplies>Fastening supplies>Staples",
+      "label": "Model",
+      "canonical_value": "E28CNKHA",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "E28CNKHA",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Office Equipment and Accessories and Supplies>Office supplies>Fastening supplies>Staples",
+      "label": "Series",
+      "canonical_value": "Prebena",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "Prebena",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Power Generation and Distribution Machinery and Accessories>Batteries and generators and kinetic power transmission>Batteries and cells and accessories>Product specific battery packs",
+      "label": "Model",
+      "canonical_value": "BCB2A20A",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "BCB2A20A",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Power Generation and Distribution Machinery and Accessories>Batteries and generators and kinetic power transmission>Batteries and cells and accessories>Product specific battery packs",
+      "label": "Series",
+      "canonical_value": "20V",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "20V",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Structures and Building and Construction and Manufacturing Components and Supplies>Concrete and cement and plaster>Concrete and mortars>Mortars",
+      "label": "Model",
+      "canonical_value": "Light Chocolate 44-A Mortar - Type N",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "Light Chocolate 44-A Mortar - Type N",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Structures and Building and Construction and Manufacturing Components and Supplies>Concrete and cement and plaster>Concrete and mortars>Mortars",
+      "label": "Series",
+      "canonical_value": "44-A",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "44-A",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Structures and Building and Construction and Manufacturing Components and Supplies>Doors and windows and glass>Doors>Glass doors",
+      "label": "Model",
+      "canonical_value": "Gliding Patio Dr 4500",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "Gliding Patio Dr 4500",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Structures and Building and Construction and Manufacturing Components and Supplies>Doors and windows and glass>Doors>Glass doors",
+      "label": "Series",
+      "canonical_value": "6068R",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "6068R",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Structures and Building and Construction and Manufacturing Components and Supplies>Structural components and basic shapes>Rails>Aluminum rail",
+      "label": "Color",
+      "canonical_value": "Black",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "Black",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Structures and Building and Construction and Manufacturing Components and Supplies>Structural components and basic shapes>Rails>Aluminum rail",
+      "label": "Material",
+      "canonical_value": "Alum",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "Alum",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Tools and General Machinery>Hand tools>Cutting and crimping and punching tools>Metal cutters",
+      "label": "Model",
+      "canonical_value": "49-94-0907",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "49-94-0907",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Tools and General Machinery>Hand tools>Power tools>Miter saw",
+      "label": "Model",
+      "canonical_value": "DCS714B",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "DCS714B",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Tools and General Machinery>Hand tools>Power tools>Miter saw",
+      "label": "Series",
+      "canonical_value": "20V",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "20V",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    },
+    {
+      "classpath": "Tools and General Machinery>Hand tools>Power tools>Miter saw",
+      "label": "Voltage Rating",
+      "canonical_value": "20",
+      "canonical_uom": "V",
+      "observed_aliases": [
+        {
+          "value": "20V",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "uom_or_fraction_rule"
+        }
+      ]
+    },
+    {
+      "classpath": "Tools and General Machinery>Hand tools>Tool attachments and accessories>Countersinks",
+      "label": "Series",
+      "canonical_value": "55227",
+      "canonical_uom": null,
+      "observed_aliases": [
+        {
+          "value": "55227",
+          "uom": null,
+          "source": "working_set_trace",
+          "collapse_reason": "first_seen_original"
+        }
+      ]
+    }
+  ]
+}
