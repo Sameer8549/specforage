@@ -77,8 +77,8 @@ function PipelineColumn() {
 
   useEffect(() => {
     if (reduce) {
-      setDone(new Set(STAGES.map((_, i) => i)));
-      return;
+      const reducedTimer = window.setTimeout(() => setDone(new Set(STAGES.map((_, i) => i))), 0);
+      return () => window.clearTimeout(reducedTimer);
     }
     let cur = 0;
     const delay = setTimeout(() => {

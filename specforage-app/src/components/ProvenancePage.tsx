@@ -10,7 +10,10 @@ type Provenance = { stage?: string; confidence?: number | null; source_type?: st
 
 export default function ProvenancePage() {
   const [record, setRecord] = useState<SpecForgeRecord | null>(null);
-  useEffect(() => setRecord(readProcessedRecord()), []);
+  useEffect(() => {
+    const timer = window.setTimeout(() => setRecord(readProcessedRecord()), 0);
+    return () => window.clearTimeout(timer);
+  }, []);
   if (!record) return <main style={{ padding: "120px 48px", minHeight: "100dvh" }}><div style={{ maxWidth: 760, margin: "0 auto", borderTop: "1px solid var(--border)", paddingTop: 28 }}><div className="text-mono-label" style={{ color: "var(--accent)" }}>NO LIVE PROVENANCE</div><h1 className="text-display" style={{ fontSize: "clamp(2rem, 5vw, 4rem)", marginTop: 12 }}>SOURCES MUST EXIST.</h1><p style={{ color: "var(--fg-secondary)", margin: "18px 0 28px" }}>Fabricated manufacturer searches and URLs have been removed. Process an item to inspect its actual source excerpts.</p><Link href="/pipeline" className="btn-primary">PROCESS AN ITEM <ArrowRight size={15} /></Link></div></main>;
   const output = (record.output_row || {}) as { provenance?: Record<string, Provenance> };
   const entries = Object.entries(output.provenance || {});

@@ -416,7 +416,7 @@ export default function SettingsPage() {
                             ...config,
                             apiKeyManagement: {
                               ...config.apiKeyManagement,
-                              primaryProvider: e.target.value as any,
+                              primaryProvider: e.target.value as PipelineConfig["apiKeyManagement"]["primaryProvider"],
                             },
                           })
                         }

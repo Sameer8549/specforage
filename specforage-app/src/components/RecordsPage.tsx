@@ -54,8 +54,11 @@ export default function RecordsPage() {
     const processed = readProcessedRecord();
     if (!processed) return;
     const live = toProductRecord(processed);
-    setRecords((current) => [live, ...current.filter((record) => record.id !== live.id)]);
-    setSelectedRecordId(live.id);
+    const timer = window.setTimeout(() => {
+      setRecords((current) => [live, ...current.filter((record) => record.id !== live.id)]);
+      setSelectedRecordId(live.id);
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, []);
 
   // Filtered records list

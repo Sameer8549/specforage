@@ -111,6 +111,7 @@ async def run_brand_resolution_stage(
     manufacturer_conflict = False
     manufacturer_source: str | None = None
     mpn_lookup_attempted = False
+    mpn_lookup_cache_hit: bool | None = None
     paired_manufacturer = (
         vocabularies.brand_manufacturers.get(entity_key(brand.canonical_name))
         if brand.canonical_name
@@ -130,6 +131,7 @@ async def run_brand_resolution_stage(
             if manufacturer_lookup is not None and clean.mfg_part_num
             else None
         )
+        mpn_lookup_cache_hit = getattr(manufacturer_lookup, "last_cache_hit", None)
         if lookup_result is not None:
             manufacturer = EntityResolution(
                 canonical_name=lookup_result.manufacturer,
@@ -223,6 +225,7 @@ async def run_brand_resolution_stage(
                 brand=brand,
                 manufacturer_source=manufacturer_source,
                 mpn_lookup_attempted=mpn_lookup_attempted,
+                mpn_lookup_cache_hit=mpn_lookup_cache_hit,
                 manufacturer_domain=manufacturer_domain,
                 flags=flags,
             ),

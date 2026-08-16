@@ -161,7 +161,9 @@ async def test_mpn_lookup_caches_successful_result_by_normalized_part_number() -
     lookup._lookup_uncached = fake_live_lookup  # type: ignore[method-assign]
 
     first = await lookup.lookup("WDTS-7024RZ", "Dishwasher")
+    assert lookup.last_cache_hit is False
     second = await lookup.lookup("wdts 7024rz", "Different description")
+    assert lookup.last_cache_hit is True
 
     assert first == second == ManufacturerLookupResult("Whirlpool Corporation", 0.93)
     assert calls == 1
@@ -186,7 +188,9 @@ async def test_mpn_lookup_caches_no_result_for_repeatable_fallback() -> None:
     lookup._lookup_uncached = fake_live_lookup  # type: ignore[method-assign]
 
     assert await lookup.lookup("PDSH4816AF", "Dishwasher") is None
+    assert lookup.last_cache_hit is False
     assert await lookup.lookup("pdsh4816af", "Changed description") is None
+    assert lookup.last_cache_hit is True
     assert calls == 1
 
 

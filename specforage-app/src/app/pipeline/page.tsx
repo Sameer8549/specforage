@@ -1,16 +1,16 @@
 import Nav from "@/components/Nav";
-import InputPage from "@/components/InputPage";
+import PipelineLivePage from "@/components/PipelineLivePage";
 
 export const metadata = {
-  title: "Pipeline Input — SpecForge",
-  description: "Enter a single catalog row or upload a CSV to begin processing.",
+  title: "Interactive Playground | SpecForge",
+  description: "Run a catalog item through the live SpecForge pipeline and inspect its complete trace.",
 };
 
 export default function PipelinePage() {
   return (
     <>
       <Nav />
-      <InputPage />
+      <PipelineLivePage />
     </>
   );
 }

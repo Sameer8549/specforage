@@ -55,7 +55,7 @@ export interface BatchStatus {
   }>;
 }
 
-const API_BASE = (process.env.NEXT_PUBLIC_SPECFORGE_API_URL ?? "http://127.0.0.1:8000")
+const API_BASE = (process.env.NEXT_PUBLIC_SPECFORGE_API_URL ?? "https://specforge-backend-production.up.railway.app")
   .replace(/\/$/, "");
 
 export async function processItem(row: InputRow, signal?: AbortSignal): Promise<SpecForgeRecord> {

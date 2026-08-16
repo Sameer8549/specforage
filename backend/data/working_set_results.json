@@ -1,0 +1,3099 @@
+{
+  "selection_method": "greedy TF-IDF description diversity",
+  "records": [
+    {
+      "row_number": 43,
+      "input": {
+        "mfg_part_num": "49-94-0907",
+        "part_desc": "49-94-0907 Milw 4-1/2\"x1/8\"x5/8-11\"Perform+Dual Metal Cut n Grind Disc",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "Milwaukee Accessory (4031)"
+      },
+      "manufacturer": {
+        "value": "Milwaukee Accessory",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": "27111507",
+        "classpath": "Tools and General Machinery>Hand tools>Cutting and crimping and punching tools>Metal cutters",
+        "confidence": 0.85,
+        "expected_attributes": [
+          "Series",
+          "Model",
+          "Material",
+          "Color",
+          "Dimensions",
+          "Weight",
+          "Voltage Rating",
+          "Power Rating",
+          "Certification/Compliance"
+        ],
+        "tie_break_used": true,
+        "tie_break_outcome": "selected:27111507",
+        "tie_break_reasoning": "The item is a 4-1/2 inch abrasive cutting/grinding disc designed for metal work. Commodity 27111507 (Metal cutters) directly matches the 'Metal cutters' class and 'Cutting and crimping and punching tools' family. While 27111905 (Grinders) and 31191506 (Abrasive discs) are plausible, 27111507 is the most precise fit for a metal-cutting disc in the Tools and General Machinery hierarchy. No other candidate is semantically plausible for this description.",
+        "flags": []
+      },
+      "extraction": {
+        "attributes": [
+          {
+            "label": "Series",
+            "value": "Milw",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "49-94-0907 Milw 4-1/2",
+            "entailment": "not_supported",
+            "verification_confidence": 0.95,
+            "vocabulary_compliant": false
+          },
+          {
+            "label": "Model",
+            "value": "49-94-0907",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "49-94-0907 Milw 4-1/2",
+            "entailment": "supported",
+            "verification_confidence": 1.0,
+            "vocabulary_compliant": true
+          }
+        ],
+        "retrieval_attempted": false,
+        "flags": []
+      },
+      "adjudication": {
+        "fired": true,
+        "needs_human_review": false,
+        "reasoning": [
+          "Series: Entailment is 'not_supported'; the extracted value 'Milw' is part of a product identifier without standalone series contextual support, so it is rejected per rules. Unsupported evidence was rejected."
+        ],
+        "rejected_values": [
+          {
+            "field": "Series",
+            "value": "Milw",
+            "reason": "Entailment is 'not_supported'; the extracted value 'Milw' is part of a product identifier without standalone series contextual support, so it is rejected per rules. Unsupported evidence was rejected.",
+            "source_type": "description"
+          }
+        ],
+        "final_attributes": [
+          {
+            "label": "Model",
+            "value": "49-94-0907",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "49-94-0907 Milw 4-1/2",
+            "source_type": "description"
+          }
+        ]
+      },
+      "descriptions": {
+        "mobile_desc": "Milwaukee Accessory, Metal cutters, 49-94-0907",
+        "invoice_desc": "METAL CUTTERS",
+        "short_desc": "49-94-0907 Metal cutters",
+        "long_desc1": "Metal cutters",
+        "retail_desc": "Metal cutters",
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": true,
+          "SHORT_DESC": true,
+          "LONG_DESC1": true,
+          "RETAIL_DESC": true,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 33.33,
+        "attribute_coverage_percent": 22.22,
+        "attribute_produced_fields": 2,
+        "attribute_expected_fields": 9,
+        "character_limit_compliance_percent": 80.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "attribute:Series",
+          "attribute:Material",
+          "attribute:Color",
+          "attribute:Dimensions",
+          "attribute:Weight",
+          "attribute:Voltage Rating",
+          "attribute:Power Rating",
+          "attribute:Certification/Compliance",
+          "description:MOBILE_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 100,
+      "input": {
+        "mfg_part_num": "44-A",
+        "part_desc": "Light Chocolate 44-A Mortar - Type N",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "Rees Cast Stone Company (REECA)"
+      },
+      "manufacturer": {
+        "value": "Rees Cast Stone Company",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": "30111504",
+        "classpath": "Structures and Building and Construction and Manufacturing Components and Supplies>Concrete and cement and plaster>Concrete and mortars>Mortars",
+        "confidence": 0.85,
+        "expected_attributes": [
+          "Series",
+          "Model",
+          "Material",
+          "Color",
+          "Dimensions",
+          "Weight",
+          "Voltage Rating",
+          "Power Rating",
+          "Certification/Compliance"
+        ],
+        "tie_break_used": true,
+        "tie_break_outcome": "selected:30111504",
+        "tie_break_reasoning": "The item description 'Light Chocolate 44-A Mortar - Type N' contains 'Mortar' and 'Type N', which are standard construction industry terms for masonry mortar. The commodity code 30111504 maps to 'Mortars' under the Concrete and mortars class, directly matching the item's category. The manufacturer 'Rees Cast Stone Company' further supports a construction material context. None of the other candidates (Lighters, Lightmeters, Typewriters, Typesetting, Lighthouse) are semantically plausible for a mortar product, making this a clear match.",
+        "flags": []
+      },
+      "extraction": {
+        "attributes": [
+          {
+            "label": "Series",
+            "value": "44-A",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "44-A",
+            "entailment": "supported",
+            "verification_confidence": 1.0,
+            "vocabulary_compliant": false
+          },
+          {
+            "label": "Model",
+            "value": "Light Chocolate 44-A Mortar - Type N",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "Light Chocolate 44-A Mortar - Type N",
+            "entailment": "supported",
+            "verification_confidence": 1.0,
+            "vocabulary_compliant": false
+          }
+        ],
+        "retrieval_attempted": false,
+        "flags": []
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": [
+          {
+            "label": "Series",
+            "value": "44-A",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "44-A",
+            "source_type": "description"
+          },
+          {
+            "label": "Model",
+            "value": "Light Chocolate 44-A Mortar - Type N",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "Light Chocolate 44-A Mortar - Type N",
+            "source_type": "description"
+          }
+        ]
+      },
+      "descriptions": {
+        "mobile_desc": "Rees Cast Stone Company, Mortars, 44-A, 44-A",
+        "invoice_desc": "MORTARS",
+        "short_desc": "44-A 44-A Mortars",
+        "long_desc1": "Mortars, 44-A",
+        "retail_desc": "44-A Mortars",
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": true,
+          "SHORT_DESC": true,
+          "LONG_DESC1": true,
+          "RETAIL_DESC": true,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 27.78,
+        "attribute_coverage_percent": 22.22,
+        "attribute_produced_fields": 2,
+        "attribute_expected_fields": 9,
+        "character_limit_compliance_percent": 80.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "attribute:Series",
+          "attribute:Model",
+          "attribute:Material",
+          "attribute:Color",
+          "attribute:Dimensions",
+          "attribute:Weight",
+          "attribute:Voltage Rating",
+          "attribute:Power Rating",
+          "attribute:Certification/Compliance",
+          "description:MOBILE_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 166,
+      "input": {
+        "mfg_part_num": "543144016",
+        "part_desc": "1nx6-16' Island Mist Sq Edge - Trex Transcend Lineage Decking",
+        "e1_brand": "TREX",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "U S Lumber (3073)"
+      },
+      "manufacturer": {
+        "value": "U S Lumber",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": "TREX",
+        "confidence": 1.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": null,
+        "classpath": null,
+        "confidence": 0.0,
+        "expected_attributes": [],
+        "tie_break_used": true,
+        "tie_break_outcome": "genuinely_ambiguous",
+        "tie_break_reasoning": "The item description '1nx6-16' Island Mist Sq Edge - Trex Transcend Lineage Decking' describes a residential decking board. None of the supplied commodity codes correspond to building materials, lumber, or decking. The codes span categories such as agricultural machinery, power generation components, laboratory equipment, pharmaceuticals, and surgical instruments. There is no semantic match to construction or outdoor living products. Without a relevant candidate or explicit commercial/industrial evidence in the description, the appropriate classification is genuinely_ambiguous.",
+        "flags": [
+          "classification_genuinely_ambiguous",
+          "classification_unresolved"
+        ]
+      },
+      "extraction": {
+        "attributes": [],
+        "retrieval_attempted": false,
+        "flags": [
+          "no_expected_attributes"
+        ]
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": []
+      },
+      "descriptions": {
+        "mobile_desc": "U S Lumber TREX, 543144016",
+        "invoice_desc": null,
+        "short_desc": "TREX 543144016",
+        "long_desc1": "TREX",
+        "retail_desc": null,
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": false,
+          "SHORT_DESC": true,
+          "LONG_DESC1": true,
+          "RETAIL_DESC": false,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 33.33,
+        "attribute_coverage_percent": null,
+        "attribute_produced_fields": 0,
+        "attribute_expected_fields": 0,
+        "character_limit_compliance_percent": 66.67,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "classpath",
+          "description:MOBILE_DESC",
+          "description:INVOICE_DESC",
+          "description:RETAIL_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 242,
+      "input": {
+        "mfg_part_num": "ADR5117512FW",
+        "part_desc": "1x12-12' French White Oak - Landmark Azek PVC Fascia",
+        "e1_brand": "TIMBERTECH",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "Parksite (6151)"
+      },
+      "manufacturer": {
+        "value": "Parksite",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": "TIMBERTECH",
+        "confidence": 1.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": "25172608",
+        "classpath": "Commercial and Military and Private Vehicles and their Accessories and Components>Transportation components and systems>Vehicle trim and exterior covering>Fascias",
+        "confidence": 0.85,
+        "expected_attributes": [
+          "Series",
+          "Model",
+          "Material",
+          "Color",
+          "Dimensions",
+          "Weight",
+          "Voltage Rating",
+          "Power Rating",
+          "Certification/Compliance"
+        ],
+        "tie_break_used": false,
+        "tie_break_outcome": null,
+        "tie_break_reasoning": null,
+        "flags": []
+      },
+      "extraction": {
+        "attributes": [
+          {
+            "label": "Series",
+            "value": "Landmark",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "Landmark",
+            "entailment": "supported",
+            "verification_confidence": 1.0,
+            "vocabulary_compliant": false
+          },
+          {
+            "label": "Model",
+            "value": "1x12-12' French White Oak",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "1x12-12' French White Oak",
+            "entailment": "supported",
+            "verification_confidence": 1.0,
+            "vocabulary_compliant": false
+          }
+        ],
+        "retrieval_attempted": false,
+        "flags": []
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": [
+          {
+            "label": "Series",
+            "value": "Landmark",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "Landmark",
+            "source_type": "description"
+          },
+          {
+            "label": "Model",
+            "value": "1x12-12' French White Oak",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "1x12-12' French White Oak",
+            "source_type": "description"
+          }
+        ]
+      },
+      "descriptions": {
+        "mobile_desc": "Parksite TIMBERTECH, Fascias, Landmark, ADR5117512FW",
+        "invoice_desc": "FASCIAS",
+        "short_desc": "TIMBERTECH Landmark ADR5117512FW Fascias",
+        "long_desc1": "TIMBERTECH Fascias, Landmark",
+        "retail_desc": "Landmark Fascias",
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": true,
+          "SHORT_DESC": true,
+          "LONG_DESC1": true,
+          "RETAIL_DESC": true,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 33.33,
+        "attribute_coverage_percent": 22.22,
+        "attribute_produced_fields": 2,
+        "attribute_expected_fields": 9,
+        "character_limit_compliance_percent": 80.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "attribute:Series",
+          "attribute:Model",
+          "attribute:Material",
+          "attribute:Color",
+          "attribute:Dimensions",
+          "attribute:Weight",
+          "attribute:Voltage Rating",
+          "attribute:Power Rating",
+          "attribute:Certification/Compliance",
+          "description:MOBILE_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 287,
+      "input": {
+        "mfg_part_num": "543340896",
+        "part_desc": "4x4-37\" Black Alum Post Sleeve Select Alum Railing - w/Cap & Skirt",
+        "e1_brand": "TREX",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "Boise Cascade Building Materials (BOICA)"
+      },
+      "manufacturer": {
+        "value": "Boise Cascade Building Materials",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": "TREX",
+        "confidence": 1.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": "30103102",
+        "classpath": "Structures and Building and Construction and Manufacturing Components and Supplies>Structural components and basic shapes>Rails>Aluminum rail",
+        "confidence": 0.85,
+        "expected_attributes": [
+          "Series",
+          "Model",
+          "Material",
+          "Color",
+          "Dimensions",
+          "Weight",
+          "Voltage Rating",
+          "Power Rating",
+          "Certification/Compliance"
+        ],
+        "tie_break_used": true,
+        "tie_break_outcome": "selected:30103102",
+        "tie_break_reasoning": "The item description specifies 'Alum Railing' with 'Alum Post Sleeve' and 'Cap & Skirt', which directly maps to the commodity 'Aluminum rail' (30103102) under the Structures and Building and Construction hierarchy. The manufacturer context (Boise Cascade Building Materials, TREX) further supports a building/construction application. Other candidates like 11101705 (raw Aluminum base metal) or 12141702/12141910 (transition metals/non-metals) are semantically implausible for a railing product. No commercial or industrial evidence beyond the railing context is present, but the description itself is sufficiently specific to the railing commodity.",
+        "flags": []
+      },
+      "extraction": {
+        "attributes": [
+          {
+            "label": "Material",
+            "value": "Alum",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "Alum",
+            "entailment": "supported",
+            "verification_confidence": 1.0,
+            "vocabulary_compliant": true
+          },
+          {
+            "label": "Color",
+            "value": "Black",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "Black",
+            "entailment": "supported",
+            "verification_confidence": 1.0,
+            "vocabulary_compliant": true
+          }
+        ],
+        "retrieval_attempted": false,
+        "flags": [
+          "source_excerpt_unverified",
+          "source_excerpt_unverified"
+        ]
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": [
+          {
+            "label": "Material",
+            "value": "Alum",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "Alum",
+            "source_type": "description"
+          },
+          {
+            "label": "Color",
+            "value": "Black",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "Black",
+            "source_type": "description"
+          }
+        ]
+      },
+      "descriptions": {
+        "mobile_desc": "Boise Cascade Building Materials TREX, Aluminum rail, 543340896",
+        "invoice_desc": "ALUMINUM RAIL ALUM BLACK",
+        "short_desc": "TREX 543340896 Aluminum rail, Alum, Black",
+        "long_desc1": "TREX Aluminum rail, Alum, Black",
+        "retail_desc": "Aluminum rail, Alum, Black",
+        "field_compliance": {
+          "MOBILE_DESC": true,
+          "INVOICE_DESC": true,
+          "SHORT_DESC": true,
+          "LONG_DESC1": true,
+          "RETAIL_DESC": true,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 50.0,
+        "attribute_coverage_percent": 22.22,
+        "attribute_produced_fields": 2,
+        "attribute_expected_fields": 9,
+        "character_limit_compliance_percent": 100.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "attribute:Series",
+          "attribute:Model",
+          "attribute:Dimensions",
+          "attribute:Weight",
+          "attribute:Voltage Rating",
+          "attribute:Power Rating",
+          "attribute:Certification/Compliance",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 299,
+      "input": {
+        "mfg_part_num": "925219",
+        "part_desc": "2\"x50' Deck Joist Tape - Protecto Wrap",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "Palmer Donavin Mfg Company (PALDO)"
+      },
+      "manufacturer": {
+        "value": "Palmer Donavin Mfg Company",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": null,
+        "classpath": null,
+        "confidence": 0.0,
+        "expected_attributes": [],
+        "tie_break_used": true,
+        "tie_break_outcome": "genuinely_ambiguous",
+        "tie_break_reasoning": "The item '2x50' Deck Joist Tape - Protecto Wrap' describes a construction waterproofing/flashing tape. None of the supplied commodity codes align with building materials, roofing, or construction tapes. The candidates span protractors, chemical elements, pharmaceuticals, and office machines\u2014all semantically implausible for a deck joist tape. There is no close runner-up, and no supplied code is semantically supportable. Per the instruction, this should return genuinely_ambiguous rather than inventing a match.",
+        "flags": [
+          "classification_genuinely_ambiguous",
+          "classification_unresolved"
+        ]
+      },
+      "extraction": {
+        "attributes": [],
+        "retrieval_attempted": false,
+        "flags": [
+          "no_expected_attributes"
+        ]
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": []
+      },
+      "descriptions": {
+        "mobile_desc": "Palmer Donavin Mfg Company, 925219",
+        "invoice_desc": null,
+        "short_desc": "925219",
+        "long_desc1": null,
+        "retail_desc": null,
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": false,
+          "SHORT_DESC": true,
+          "LONG_DESC1": false,
+          "RETAIL_DESC": false,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 11.11,
+        "attribute_coverage_percent": null,
+        "attribute_produced_fields": 0,
+        "attribute_expected_fields": 0,
+        "character_limit_compliance_percent": 50.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "classpath",
+          "description:MOBILE_DESC",
+          "description:INVOICE_DESC",
+          "description:LONG_DESC1",
+          "description:RETAIL_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 301,
+      "input": {
+        "mfg_part_num": "1517602",
+        "part_desc": "6068R Gliding Patio Dr 4500 United Blk Ext/WH Int LowE Arg w/J",
+        "e1_brand": "United Window & Door",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "United Window & Door Manufacturing (UNIWI)"
+      },
+      "manufacturer": {
+        "value": "United Window & Door Manufacturing",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": "United Window & Door",
+        "confidence": 1.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": "30171501",
+        "classpath": "Structures and Building and Construction and Manufacturing Components and Supplies>Doors and windows and glass>Doors>Glass doors",
+        "confidence": 0.85,
+        "expected_attributes": [
+          "Series",
+          "Model",
+          "Material",
+          "Color",
+          "Dimensions",
+          "Weight",
+          "Voltage Rating",
+          "Power Rating",
+          "Certification/Compliance"
+        ],
+        "tie_break_used": true,
+        "tie_break_outcome": "selected:30171501",
+        "tie_break_reasoning": "The item description '6068R Gliding Patio Dr 4500 United Blk Ext/WH Int LowE Arg w/J' describes a residential patio door with manufacturer 'United Window & Door Manufacturing'. The commodity code 30171501 'Glass doors' matches the product category (patio door) and material features (glass, LowE coating, argon). The other candidates are semantically implausible: 25132003 is for gliders/aircraft, 30171507 is for door frames, 30171511 is for swing doors, and 30171512 is for door openers. No commercial or industrial evidence is present to justify a non-residential classification. The description supports the residential/consumer-grade default.",
+        "flags": []
+      },
+      "extraction": {
+        "attributes": [
+          {
+            "label": "Series",
+            "value": "6068R",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "6068R",
+            "entailment": "supported",
+            "verification_confidence": 1.0,
+            "vocabulary_compliant": true
+          },
+          {
+            "label": "Model",
+            "value": "Gliding Patio Dr 4500",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "Gliding Patio Dr 4500",
+            "entailment": "supported",
+            "verification_confidence": 1.0,
+            "vocabulary_compliant": true
+          }
+        ],
+        "retrieval_attempted": false,
+        "flags": []
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": [
+          {
+            "label": "Series",
+            "value": "6068R",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "6068R",
+            "source_type": "description"
+          },
+          {
+            "label": "Model",
+            "value": "Gliding Patio Dr 4500",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "Gliding Patio Dr 4500",
+            "source_type": "description"
+          }
+        ]
+      },
+      "descriptions": {
+        "mobile_desc": "United Window & Door Manufacturing United Window & Door, Glass doors, 6068R",
+        "invoice_desc": "GLASS DOORS",
+        "short_desc": "United Window & Door 6068R 1517602 Glass doors",
+        "long_desc1": "United Window & Door Glass doors, 6068R",
+        "retail_desc": "6068R Glass doors",
+        "field_compliance": {
+          "MOBILE_DESC": true,
+          "INVOICE_DESC": true,
+          "SHORT_DESC": true,
+          "LONG_DESC1": true,
+          "RETAIL_DESC": true,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 50.0,
+        "attribute_coverage_percent": 22.22,
+        "attribute_produced_fields": 2,
+        "attribute_expected_fields": 9,
+        "character_limit_compliance_percent": 100.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "attribute:Material",
+          "attribute:Color",
+          "attribute:Dimensions",
+          "attribute:Weight",
+          "attribute:Voltage Rating",
+          "attribute:Power Rating",
+          "attribute:Certification/Compliance",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 305,
+      "input": {
+        "mfg_part_num": "FS C01 2004S",
+        "part_desc": "FS C01 Velux Fxd Skylt Gry/Wh - w/Solar Shade RO 21\"x26-7/8\"",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "Velux America Inc (VELAM)"
+      },
+      "manufacturer": {
+        "value": "Velux America Inc",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": "51287008",
+        "classpath": "Drugs and Pharmaceutical Products>Antibacterials>Antibacterial sulfones>Solasulfone",
+        "confidence": 0.85,
+        "expected_attributes": [
+          "Series",
+          "Model",
+          "Material",
+          "Color",
+          "Dimensions",
+          "Weight",
+          "Voltage Rating",
+          "Power Rating",
+          "Certification/Compliance"
+        ],
+        "tie_break_used": false,
+        "tie_break_outcome": null,
+        "tie_break_reasoning": null,
+        "flags": []
+      },
+      "extraction": {
+        "attributes": [
+          {
+            "label": "Series",
+            "value": "FS C01",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "FS C01",
+            "entailment": "supported",
+            "verification_confidence": 0.95,
+            "vocabulary_compliant": false
+          }
+        ],
+        "retrieval_attempted": false,
+        "flags": [
+          "source_excerpt_unverified"
+        ]
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": [
+          {
+            "label": "Series",
+            "value": "FS C01",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "FS C01",
+            "source_type": "description"
+          }
+        ]
+      },
+      "descriptions": {
+        "mobile_desc": "Velux America Inc, Solasulfone, FS C01, FS C01 2004S",
+        "invoice_desc": "SOLASULFONE",
+        "short_desc": "FS C01 FS C01 2004S Solasulfone",
+        "long_desc1": "Solasulfone, FS C01",
+        "retail_desc": "FS C01 Solasulfone",
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": true,
+          "SHORT_DESC": true,
+          "LONG_DESC1": true,
+          "RETAIL_DESC": true,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 27.78,
+        "attribute_coverage_percent": 11.11,
+        "attribute_produced_fields": 1,
+        "attribute_expected_fields": 9,
+        "character_limit_compliance_percent": 80.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "attribute:Series",
+          "attribute:Model",
+          "attribute:Material",
+          "attribute:Color",
+          "attribute:Dimensions",
+          "attribute:Weight",
+          "attribute:Voltage Rating",
+          "attribute:Power Rating",
+          "attribute:Certification/Compliance",
+          "description:MOBILE_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 308,
+      "input": {
+        "mfg_part_num": "1501831",
+        "part_desc": "31.5x14.75 Bsmt ecoLitePlus WH - Hopper DLA w/Screen",
+        "e1_brand": "PROVIA",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "ProVia (PRODO)"
+      },
+      "manufacturer": {
+        "value": "ProVia",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": "PROVIA",
+        "confidence": 1.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": null,
+        "classpath": null,
+        "confidence": 0.0,
+        "expected_attributes": [],
+        "tie_break_used": true,
+        "tie_break_outcome": "genuinely_ambiguous",
+        "tie_break_reasoning": "The item description '31.5x14.75 Bsmt ecoLitePlus WH - Hopper DLA w/Screen' references a basement window well product (ecoLitePlus) from ProVia, a residential window/door manufacturer. The candidates include mining screens, screwdrivers, drain hole screens, touch screen monitors, and hopper scales. None of the supplied commodity codes align with a residential basement window well assembly. The top embedding match (likely a screen-related code) is semantically implausible for this context. No commercial or industrial evidence (e.g., 'commercial', 'NSF certified') is present to justify a non-domestic classification. Per the instruction, residential distributor catalog items should default toward domestic/consumer-grade, but no such commodity exists in the candidate list. Therefore, the result is genuinely_ambiguous.",
+        "flags": [
+          "classification_genuinely_ambiguous",
+          "classification_unresolved"
+        ]
+      },
+      "extraction": {
+        "attributes": [],
+        "retrieval_attempted": false,
+        "flags": [
+          "no_expected_attributes"
+        ]
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": []
+      },
+      "descriptions": {
+        "mobile_desc": "PROVIA, 1501831",
+        "invoice_desc": null,
+        "short_desc": "PROVIA 1501831",
+        "long_desc1": "PROVIA",
+        "retail_desc": null,
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": false,
+          "SHORT_DESC": true,
+          "LONG_DESC1": true,
+          "RETAIL_DESC": false,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 33.33,
+        "attribute_coverage_percent": null,
+        "attribute_produced_fields": 0,
+        "attribute_expected_fields": 0,
+        "character_limit_compliance_percent": 66.67,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "classpath",
+          "description:MOBILE_DESC",
+          "description:INVOICE_DESC",
+          "description:RETAIL_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 316,
+      "input": {
+        "mfg_part_num": "1513577",
+        "part_desc": "1x8-12' Doug Fir STK Smooth 1S2E",
+        "e1_brand": "COMMODITY - UNBRANDED",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "Westwood Lumber Sales (WESLU)"
+      },
+      "manufacturer": {
+        "value": "Westwood Lumber Sales",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": null,
+        "classpath": null,
+        "confidence": 0.0,
+        "expected_attributes": [],
+        "tie_break_used": true,
+        "tie_break_outcome": "genuinely_ambiguous",
+        "tie_break_reasoning": "The item description '1x8-12' Doug Fir STK Smooth 1S2E' describes dimensional lumber (a construction material). None of the supplied commodity codes correspond to lumber, wood products, or construction materials. The candidates are exclusively food items (pineapples, loofahs, modeling dough) and hand tools. There is no semantic overlap between the description and any candidate. Without a plausible match, and no commercial or industrial evidence in the description to justify a default, the result is genuinely_ambiguous.",
+        "flags": [
+          "classification_genuinely_ambiguous",
+          "classification_unresolved"
+        ]
+      },
+      "extraction": {
+        "attributes": [],
+        "retrieval_attempted": false,
+        "flags": [
+          "no_expected_attributes"
+        ]
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": []
+      },
+      "descriptions": {
+        "mobile_desc": "Westwood Lumber Sales, 1513577",
+        "invoice_desc": null,
+        "short_desc": "1513577",
+        "long_desc1": null,
+        "retail_desc": null,
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": false,
+          "SHORT_DESC": true,
+          "LONG_DESC1": false,
+          "RETAIL_DESC": false,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 11.11,
+        "attribute_coverage_percent": null,
+        "attribute_produced_fields": 0,
+        "attribute_expected_fields": 0,
+        "character_limit_compliance_percent": 50.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "classpath",
+          "description:MOBILE_DESC",
+          "description:INVOICE_DESC",
+          "description:LONG_DESC1",
+          "description:RETAIL_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 600,
+      "input": {
+        "mfg_part_num": "2/2/4 UD ALUM",
+        "part_desc": "2/2/4 UD Aluminum Triplex Wire (Linear Foot)",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "Southwire/g Turner (6603)"
+      },
+      "manufacturer": {
+        "value": "Southwire/g Turner",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": null,
+        "classpath": null,
+        "confidence": 0.0,
+        "expected_attributes": [],
+        "tie_break_used": true,
+        "tie_break_outcome": "genuinely_ambiguous",
+        "tie_break_reasoning": "The item description '2/2/4 UD Aluminum Triplex Wire (Linear Foot)' describes electrical power distribution cabling. None of the supplied commodity codes correspond to electrical wire, triplex, or aluminum conductors. The top embedding match (51111815 - Triptorelin) is semantically implausible for a hardware/construction material. There is no close runner-up among the provided options. Per the instruction to reject semantically implausible top embedding matches, and with no commodity code that supports the description, the result is genuinely_ambiguous.",
+        "flags": [
+          "classification_genuinely_ambiguous",
+          "classification_unresolved"
+        ]
+      },
+      "extraction": {
+        "attributes": [],
+        "retrieval_attempted": false,
+        "flags": [
+          "no_expected_attributes"
+        ]
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": []
+      },
+      "descriptions": {
+        "mobile_desc": "Southwire/g Turner, 2/2/4 UD ALUM",
+        "invoice_desc": null,
+        "short_desc": "2/2/4 UD ALUM",
+        "long_desc1": null,
+        "retail_desc": null,
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": false,
+          "SHORT_DESC": true,
+          "LONG_DESC1": false,
+          "RETAIL_DESC": false,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 11.11,
+        "attribute_coverage_percent": null,
+        "attribute_produced_fields": 0,
+        "attribute_expected_fields": 0,
+        "character_limit_compliance_percent": 50.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "classpath",
+          "description:MOBILE_DESC",
+          "description:INVOICE_DESC",
+          "description:LONG_DESC1",
+          "description:RETAIL_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 618,
+      "input": {
+        "mfg_part_num": "174-0CSB3-15W",
+        "part_desc": "174-OCSB3-15A Toggle 3-Way Switch Wh",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "Leviton Mfg Co (4927)"
+      },
+      "manufacturer": {
+        "value": "Leviton Mfg Co",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": "39122211",
+        "classpath": "Electrical Systems and Lighting and Components and Accessories and Supplies>Electrical equipment and components and supplies>Electrical switches and accessories>Toggle switch",
+        "confidence": 0.85,
+        "expected_attributes": [
+          "Series",
+          "Model",
+          "Material",
+          "Color",
+          "Dimensions",
+          "Weight",
+          "Voltage Rating",
+          "Power Rating",
+          "Certification/Compliance"
+        ],
+        "tie_break_used": false,
+        "tie_break_outcome": null,
+        "tie_break_reasoning": null,
+        "flags": []
+      },
+      "extraction": {
+        "attributes": [
+          {
+            "label": "Series",
+            "value": "OCSB3",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "OCSB3",
+            "entailment": "supported",
+            "verification_confidence": 1.0,
+            "vocabulary_compliant": false
+          },
+          {
+            "label": "Model",
+            "value": "174-OCSB3-15A Toggle 3-Way Switch Wh",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "174-OCSB3-15A Toggle 3-Way Switch Wh",
+            "entailment": "supported",
+            "verification_confidence": 1.0,
+            "vocabulary_compliant": false
+          }
+        ],
+        "retrieval_attempted": false,
+        "flags": []
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": [
+          {
+            "label": "Series",
+            "value": "OCSB3",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "OCSB3",
+            "source_type": "description"
+          },
+          {
+            "label": "Model",
+            "value": "174-OCSB3-15A Toggle 3-Way Switch Wh",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "174-OCSB3-15A Toggle 3-Way Switch Wh",
+            "source_type": "description"
+          }
+        ]
+      },
+      "descriptions": {
+        "mobile_desc": "Leviton Mfg Co, Toggle switch, OCSB3, 174-0CSB3-15W",
+        "invoice_desc": "TOGGLE SWITCH",
+        "short_desc": "OCSB3 174-0CSB3-15W Toggle switch",
+        "long_desc1": "Toggle switch, OCSB3",
+        "retail_desc": "OCSB3 Toggle switch",
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": true,
+          "SHORT_DESC": true,
+          "LONG_DESC1": true,
+          "RETAIL_DESC": true,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 27.78,
+        "attribute_coverage_percent": 22.22,
+        "attribute_produced_fields": 2,
+        "attribute_expected_fields": 9,
+        "character_limit_compliance_percent": 80.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "attribute:Series",
+          "attribute:Model",
+          "attribute:Material",
+          "attribute:Color",
+          "attribute:Dimensions",
+          "attribute:Weight",
+          "attribute:Voltage Rating",
+          "attribute:Power Rating",
+          "attribute:Certification/Compliance",
+          "description:MOBILE_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 642,
+      "input": {
+        "mfg_part_num": "PS960YPFS",
+        "part_desc": "PS960YPFS 30\" GE Electric Range SS - Display Only",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "Appliance Dealers Cooperative (APPDE)"
+      },
+      "manufacturer": {
+        "value": "Appliance Dealers Cooperative",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": null,
+        "classpath": null,
+        "confidence": 0.0,
+        "expected_attributes": [],
+        "tie_break_used": true,
+        "tie_break_outcome": "genuinely_ambiguous",
+        "tie_break_reasoning": "The item description 'PS960YPFS 30' GE Electric Range SS - Display Only' describes a residential electric range. The 'Display Only' note is a retail merchandising flag, not evidence of commercial-grade equipment. None of the supplied commodity codes align with a residential kitchen appliance: codes in the 41000000 segment are laboratory instruments; 60104910 is electromagnets; 4218xxx are medical devices; 39121436 is electrical connectors; 91101605 is electrolysis services. There is no domestic/consumer-grade commodity in the provided list to which this item can be mapped. Therefore, the result is genuinely_ambiguous.",
+        "flags": [
+          "classification_genuinely_ambiguous",
+          "classification_unresolved"
+        ]
+      },
+      "extraction": {
+        "attributes": [],
+        "retrieval_attempted": false,
+        "flags": [
+          "no_expected_attributes"
+        ]
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": []
+      },
+      "descriptions": {
+        "mobile_desc": "Appliance Dealers Cooperative, PS960YPFS",
+        "invoice_desc": null,
+        "short_desc": "PS960YPFS",
+        "long_desc1": null,
+        "retail_desc": null,
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": false,
+          "SHORT_DESC": true,
+          "LONG_DESC1": false,
+          "RETAIL_DESC": false,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 11.11,
+        "attribute_coverage_percent": null,
+        "attribute_produced_fields": 0,
+        "attribute_expected_fields": 0,
+        "character_limit_compliance_percent": 50.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "classpath",
+          "description:MOBILE_DESC",
+          "description:INVOICE_DESC",
+          "description:LONG_DESC1",
+          "description:RETAIL_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 674,
+      "input": {
+        "mfg_part_num": "K527APBXR",
+        "part_desc": "K527APBXR Senco .131x3\" SM BB - 500CT",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "Senco Products Inc (4650)"
+      },
+      "manufacturer": {
+        "value": "Senco Products Inc",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": null,
+        "classpath": null,
+        "confidence": 0.0,
+        "expected_attributes": [],
+        "tie_break_used": true,
+        "tie_break_outcome": "genuinely_ambiguous",
+        "tie_break_reasoning": "The item description 'K527APBXR Senco .131x3' SM BB - 500CT' refers to a Senco brand product, likely a pneumatic fastener or nail (given the '.131x3' dimensions and 'SM BB' marking). None of the supplied UNSPSC candidates are plausibly related to fasteners, nails, or construction hardware. The candidates are dominated by brass sheets, tin sheets, and grandstand components, which are semantically implausible for this item. There is no domestic/consumer-grade commodity in the list that matches the likely intent of the description. Therefore, the result is genuinely_ambiguous.",
+        "flags": [
+          "classification_genuinely_ambiguous",
+          "classification_unresolved"
+        ]
+      },
+      "extraction": {
+        "attributes": [],
+        "retrieval_attempted": false,
+        "flags": [
+          "no_expected_attributes"
+        ]
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": []
+      },
+      "descriptions": {
+        "mobile_desc": "Senco Products Inc, K527APBXR",
+        "invoice_desc": null,
+        "short_desc": "K527APBXR",
+        "long_desc1": null,
+        "retail_desc": null,
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": false,
+          "SHORT_DESC": true,
+          "LONG_DESC1": false,
+          "RETAIL_DESC": false,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 11.11,
+        "attribute_coverage_percent": null,
+        "attribute_produced_fields": 0,
+        "attribute_expected_fields": 0,
+        "character_limit_compliance_percent": 50.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "classpath",
+          "description:MOBILE_DESC",
+          "description:INVOICE_DESC",
+          "description:LONG_DESC1",
+          "description:RETAIL_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 677,
+      "input": {
+        "mfg_part_num": "e28cnkha",
+        "part_desc": "E28CNKHA Prebena 2/4\"x1 1/8\" - Staple",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "Prebena (PREBE)"
+      },
+      "manufacturer": {
+        "value": "Prebena",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": "44122107",
+        "classpath": "Office Equipment and Accessories and Supplies>Office supplies>Fastening supplies>Staples",
+        "confidence": 0.85,
+        "expected_attributes": [
+          "Series",
+          "Model",
+          "Material",
+          "Color",
+          "Dimensions",
+          "Weight",
+          "Voltage Rating",
+          "Power Rating",
+          "Certification/Compliance"
+        ],
+        "tie_break_used": true,
+        "tie_break_outcome": "selected:44122107",
+        "tie_break_reasoning": "The item description 'E28CNKHA Prebena 2/4'x1 1/8' - Staple' explicitly identifies the product as a 'Staple'. The manufacturer is Prebena, and the resolved context confirms this is a fastening supply. Among the candidates, commodity code 44122107 corresponds to 'Staples' within the Office Equipment and Accessories and Supplies segment, which directly matches the item's classification as a staple. The other candidates refer to staplers, staple guns, staple removers, or industrial staple removers, which are distinct products not supported by the description. No commercial or industrial evidence is present to suggest a higher-grade classification, so the domestic/consumer-grade commodity is appropriate.",
+        "flags": []
+      },
+      "extraction": {
+        "attributes": [
+          {
+            "label": "Series",
+            "value": "Prebena",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "E28CNKHA Prebena 2/4",
+            "entailment": "supported",
+            "verification_confidence": 1.0,
+            "vocabulary_compliant": true
+          },
+          {
+            "label": "Model",
+            "value": "E28CNKHA",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "E28CNKHA Prebena",
+            "entailment": "supported",
+            "verification_confidence": 1.0,
+            "vocabulary_compliant": true
+          }
+        ],
+        "retrieval_attempted": false,
+        "flags": []
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": [
+          {
+            "label": "Series",
+            "value": "Prebena",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "E28CNKHA Prebena 2/4",
+            "source_type": "description"
+          },
+          {
+            "label": "Model",
+            "value": "E28CNKHA",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "E28CNKHA Prebena",
+            "source_type": "description"
+          }
+        ]
+      },
+      "descriptions": {
+        "mobile_desc": "Prebena, Staples, Prebena, e28cnkha",
+        "invoice_desc": "STAPLES",
+        "short_desc": "Prebena e28cnkha Staples",
+        "long_desc1": "Staples, Prebena",
+        "retail_desc": "Prebena Staples",
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": true,
+          "SHORT_DESC": true,
+          "LONG_DESC1": true,
+          "RETAIL_DESC": true,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 38.89,
+        "attribute_coverage_percent": 22.22,
+        "attribute_produced_fields": 2,
+        "attribute_expected_fields": 9,
+        "character_limit_compliance_percent": 80.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "attribute:Material",
+          "attribute:Color",
+          "attribute:Dimensions",
+          "attribute:Weight",
+          "attribute:Voltage Rating",
+          "attribute:Power Rating",
+          "attribute:Certification/Compliance",
+          "description:MOBILE_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 759,
+      "input": {
+        "mfg_part_num": "35459",
+        "part_desc": "35459 Mason Line Brd Orange - 500' Replacement",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "U S Tape Company (6694)"
+      },
+      "manufacturer": {
+        "value": "U S Tape Company",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": null,
+        "classpath": null,
+        "confidence": 0.0,
+        "expected_attributes": [],
+        "tie_break_used": true,
+        "tie_break_outcome": "genuinely_ambiguous",
+        "tie_break_reasoning": "The item description '35459 Mason Line Brd Orange - 500' Replacement' refers to a mason's line (a construction tool used for aligning bricks or concrete work). None of the supplied commodity codes are plausible matches: codes 51111640 and 51283303 are antineoplastic agents/antibacterial drugs; codes 10202137, 10202160, and 10202161 are live rose bushes. There is no commercial, industrial, or NSF-certified evidence in the description to support any of these. The item is residential/consumer-grade construction hardware, but the supplied candidate list contains no relevant categories. Therefore, the result is genuinely_ambiguous.",
+        "flags": [
+          "classification_genuinely_ambiguous",
+          "classification_unresolved"
+        ]
+      },
+      "extraction": {
+        "attributes": [],
+        "retrieval_attempted": false,
+        "flags": [
+          "no_expected_attributes"
+        ]
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": []
+      },
+      "descriptions": {
+        "mobile_desc": "U S Tape Company, 35459",
+        "invoice_desc": null,
+        "short_desc": "35459",
+        "long_desc1": null,
+        "retail_desc": null,
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": false,
+          "SHORT_DESC": true,
+          "LONG_DESC1": false,
+          "RETAIL_DESC": false,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 11.11,
+        "attribute_coverage_percent": null,
+        "attribute_produced_fields": 0,
+        "attribute_expected_fields": 0,
+        "character_limit_compliance_percent": 50.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "classpath",
+          "description:MOBILE_DESC",
+          "description:INVOICE_DESC",
+          "description:LONG_DESC1",
+          "description:RETAIL_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 768,
+      "input": {
+        "mfg_part_num": "55227",
+        "part_desc": "55227 Amana Countersink/Stop 1/8\" Drill TB",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "Amana Tool Corp (AMATO)"
+      },
+      "manufacturer": {
+        "value": "Amana Tool Corp",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": "27112812",
+        "classpath": "Tools and General Machinery>Hand tools>Tool attachments and accessories>Countersinks",
+        "confidence": 0.85,
+        "expected_attributes": [
+          "Series",
+          "Model",
+          "Material",
+          "Color",
+          "Dimensions",
+          "Weight",
+          "Voltage Rating",
+          "Power Rating",
+          "Certification/Compliance"
+        ],
+        "tie_break_used": true,
+        "tie_break_outcome": "selected:27112812",
+        "tie_break_reasoning": "The item description '55227 Amana Countersink/Stop 1/8 Drill TB' explicitly references a countersink tool from Amana Tool Corp. The commodity code 27112812 maps to 'Countersinks' within the Tools and General Machinery hierarchy, which directly aligns with the product type. The other candidates are semantically implausible: 41111901 refers to indicating instruments, and the remaining codes pertain to pharmaceuticals or national defense, none of which match the tool description. No commercial or industrial evidence beyond the tool context is present, but the description itself is sufficient for a technical match.",
+        "flags": []
+      },
+      "extraction": {
+        "attributes": [
+          {
+            "label": "Series",
+            "value": "55227",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "55227",
+            "entailment": "supported",
+            "verification_confidence": 0.95,
+            "vocabulary_compliant": false
+          }
+        ],
+        "retrieval_attempted": false,
+        "flags": [
+          "source_excerpt_unverified"
+        ]
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": [
+          {
+            "label": "Series",
+            "value": "55227",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "55227",
+            "source_type": "description"
+          }
+        ]
+      },
+      "descriptions": {
+        "mobile_desc": "Amana Tool Corp, Countersinks, 55227, 55227",
+        "invoice_desc": "COUNTERSINKS",
+        "short_desc": "55227 55227 Countersinks",
+        "long_desc1": "Countersinks, 55227",
+        "retail_desc": "55227 Countersinks",
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": true,
+          "SHORT_DESC": true,
+          "LONG_DESC1": true,
+          "RETAIL_DESC": true,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 27.78,
+        "attribute_coverage_percent": 11.11,
+        "attribute_produced_fields": 1,
+        "attribute_expected_fields": 9,
+        "character_limit_compliance_percent": 80.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "attribute:Series",
+          "attribute:Model",
+          "attribute:Material",
+          "attribute:Color",
+          "attribute:Dimensions",
+          "attribute:Weight",
+          "attribute:Voltage Rating",
+          "attribute:Power Rating",
+          "attribute:Certification/Compliance",
+          "description:MOBILE_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 786,
+      "input": {
+        "mfg_part_num": "DSA0250B",
+        "part_desc": "DSA0250B 1/4\" Square x1/4\" Hex - Socket Adapter",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "Diablo",
+        "part_manuf": "Freud Inc (2435)"
+      },
+      "manufacturer": {
+        "value": "Freud Inc",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": "Diablo",
+        "confidence": 1.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": null,
+        "classpath": null,
+        "confidence": 0.0,
+        "expected_attributes": [],
+        "tie_break_used": true,
+        "tie_break_outcome": "genuinely_ambiguous",
+        "tie_break_reasoning": "The item 'DSA0250B 1/4' Square x1/4' Hex - Socket Adapter' describes a tool adapter with a square drive and hex drive. None of the supplied candidates match this description. Candidate 27111803 ('Squares') is a measuring tool, 27111704 ('Sockets') is for sockets but not adapters, and the remaining candidates belong to unrelated segments (pharmaceuticals, apparel, electrical couplings). The description does not contain explicit commercial or industrial evidence (e.g., 'commercial', 'restaurant grade', 'NSF certified') to override the default toward residential/consumer-grade ambiguity. There is no semantically plausible top embedding match among the provided options.",
+        "flags": [
+          "classification_genuinely_ambiguous",
+          "classification_unresolved"
+        ]
+      },
+      "extraction": {
+        "attributes": [],
+        "retrieval_attempted": false,
+        "flags": [
+          "no_expected_attributes"
+        ]
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": []
+      },
+      "descriptions": {
+        "mobile_desc": "Freud Inc Diablo, DSA0250B",
+        "invoice_desc": null,
+        "short_desc": "Diablo DSA0250B",
+        "long_desc1": "Diablo",
+        "retail_desc": null,
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": false,
+          "SHORT_DESC": true,
+          "LONG_DESC1": true,
+          "RETAIL_DESC": false,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 33.33,
+        "attribute_coverage_percent": null,
+        "attribute_produced_fields": 0,
+        "attribute_expected_fields": 0,
+        "character_limit_compliance_percent": 66.67,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "classpath",
+          "description:MOBILE_DESC",
+          "description:INVOICE_DESC",
+          "description:RETAIL_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 825,
+      "input": {
+        "mfg_part_num": "XNB05Z",
+        "part_desc": "XNB05Z Makita 18V 2-1/2\" Straight Finish Nailer 16GA",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "Makita Usa Inc (5142)"
+      },
+      "manufacturer": {
+        "value": "Makita Usa Inc",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": null,
+        "classpath": null,
+        "confidence": 0.0,
+        "expected_attributes": [],
+        "tie_break_used": true,
+        "tie_break_outcome": "genuinely_ambiguous",
+        "tie_break_reasoning": "The item description 'XNB05Z Makita 18V 2-1/2' Straight Finish Nailer 16GA' describes a power tool (nailer) with a specific nail size (16GA), not a raw commodity of nails. The supplied commodity codes all represent raw nail products (Finishing nails, Fiber cement nail, Horseshoe nail) without tool context. None of the candidates match the described power tool function, and the description lacks explicit commercial/industrial evidence to justify selecting a commodity code. The top embedding match (likely a nail code) is semantically implausible for a nailer tool listing. Per the instruction, residential/consumer appliance listings default toward domestic grade, but this is a power tool, not an appliance, and there is no commercial evidence. The mismatch between the tool description and the raw nail commodities, combined with the absence of qualifying commercial terms, makes the selection genuinely ambiguous.",
+        "flags": [
+          "classification_genuinely_ambiguous",
+          "classification_unresolved"
+        ]
+      },
+      "extraction": {
+        "attributes": [],
+        "retrieval_attempted": false,
+        "flags": [
+          "no_expected_attributes"
+        ]
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": []
+      },
+      "descriptions": {
+        "mobile_desc": "Makita Usa Inc, XNB05Z",
+        "invoice_desc": null,
+        "short_desc": "XNB05Z",
+        "long_desc1": null,
+        "retail_desc": null,
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": false,
+          "SHORT_DESC": true,
+          "LONG_DESC1": false,
+          "RETAIL_DESC": false,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 11.11,
+        "attribute_coverage_percent": null,
+        "attribute_produced_fields": 0,
+        "attribute_expected_fields": 0,
+        "character_limit_compliance_percent": 50.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "classpath",
+          "description:MOBILE_DESC",
+          "description:INVOICE_DESC",
+          "description:LONG_DESC1",
+          "description:RETAIL_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 833,
+      "input": {
+        "mfg_part_num": "IBMG90K003",
+        "part_desc": "IBMG90K003 Vessel Impact Ball Torsion Bit Assort 5pc 3.5\"",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "Vessel Tools USA Inc (VESTO)"
+      },
+      "manufacturer": {
+        "value": "Vessel Tools USA Inc",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": null,
+        "classpath": null,
+        "confidence": 0.0,
+        "expected_attributes": [],
+        "tie_break_used": true,
+        "tie_break_outcome": "genuinely_ambiguous",
+        "tie_break_reasoning": "The item description 'IBMG90K003 Vessel Impact Ball Torsion Bit Assort 5pc 3.5''' refers to a tool bit assortment (torsion bits), but the supplied UNSPSC candidates are exclusively for 'Impact extrusions' made of various materials (aluminum, beryllium, brass, etc.). There is no semantic or material overlap between a torsion bit assortment and impact extrusions. The candidates are semantically implausible for the item. No other commodity codes or contextual evidence (manufacturer, brand) in the resolved context bridge the gap between 'Vessel Tools' tool bits and 'impact extrusions'. The item cannot be validly mapped to any of the supplied candidates, and there is no close runner-up to resolve the ambiguity. Therefore, the correct classification is genuinely_ambiguous.",
+        "flags": [
+          "classification_genuinely_ambiguous",
+          "classification_unresolved"
+        ]
+      },
+      "extraction": {
+        "attributes": [],
+        "retrieval_attempted": false,
+        "flags": [
+          "no_expected_attributes"
+        ]
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": []
+      },
+      "descriptions": {
+        "mobile_desc": "Vessel Tools USA Inc, IBMG90K003",
+        "invoice_desc": null,
+        "short_desc": "IBMG90K003",
+        "long_desc1": null,
+        "retail_desc": null,
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": false,
+          "SHORT_DESC": true,
+          "LONG_DESC1": false,
+          "RETAIL_DESC": false,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 11.11,
+        "attribute_coverage_percent": null,
+        "attribute_produced_fields": 0,
+        "attribute_expected_fields": 0,
+        "character_limit_compliance_percent": 50.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "classpath",
+          "description:MOBILE_DESC",
+          "description:INVOICE_DESC",
+          "description:LONG_DESC1",
+          "description:RETAIL_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 890,
+      "input": {
+        "mfg_part_num": "924422",
+        "part_desc": "924422 Mafell Carpentry - Planing Machine ZH 320 Ec 120V",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "-"
+      },
+      "manufacturer": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": "23101514",
+        "classpath": "Industrial Manufacturing and Processing Machinery and Accessories>Raw materials processing machinery>Machinery for working wood and stone and ceramic and the like>Planing machines",
+        "confidence": 0.85,
+        "expected_attributes": [
+          "Series",
+          "Model",
+          "Material",
+          "Color",
+          "Dimensions",
+          "Weight",
+          "Voltage Rating",
+          "Power Rating",
+          "Certification/Compliance"
+        ],
+        "tie_break_used": true,
+        "tie_break_outcome": "selected:23101514",
+        "tie_break_reasoning": "The item is a 'Planing Machine' manufactured by Mafell. The candidate 23101514 ('Planing machines') directly matches the machine type and falls under the 'Machinery for working wood' class. Other candidates like 27111903 ('Planes') refer to hand tools, not machines, and 21101601 refers to planters for planting/seeding, which is semantically implausible for a planing machine. The description contains no consumer appliance context to trigger the default rule, so the industrial classification is appropriate.",
+        "flags": []
+      },
+      "extraction": {
+        "attributes": [
+          {
+            "label": "Series",
+            "value": "Mafell Carpentry",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "Mafell Carpentry",
+            "entailment": "supported",
+            "verification_confidence": 1.0,
+            "vocabulary_compliant": false
+          },
+          {
+            "label": "Model",
+            "value": "ZH 320 Ec",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "ZH 320 Ec",
+            "entailment": "supported",
+            "verification_confidence": 1.0,
+            "vocabulary_compliant": false
+          },
+          {
+            "label": "Voltage Rating",
+            "value": "120V",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "120V",
+            "entailment": "partially_supported",
+            "verification_confidence": 0.5,
+            "vocabulary_compliant": false
+          }
+        ],
+        "retrieval_attempted": false,
+        "flags": []
+      },
+      "adjudication": {
+        "fired": true,
+        "needs_human_review": false,
+        "reasoning": [
+          "Voltage Rating: The extracted candidate '120V' exactly matches the source excerpt '120V' and is from the description source priority 1. The normalized candidate '20' does not exactly match the source excerpt and is not a supported/faithful constrained form, so it is rejected per 'for not_supported evidence, reject it' rule. Since both candidates originate from the same source priority and the extracted value is valid, no human review is needed."
+        ],
+        "rejected_values": [
+          {
+            "field": "Voltage Rating",
+            "value": "20",
+            "reason": "The extracted candidate '120V' exactly matches the source excerpt '120V' and is from the description source priority 1. The normalized candidate '20' does not exactly match the source excerpt and is not a supported/faithful constrained form, so it is rejected per 'for not_supported evidence, reject it' rule. Since both candidates originate from the same source priority and the extracted value is valid, no human review is needed.",
+            "source_type": "description"
+          }
+        ],
+        "final_attributes": [
+          {
+            "label": "Series",
+            "value": "Mafell Carpentry",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "Mafell Carpentry",
+            "source_type": "description"
+          },
+          {
+            "label": "Model",
+            "value": "ZH 320 Ec",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "ZH 320 Ec",
+            "source_type": "description"
+          },
+          {
+            "label": "Voltage Rating",
+            "value": "120V",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "120V",
+            "source_type": "description"
+          }
+        ]
+      },
+      "descriptions": {
+        "mobile_desc": "Planing machines, Mafell Carpentry, 924422",
+        "invoice_desc": "PLANING MACHINES 120V",
+        "short_desc": "Mafell Carpentry 924422 Planing machines",
+        "long_desc1": "Planing machines, Mafell Carpentry, 120V Voltage Rating",
+        "retail_desc": "Mafell Carpentry Planing machines",
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": true,
+          "SHORT_DESC": true,
+          "LONG_DESC1": true,
+          "RETAIL_DESC": true,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 27.78,
+        "attribute_coverage_percent": 33.33,
+        "attribute_produced_fields": 3,
+        "attribute_expected_fields": 9,
+        "character_limit_compliance_percent": 80.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "attribute:Series",
+          "attribute:Model",
+          "attribute:Material",
+          "attribute:Color",
+          "attribute:Dimensions",
+          "attribute:Weight",
+          "attribute:Voltage Rating",
+          "attribute:Power Rating",
+          "attribute:Certification/Compliance",
+          "description:MOBILE_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 897,
+      "input": {
+        "mfg_part_num": "24-35M-320",
+        "part_desc": "24-35M-320 Iridium Grip - 3.2\" x 5.2\" Grip",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "Mirka Abrasives Inc (MIRUS)"
+      },
+      "manufacturer": {
+        "value": "Mirka Abrasives Inc",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": null,
+        "classpath": null,
+        "confidence": 0.0,
+        "expected_attributes": [],
+        "tie_break_used": true,
+        "tie_break_outcome": "genuinely_ambiguous",
+        "tie_break_reasoning": "The item description '24-35M-320 Iridium Grip - 3.2' x 5.2' Grip' contains the word 'Iridium', which appears in multiple commodity codes. However, the physical dimensions (3.2' x 5.2') and the term 'Grip' strongly suggest a hardware or tool accessory rather than a precious metal or medical device. The top embedding match (12141720 - Iridium Ir) is semantically implausible because iridium metal is a dense, precious element not used as a grip material in this form factor. The second match (15131504 - Iridium nuclear fuel) is also implausible. The remaining candidates (42212301, 31162917, 49201608) map to medical reaching aids, hardware clamps, and grip strengtheners respectively. None of these perfectly match a '3.2' x 5.2' Iridium Grip', but the hardware/clamps class (31162917) is the most plausible functional category. However, without explicit commercial/industrial evidence (e.g., 'commercial', 'NSF certified') and given the ambiguous dimensions and material reference, the description does not definitively support any single commodity code. Therefore, the result is genuinely_ambiguous.",
+        "flags": [
+          "classification_genuinely_ambiguous",
+          "classification_unresolved"
+        ]
+      },
+      "extraction": {
+        "attributes": [],
+        "retrieval_attempted": false,
+        "flags": [
+          "no_expected_attributes"
+        ]
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": []
+      },
+      "descriptions": {
+        "mobile_desc": "Mirka Abrasives Inc, 24-35M-320",
+        "invoice_desc": null,
+        "short_desc": "24-35M-320",
+        "long_desc1": null,
+        "retail_desc": null,
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": false,
+          "SHORT_DESC": true,
+          "LONG_DESC1": false,
+          "RETAIL_DESC": false,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 11.11,
+        "attribute_coverage_percent": null,
+        "attribute_produced_fields": 0,
+        "attribute_expected_fields": 0,
+        "character_limit_compliance_percent": 50.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "classpath",
+          "description:MOBILE_DESC",
+          "description:INVOICE_DESC",
+          "description:LONG_DESC1",
+          "description:RETAIL_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 906,
+      "input": {
+        "mfg_part_num": "578192",
+        "part_desc": "578192 Festool D 150 GR SYS - Systainer Abrasive Set",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "Festool USA (FESTO)"
+      },
+      "manufacturer": {
+        "value": "Festool USA",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": null,
+        "classpath": null,
+        "confidence": 0.0,
+        "expected_attributes": [],
+        "tie_break_used": true,
+        "tie_break_outcome": "genuinely_ambiguous",
+        "tie_break_reasoning": "The item description '578192 Festool D 150 GR SYS - Systainer Abrasive Set' references a Festool power tool accessory kit. The candidates provided are all abrasive wheels or abrasive media types (cubic boron nitride, diamond, tungsten carbide, papers, cloth, pads, discs, belts, polishers, stones). None of the supplied candidates describe a 'set' of abrasives or specifically match the 'D 150' random orbital sander backing pad format implied by the product line. The class names (e.g., 'Abrasive wheels', 'Abrasive papers') are semantically implausible for a Festool abrasive disc set intended for random orbital sanding. There is no close runner-up that aligns with the product's actual form factor or intended use. Per the instruction, a semantically implausible top embedding match is rejected, and no genuine match is supported, so the result is genuinely_ambiguous.",
+        "flags": [
+          "classification_genuinely_ambiguous",
+          "classification_unresolved"
+        ]
+      },
+      "extraction": {
+        "attributes": [],
+        "retrieval_attempted": false,
+        "flags": [
+          "no_expected_attributes"
+        ]
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": []
+      },
+      "descriptions": {
+        "mobile_desc": "Festool USA, 578192",
+        "invoice_desc": null,
+        "short_desc": "578192",
+        "long_desc1": null,
+        "retail_desc": null,
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": false,
+          "SHORT_DESC": true,
+          "LONG_DESC1": false,
+          "RETAIL_DESC": false,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 11.11,
+        "attribute_coverage_percent": null,
+        "attribute_produced_fields": 0,
+        "attribute_expected_fields": 0,
+        "character_limit_compliance_percent": 50.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "classpath",
+          "description:MOBILE_DESC",
+          "description:INVOICE_DESC",
+          "description:LONG_DESC1",
+          "description:RETAIL_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 933,
+      "input": {
+        "mfg_part_num": "JT1-549",
+        "part_desc": "JT1-549 JWBS18SFX 18\" Bandsaw - 1.75HP 1PH 115V",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "JPW Industries (JPWIN)"
+      },
+      "manufacturer": {
+        "value": "JPW Industries",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": "23231101",
+        "classpath": "Industrial Manufacturing and Processing Machinery and Accessories>Sawmilling and lumber processing machinery and equipment>Bandsaws and accessories>Bandsaw wheel",
+        "confidence": 0.7926795840263366,
+        "expected_attributes": [
+          "Series",
+          "Model",
+          "Material",
+          "Color",
+          "Dimensions",
+          "Weight",
+          "Voltage Rating",
+          "Power Rating",
+          "Certification/Compliance"
+        ],
+        "tie_break_used": true,
+        "tie_break_outcome": "selected:23231101",
+        "tie_break_reasoning": "The item is an 18-inch bandsaw with 1.75HP motor. The commodity code 23231101 maps to 'Bandsaw wheel' within the 'Bandsaws and accessories' class, which is the only candidate that directly references bandsaws. The other codes refer to banders (fastener tools), bandannas (apparel), bandurria (musical instrument), and optical filters, all of which are semantically implausible for a power tool. While the exact class name says 'Bandsaw wheel' rather than the full machine, it is the closest and most relevant match among the provided options. No other candidate even remotely relates to the described equipment.",
+        "flags": []
+      },
+      "extraction": {
+        "attributes": [
+          {
+            "label": "Voltage Rating",
+            "value": "115V",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "115V",
+            "entailment": "not_supported",
+            "verification_confidence": 0.95,
+            "vocabulary_compliant": false
+          },
+          {
+            "label": "Power Rating",
+            "value": "1.75HP",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "1.75HP",
+            "entailment": "supported",
+            "verification_confidence": 1.0,
+            "vocabulary_compliant": true
+          }
+        ],
+        "retrieval_attempted": false,
+        "flags": [
+          "source_excerpt_unverified",
+          "source_excerpt_unverified",
+          "source_excerpt_unverified",
+          "source_excerpt_unverified",
+          "source_excerpt_unverified",
+          "source_excerpt_unverified",
+          "source_excerpt_unverified"
+        ]
+      },
+      "adjudication": {
+        "fired": true,
+        "needs_human_review": false,
+        "reasoning": [
+          "Voltage Rating: Source excerpt '115V' lacks unit-of-measure compliance and is marked not_supported; extracted candidate rejected per policy. Unsupported evidence was rejected."
+        ],
+        "rejected_values": [
+          {
+            "field": "Voltage Rating",
+            "value": "115V",
+            "reason": "Source excerpt '115V' lacks unit-of-measure compliance and is marked not_supported; extracted candidate rejected per policy. Unsupported evidence was rejected.",
+            "source_type": "description"
+          }
+        ],
+        "final_attributes": [
+          {
+            "label": "Power Rating",
+            "value": "1.75HP",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "1.75HP",
+            "source_type": "description"
+          }
+        ]
+      },
+      "descriptions": {
+        "mobile_desc": "JPW Industries, Bandsaw wheel, JT1-549",
+        "invoice_desc": "BANDSAW WHEEL",
+        "short_desc": "JT1-549 Bandsaw wheel",
+        "long_desc1": "Bandsaw wheel",
+        "retail_desc": "Bandsaw wheel",
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": true,
+          "SHORT_DESC": true,
+          "LONG_DESC1": true,
+          "RETAIL_DESC": true,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 33.33,
+        "attribute_coverage_percent": 22.22,
+        "attribute_produced_fields": 2,
+        "attribute_expected_fields": 9,
+        "character_limit_compliance_percent": 80.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "attribute:Series",
+          "attribute:Model",
+          "attribute:Material",
+          "attribute:Color",
+          "attribute:Dimensions",
+          "attribute:Weight",
+          "attribute:Voltage Rating",
+          "attribute:Certification/Compliance",
+          "description:MOBILE_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 943,
+      "input": {
+        "mfg_part_num": "DCS714B",
+        "part_desc": "DCS714B Dewalt 20V Miter Saw - (Bare) 10\" Double Bevel Fixed",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "Black & Decker/dewlt (2585)"
+      },
+      "manufacturer": {
+        "value": "Black & Decker/dewlt",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": "27112748",
+        "classpath": "Tools and General Machinery>Hand tools>Power tools>Miter saw",
+        "confidence": 0.85,
+        "expected_attributes": [
+          "Series",
+          "Model",
+          "Material",
+          "Color",
+          "Dimensions",
+          "Weight",
+          "Voltage Rating",
+          "Power Rating",
+          "Certification/Compliance"
+        ],
+        "tie_break_used": true,
+        "tie_break_outcome": "selected:27112748",
+        "tie_break_reasoning": "The item is a Dewalt 20V Miter Saw. The commodity code 27112748 maps to 'Miter saw' under the Power tools class (27112700), which directly matches the tool type and brand. The other candidates either describe hand tools (bevels, miter boxes) or unrelated items (double end saw file, fixed angle plate). The description contains no commercial or industrial evidence, so the residential/consumer-grade default is appropriate.",
+        "flags": []
+      },
+      "extraction": {
+        "attributes": [
+          {
+            "label": "Series",
+            "value": "20V",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "20V",
+            "entailment": "supported",
+            "verification_confidence": 1.0,
+            "vocabulary_compliant": false
+          },
+          {
+            "label": "Model",
+            "value": "DCS714B",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "DCS714B",
+            "entailment": "supported",
+            "verification_confidence": 1.0,
+            "vocabulary_compliant": false
+          },
+          {
+            "label": "Voltage Rating",
+            "value": "20V",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "20V",
+            "entailment": "partially_supported",
+            "verification_confidence": 0.8,
+            "vocabulary_compliant": true
+          }
+        ],
+        "retrieval_attempted": false,
+        "flags": [
+          "source_excerpt_unverified",
+          "source_excerpt_unverified",
+          "source_excerpt_unverified",
+          "source_excerpt_unverified",
+          "source_excerpt_unverified",
+          "source_excerpt_unverified"
+        ]
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": [
+          {
+            "label": "Series",
+            "value": "20V",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "20V",
+            "source_type": "description"
+          },
+          {
+            "label": "Model",
+            "value": "DCS714B",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "DCS714B",
+            "source_type": "description"
+          },
+          {
+            "label": "Voltage Rating",
+            "value": "20",
+            "uom": "V",
+            "confidence": null,
+            "source_excerpt": "20V",
+            "source_type": "description"
+          }
+        ]
+      },
+      "descriptions": {
+        "mobile_desc": "Black & Decker/dewlt, Miter saw, 20V, DCS714B",
+        "invoice_desc": "MITER SAW 20V",
+        "short_desc": "20V DCS714B Miter saw",
+        "long_desc1": "Miter saw, 20V, 20 V Voltage Rating",
+        "retail_desc": "20V Miter saw",
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": true,
+          "SHORT_DESC": true,
+          "LONG_DESC1": true,
+          "RETAIL_DESC": true,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 27.78,
+        "attribute_coverage_percent": 33.33,
+        "attribute_produced_fields": 3,
+        "attribute_expected_fields": 9,
+        "character_limit_compliance_percent": 80.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "attribute:Series",
+          "attribute:Model",
+          "attribute:Material",
+          "attribute:Color",
+          "attribute:Dimensions",
+          "attribute:Weight",
+          "attribute:Voltage Rating",
+          "attribute:Power Rating",
+          "attribute:Certification/Compliance",
+          "description:MOBILE_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 957,
+      "input": {
+        "mfg_part_num": "ATGP-FA",
+        "part_desc": "ATGP-FA T-Glide Advance Fence Professional",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "Saw Stop LLC (SAWST)"
+      },
+      "manufacturer": {
+        "value": "Saw Stop LLC",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": null,
+        "classpath": null,
+        "confidence": 0.0,
+        "expected_attributes": [],
+        "tie_break_used": true,
+        "tie_break_outcome": "genuinely_ambiguous",
+        "tie_break_reasoning": "The item description 'ATGP-FA T-Glide Advance Fence Professional' contains no explicit commercial, restaurant grade, or NSF certified evidence. The manufacturer context indicates Saw Stop LLC, which is known for professional-grade table saws and fences, but the description alone does not specify commercial or industrial use. The candidates provided are all pharmaceutical products (fencamfamine, fencibutirol, fenclorac, proflazepam, proflavine) with no meaningful connection to fencing, saw fences, or woodworking equipment. There is no close runner-up among the candidates, and none are semantically plausible for this item. Without explicit commercial evidence in the description, and given the complete mismatch between the item and the supplied commodity codes, the result is genuinely_ambiguous.",
+        "flags": [
+          "classification_genuinely_ambiguous",
+          "classification_unresolved"
+        ]
+      },
+      "extraction": {
+        "attributes": [],
+        "retrieval_attempted": false,
+        "flags": [
+          "no_expected_attributes"
+        ]
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": []
+      },
+      "descriptions": {
+        "mobile_desc": "Saw Stop LLC, ATGP-FA",
+        "invoice_desc": null,
+        "short_desc": "ATGP-FA",
+        "long_desc1": null,
+        "retail_desc": null,
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": false,
+          "SHORT_DESC": true,
+          "LONG_DESC1": false,
+          "RETAIL_DESC": false,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 11.11,
+        "attribute_coverage_percent": null,
+        "attribute_produced_fields": 0,
+        "attribute_expected_fields": 0,
+        "character_limit_compliance_percent": 50.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "classpath",
+          "description:MOBILE_DESC",
+          "description:INVOICE_DESC",
+          "description:LONG_DESC1",
+          "description:RETAIL_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 967,
+      "input": {
+        "mfg_part_num": "BCB2A20A",
+        "part_desc": "BCB2A20A Kreg 20V Battery/Charger Starter Kit",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "Kreg Tool Company (KRETO)"
+      },
+      "manufacturer": {
+        "value": "Kreg Tool Company",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": "26111710",
+        "classpath": "Power Generation and Distribution Machinery and Accessories>Batteries and generators and kinetic power transmission>Batteries and cells and accessories>Product specific battery packs",
+        "confidence": 0.7673054218292236,
+        "expected_attributes": [
+          "Series",
+          "Model",
+          "Material",
+          "Color",
+          "Dimensions",
+          "Weight",
+          "Voltage Rating",
+          "Power Rating",
+          "Certification/Compliance"
+        ],
+        "tie_break_used": true,
+        "tie_break_outcome": "selected:26111710",
+        "tie_break_reasoning": "The item is a '20V Battery/Charger Starter Kit' from Kreg Tool Company. This falls squarely under the 'Batteries and cells and accessories' class (26111700). Between the two battery-related candidates (26111704 and 26111710), the distinction is between 'Battery chargers' and 'Product specific battery packs'. A starter kit that includes both a battery and a charger is most accurately classified as a 'Product specific battery pack' (the battery itself) with its accompanying charger, rather than merely a charger unit. The commodity name 'Product specific battery packs' better captures the primary component (the battery pack) of this starter kit. There is no commercial or industrial evidence in the description to suggest a different classification.",
+        "flags": []
+      },
+      "extraction": {
+        "attributes": [
+          {
+            "label": "Series",
+            "value": "20V",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "20V",
+            "entailment": "supported",
+            "verification_confidence": 1.0,
+            "vocabulary_compliant": false
+          },
+          {
+            "label": "Model",
+            "value": "BCB2A20A",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "BCB2A20A",
+            "entailment": "supported",
+            "verification_confidence": 1.0,
+            "vocabulary_compliant": false
+          }
+        ],
+        "retrieval_attempted": false,
+        "flags": []
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": [
+          {
+            "label": "Series",
+            "value": "20V",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "20V",
+            "source_type": "description"
+          },
+          {
+            "label": "Model",
+            "value": "BCB2A20A",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "BCB2A20A",
+            "source_type": "description"
+          }
+        ]
+      },
+      "descriptions": {
+        "mobile_desc": "Kreg Tool Company, Product specific battery packs, 20V, BCB2A20A",
+        "invoice_desc": "PRODUCT SPECIFIC BATTERY PACKS",
+        "short_desc": "20V BCB2A20A Product specific battery packs",
+        "long_desc1": "Product specific battery packs, 20V",
+        "retail_desc": "20V Product specific battery packs",
+        "field_compliance": {
+          "MOBILE_DESC": true,
+          "INVOICE_DESC": true,
+          "SHORT_DESC": true,
+          "LONG_DESC1": true,
+          "RETAIL_DESC": true,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 33.33,
+        "attribute_coverage_percent": 22.22,
+        "attribute_produced_fields": 2,
+        "attribute_expected_fields": 9,
+        "character_limit_compliance_percent": 100.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "attribute:Series",
+          "attribute:Model",
+          "attribute:Material",
+          "attribute:Color",
+          "attribute:Dimensions",
+          "attribute:Weight",
+          "attribute:Voltage Rating",
+          "attribute:Power Rating",
+          "attribute:Certification/Compliance",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 991,
+      "input": {
+        "mfg_part_num": "MAG:2044-230-1",
+        "part_desc": "2044-230-1 Stock Feeder 4-Roll - Steff",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "J&G Machinery (JGMAC)"
+      },
+      "manufacturer": {
+        "value": "J&G Machinery",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": null,
+        "classpath": null,
+        "confidence": 0.0,
+        "expected_attributes": [],
+        "tie_break_used": true,
+        "tie_break_outcome": "genuinely_ambiguous",
+        "tie_break_reasoning": "The item description '2044-230-1 Stock Feeder 4-Roll - Steff' contains the term 'Stock Feeder', which could refer to livestock feed equipment (agricultural/industrial) or a generic feeding mechanism. The candidates include 'Feeders' (20101602) under Mining/Quarrying and 'Roll feeds' (44101728) under Office Equipment/Printer accessories. Neither candidate is semantically supported by the description alone. The manufacturer 'J&G Machinery' suggests industrial machinery, but without explicit commercial/industrial evidence (e.g., 'commercial', 'restaurant grade', 'NSF certified') in the description, and given that 'Stock Feeder' is ambiguous between agricultural and office/printer contexts, the tie cannot be resolved. The presence of '4-Roll' further complicates classification, as it could refer to roller configurations in earth-moving machinery or printer components. No candidate is clearly supported, and the description lacks the explicit commercial evidence required to favor one over another. Therefore, the result is genuinely_ambiguous.",
+        "flags": [
+          "classification_genuinely_ambiguous",
+          "classification_unresolved"
+        ]
+      },
+      "extraction": {
+        "attributes": [],
+        "retrieval_attempted": false,
+        "flags": [
+          "no_expected_attributes"
+        ]
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": []
+      },
+      "descriptions": {
+        "mobile_desc": "J&G Machinery, MAG:2044-230-1",
+        "invoice_desc": null,
+        "short_desc": "MAG:2044-230-1",
+        "long_desc1": null,
+        "retail_desc": null,
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": false,
+          "SHORT_DESC": true,
+          "LONG_DESC1": false,
+          "RETAIL_DESC": false,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 11.11,
+        "attribute_coverage_percent": null,
+        "attribute_produced_fields": 0,
+        "attribute_expected_fields": 0,
+        "character_limit_compliance_percent": 50.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "classpath",
+          "description:MOBILE_DESC",
+          "description:INVOICE_DESC",
+          "description:LONG_DESC1",
+          "description:RETAIL_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 1000,
+      "input": {
+        "mfg_part_num": "10055.201",
+        "part_desc": "10055.201 Oliver 15\" Benchtop Planer 2.5HP 1Ph 230V",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "Oliver Machinery Company (OLIMA)"
+      },
+      "manufacturer": {
+        "value": "Oliver Machinery Company",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": null,
+        "classpath": null,
+        "confidence": 0.0,
+        "expected_attributes": [],
+        "tie_break_used": true,
+        "tie_break_outcome": "genuinely_ambiguous",
+        "tie_break_reasoning": "The item description '10055.201 Oliver 15' Benchtop Planer 2.5HP 1Ph 230V' describes a benchtop power tool planer. The candidates include '27111903' (Planes) and '21101601' (Planters). While 'Planer' superficially resembles 'Planes', the item is a powered woodworking tool, not agricultural planting equipment. The 'Oliver' brand is shared with pharmaceutical products (e.g., Olivomycin), but the description contains no commercial/industrial evidence beyond the tool's function. Neither candidate is semantically plausible for a benchtop planer. The 'Display Only' note in the instruction is irrelevant here. There is no valid commercial or industrial evidence to favor one candidate over the other, and both are implausible. Therefore, the result is genuinely_ambiguous.",
+        "flags": [
+          "classification_genuinely_ambiguous",
+          "classification_unresolved"
+        ]
+      },
+      "extraction": {
+        "attributes": [],
+        "retrieval_attempted": false,
+        "flags": [
+          "no_expected_attributes"
+        ]
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": []
+      },
+      "descriptions": {
+        "mobile_desc": "Oliver Machinery Company, 10055.201",
+        "invoice_desc": null,
+        "short_desc": "10055.201",
+        "long_desc1": null,
+        "retail_desc": null,
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": false,
+          "SHORT_DESC": true,
+          "LONG_DESC1": false,
+          "RETAIL_DESC": false,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 11.11,
+        "attribute_coverage_percent": null,
+        "attribute_produced_fields": 0,
+        "attribute_expected_fields": 0,
+        "character_limit_compliance_percent": 50.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "classpath",
+          "description:MOBILE_DESC",
+          "description:INVOICE_DESC",
+          "description:LONG_DESC1",
+          "description:RETAIL_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    },
+    {
+      "row_number": 1001,
+      "input": {
+        "mfg_part_num": "T27417",
+        "part_desc": "T27417 Grizzly OscillatingEdge - Belt and Spindle Sander",
+        "e1_brand": "-- Unbranded --",
+        "unilog_brand": "-- No Unilog Brand --",
+        "dib_brand": "-- No DIB Brand --",
+        "part_manuf": "Woodstock Intl (3658)"
+      },
+      "manufacturer": {
+        "value": "Woodstock Intl",
+        "confidence": 0.65
+      },
+      "brand": {
+        "value": null,
+        "confidence": 0.0
+      },
+      "manufacturer_domain": null,
+      "classification": {
+        "unspsc_code": "23101525",
+        "classpath": "Industrial Manufacturing and Processing Machinery and Accessories>Raw materials processing machinery>Machinery for working wood and stone and ceramic and the like>Oscillating spindle sander",
+        "confidence": 0.85,
+        "expected_attributes": [
+          "Series",
+          "Model",
+          "Material",
+          "Color",
+          "Dimensions",
+          "Weight",
+          "Voltage Rating",
+          "Power Rating",
+          "Certification/Compliance"
+        ],
+        "tie_break_used": true,
+        "tie_break_outcome": "selected:23101525",
+        "tie_break_reasoning": "The item description 'T27417 Grizzly OscillatingEdge - Belt and Spindle Sander' explicitly names 'OscillatingEdge' and 'Belt and Spindle Sander'. The candidate '23101525' (Oscillating spindle sander) directly matches the 'spindle sander' terminology and the manufacturer 'Woodstock Intl' is a known woodworking equipment supplier. The other candidates are semantically implausible: '27112739' is a belt sander only (missing spindle), '26111801' are V-belts, '11111607' is sandstone rock, and the remaining candidates are laboratory equipment or toys. There is no ambiguity requiring 'genuinely_ambiguous'.",
+        "flags": []
+      },
+      "extraction": {
+        "attributes": [
+          {
+            "label": "Series",
+            "value": "T27417",
+            "uom": null,
+            "confidence": null,
+            "source_type": "description",
+            "source_excerpt": "T27417 Grizzly OscillatingEdge - Belt and Spindle Sander",
+            "entailment": "supported",
+            "verification_confidence": 0.95,
+            "vocabulary_compliant": false
+          }
+        ],
+        "retrieval_attempted": false,
+        "flags": []
+      },
+      "adjudication": {
+        "fired": false,
+        "needs_human_review": false,
+        "reasoning": [],
+        "rejected_values": [],
+        "final_attributes": [
+          {
+            "label": "Series",
+            "value": "T27417",
+            "uom": null,
+            "confidence": null,
+            "source_excerpt": "T27417 Grizzly OscillatingEdge - Belt and Spindle Sander",
+            "source_type": "description"
+          }
+        ]
+      },
+      "descriptions": {
+        "mobile_desc": "Woodstock Intl, Oscillating spindle sander, T27417, T27417",
+        "invoice_desc": "OSCILLATING SPINDLE SANDER",
+        "short_desc": "T27417 T27417 Oscillating spindle sander",
+        "long_desc1": "Oscillating spindle sander, T27417",
+        "retail_desc": "T27417 Oscillating spindle sander",
+        "field_compliance": {
+          "MOBILE_DESC": false,
+          "INVOICE_DESC": true,
+          "SHORT_DESC": true,
+          "LONG_DESC1": true,
+          "RETAIL_DESC": true,
+          "MARKETING_DESCRIPTION": false
+        }
+      },
+      "audit": {
+        "coverage_percent": 27.78,
+        "attribute_coverage_percent": 11.11,
+        "attribute_produced_fields": 1,
+        "attribute_expected_fields": 9,
+        "character_limit_compliance_percent": 80.0,
+        "routed_to_review": true,
+        "flags": [
+          "manufacturer",
+          "brand",
+          "attribute:Series",
+          "attribute:Model",
+          "attribute:Material",
+          "attribute:Color",
+          "attribute:Dimensions",
+          "attribute:Weight",
+          "attribute:Voltage Rating",
+          "attribute:Power Rating",
+          "attribute:Certification/Compliance",
+          "description:MOBILE_DESC",
+          "description:MARKETING_DESCRIPTION"
+        ]
+      }
+    }
+  ]
+}

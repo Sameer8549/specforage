@@ -832,7 +832,7 @@ export default function InputPage() {
                         fontSize: 11,
                       }}
                     >
-                      "-- No Unilog Brand --"
+                      {'"-- No Unilog Brand --"'}
                     </code>
                     ,{" "}
                     <code
@@ -842,7 +842,7 @@ export default function InputPage() {
                         fontSize: 11,
                       }}
                     >
-                      "-- Unbranded --"
+                      {'"-- Unbranded --"'}
                     </code>{" "}
                     are treated as blank and flagged. They will not be carried into the output
                     record.

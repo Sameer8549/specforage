@@ -2,8 +2,8 @@ import Nav from "@/components/Nav";
 import PipelineLivePage from "@/components/PipelineLivePage";
 
 export const metadata = {
-  title: "Live Pipeline — SpecForge",
-  description: "Real-time view of the 10-stage product intelligence pipeline.",
+  title: "Interactive Playground | SpecForge",
+  description: "Run a catalog item through the live SpecForge pipeline and inspect its complete trace.",
 };
 
 export default function LivePage() {

@@ -77,6 +77,7 @@ class BrandResolutionStage(ContractModel):
     manufacturer_domain: str | None = None
     manufacturer_source: str | None = None
     mpn_lookup_attempted: bool = False
+    mpn_lookup_cache_hit: bool | None = None
     flags: list[ReviewFlag] = Field(default_factory=list)
 
 

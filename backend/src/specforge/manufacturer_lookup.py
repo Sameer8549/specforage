@@ -1,6 +1,7 @@
 """MPN web-search lookup used when catalog brand evidence is absent."""
 
 import asyncio
+from contextvars import ContextVar
 import html
 import re
 from dataclasses import dataclass
@@ -179,6 +180,14 @@ class MPNWebManufacturerLookup:
         self.timeout_seconds = timeout_seconds
         self._cache: dict[str, ManufacturerLookupResult | None] = {}
         self._cache_lock = asyncio.Lock()
+        self._last_cache_hit: ContextVar[bool | None] = ContextVar(
+            "manufacturer_lookup_cache_hit", default=None
+        )
+
+    @property
+    def last_cache_hit(self) -> bool | None:
+        """Cache status for the current async request context."""
+        return self._last_cache_hit.get()
 
     @staticmethod
     def _cache_key(mfg_part_num: str) -> str:
@@ -245,14 +254,18 @@ class MPNWebManufacturerLookup:
     ) -> ManufacturerLookupResult | None:
         key = self._cache_key(mfg_part_num)
         if not key:
+            self._last_cache_hit.set(None)
             return None
         if key in self._cache:
+            self._last_cache_hit.set(True)
             return self._cache[key]
         # Serialize cache misses so concurrent requests for one MPN cannot race and
         # commit different live-search answers to the same pipeline instance.
         async with self._cache_lock:
             if key in self._cache:
+                self._last_cache_hit.set(True)
                 return self._cache[key]
+            self._last_cache_hit.set(False)
             result = await self._lookup_uncached(mfg_part_num, part_desc)
             self._cache[key] = result
             return result

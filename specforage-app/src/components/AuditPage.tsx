@@ -23,7 +23,10 @@ function value(number: number | null | undefined): string {
 
 export default function AuditPage() {
   const [record, setRecord] = useState<SpecForgeRecord | null>(null);
-  useEffect(() => setRecord(readProcessedRecord()), []);
+  useEffect(() => {
+    const timer = window.setTimeout(() => setRecord(readProcessedRecord()), 0);
+    return () => window.clearTimeout(timer);
+  }, []);
   const audit = (record?.audit || {}) as AuditData;
 
   if (!record) {

@@ -42,7 +42,9 @@ export default function DescriptionsPage() {
 
   useEffect(() => {
     const processed = readProcessedRecord();
-    if (processed) setSelectedProduct(toProductRecord(processed));
+    if (!processed) return;
+    const timer = window.setTimeout(() => setSelectedProduct(toProductRecord(processed)), 0);
+    return () => window.clearTimeout(timer);
   }, []);
 
   const activeChannelConfig =

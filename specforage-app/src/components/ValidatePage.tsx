@@ -26,8 +26,6 @@ export default function ValidatePage() {
 
   useEffect(() => {
     const controller = new AbortController();
-    setLoading(true);
-    setError(null);
     getEvaluation(controller.signal)
       .then(setResult)
       .catch((reason: unknown) => {
@@ -49,7 +47,7 @@ export default function ValidatePage() {
               Metrics below come directly from the deployed <code>/eval</code> endpoint. The supplied benchmark currently contains two rows, not 200.
             </p>
           </div>
-          <button className="btn-primary" type="button" disabled={loading} onClick={() => setRun((value) => value + 1)}>
+          <button className="btn-primary" type="button" disabled={loading} onClick={() => { setLoading(true); setError(null); setRun((value) => value + 1); }}>
             <ArrowClockwise size={15} /> {loading ? "RUNNING EVALUATION…" : "RUN AGAIN"}
           </button>
         </div>

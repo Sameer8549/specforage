@@ -1,77 +1,237 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { ArrowRight, CheckCircle, Warning } from "@phosphor-icons/react";
+import { FormEvent, useEffect, useState } from "react";
+import { CaretDown, CheckCircle, DownloadSimple, Play, SpinnerGap, Warning } from "@phosphor-icons/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { processItem, SpecForgeRecord, StageObject } from "@/lib/specforgeApi";
 
+type DataObject = Record<string, unknown>;
+
 const STAGES = [
-  ["clean", "CLEAN"], ["brand_resolution", "RESOLVE MFR / BRAND"], ["classify", "CLASSIFY"],
-  ["extract", "EXTRACT"], ["normalize", "NORMALIZE"], ["verify", "VERIFY"],
-  ["adjudicate", "ADJUDICATE"], ["description", "BUILD DESCRIPTION"], ["audit", "AUDIT"], ["output_row", "MAP OUTPUT"],
+  { key: "clean", number: "01", label: "Clean" },
+  { key: "brand_resolution", number: "02", label: "Resolve Manufacturer / Brand" },
+  { key: "classify", number: "03", label: "Classify" },
+  { key: "extract", number: "04", label: "Extract" },
+  { key: "normalize", number: "05", label: "Normalize & Constrain" },
+  { key: "verify", number: "06", label: "Verify" },
+  { key: "adjudicate", number: "07", label: "Adjudicate" },
+  { key: "description", number: "08", label: "Build Description" },
+  { key: "audit", number: "09", label: "Audit" },
+  { key: "output_row", number: "10", label: "Output Mapper" },
 ] as const;
 
-function display(value: unknown): string {
-  if (value == null || value === "") return "—";
-  if (typeof value === "boolean") return value ? "YES" : "NO";
-  if (typeof value === "object") return JSON.stringify(value, null, 2);
-  return String(value);
+function object(value: unknown): DataObject {
+  return value && typeof value === "object" && !Array.isArray(value) ? value as DataObject : {};
+}
+
+function array(value: unknown): DataObject[] {
+  return Array.isArray(value) ? value.map(object) : [];
+}
+
+function text(value: unknown, fallback = "Not available"): string {
+  return typeof value === "string" && value.trim() ? value : fallback;
+}
+
+function score(value: unknown): string {
+  return typeof value === "number" ? value.toFixed(3) : "Not scored";
+}
+
+function Scalar({ value }: { value: unknown }) {
+  if (value == null || value === "") return <span style={{ color: "var(--fg-dim)" }}>Not available</span>;
+  if (typeof value === "boolean") return <span>{value ? "Yes" : "No"}</span>;
+  if (typeof value === "object") return <pre className="trace-json">{JSON.stringify(value, null, 2)}</pre>;
+  return <span>{String(value)}</span>;
+}
+
+function KeyValueGrid({ entries }: { entries: Array<[string, unknown]> }) {
+  return <div className="trace-grid">{entries.map(([label, value]) => (
+    <div className="trace-grid-row" key={label}>
+      <div className="text-mono-label trace-grid-key">{label.replaceAll("_", " ")}</div>
+      <div className="trace-grid-value"><Scalar value={value} /></div>
+    </div>
+  ))}</div>;
+}
+
+function Empty({ message }: { message: string }) {
+  return <div className="trace-empty">{message}</div>;
+}
+
+function AttributeRows({ items, verification }: { items: DataObject[]; verification?: DataObject[] }) {
+  if (!items.length) return <Empty message="No attributes were produced in this stage." />;
+  return <div className="attribute-list">{items.map((item, index) => {
+    const check = verification?.find((entry) => entry.label === item.label);
+    return <div className="attribute-row" key={`${text(item.label)}-${index}`}>
+      <div>
+        <div className="text-mono-data" style={{ fontWeight: 600 }}>{text(item.label)}</div>
+        <div style={{ color: "var(--fg-primary)", marginTop: 3 }}>{text(item.value)}{item.uom ? ` ${String(item.uom)}` : ""}</div>
+      </div>
+      <div className="attribute-evidence">
+        <span className={`badge ${check?.entailment === "supported" ? "badge-ok" : check?.entailment === "not_supported" ? "badge-error" : "badge-warn"}`}>{text(check?.entailment, "Not verified")}</span>
+        <span className="badge badge-dim">{text(item.source_type, "No source")}</span>
+        <span className="text-mono-label">Confidence {score(check?.confidence ?? item.confidence)}</span>
+      </div>
+      <blockquote className="source-excerpt">{text(item.source_excerpt, "No source excerpt returned")}</blockquote>
+    </div>;
+  })}</div>;
+}
+
+function StageBody({ stageKey, data, record }: { stageKey: string; data: StageObject; record: SpecForgeRecord }) {
+  const stage = object(data);
+  const verifyResults = array(object(record.verify).results);
+  if (stageKey === "clean") return <KeyValueGrid entries={Object.entries(stage)} />;
+  if (stageKey === "brand_resolution") {
+    const manufacturer = object(stage.manufacturer);
+    const brand = object(stage.brand);
+    const cacheStatus = stage.mpn_lookup_attempted ? stage.mpn_lookup_cache_hit === true ? "Hit" : stage.mpn_lookup_cache_hit === false ? "Miss" : "Not reported" : "Not used";
+    return <><KeyValueGrid entries={[
+      ["manufacturer", manufacturer.canonical_name], ["manufacturer match score", score(manufacturer.confidence)],
+      ["brand", brand.canonical_name], ["brand match score", score(brand.confidence)],
+      ["resolution source", stage.manufacturer_source], ["MPN lookup attempted", stage.mpn_lookup_attempted],
+      ["MPN lookup cache", cacheStatus], ["manufacturer domain", stage.manufacturer_domain],
+    ]} /><KeyValueGrid entries={[["manufacturer candidates", manufacturer.candidates], ["brand candidates", brand.candidates], ["flags", stage.flags]]} /></>;
+  }
+  if (stageKey === "classify") return <>
+    <KeyValueGrid entries={[
+      ["UNSPSC", stage.unspsc_code], ["classpath", stage.classpath], ["confidence", score(stage.confidence)],
+      ["expected attributes", stage.expected_attributes], ["sanity check used", stage.tie_break_used],
+      ["decision", stage.tie_break_outcome], ["reasoning", stage.tie_break_reasoning], ["flags", stage.flags],
+    ]} />
+    <div className="trace-subhead">Top candidates</div>
+    {array(stage.candidates).length ? <div className="candidate-list">{array(stage.candidates).map((candidate, index) => (
+      <div className="candidate-row" key={`${text(candidate.value)}-${index}`}><span className="text-mono-label">{String(index + 1).padStart(2, "0")}</span><span>{text(candidate.value)}</span><span className="text-mono-data">{score(candidate.confidence)}</span></div>
+    ))}</div> : <Empty message="No classification candidates were returned." />}
+  </>;
+  if (stageKey === "extract" || stageKey === "normalize") return <>
+    {stageKey === "extract" ? <KeyValueGrid entries={[["manufacturer retrieval attempted", stage.retrieval_attempted], ["extraction failed", stage.extraction_failed], ["flags", stage.flags]]} /> : null}
+    <AttributeRows items={array(stage.attributes)} verification={stageKey === "extract" ? verifyResults : undefined} />
+  </>;
+  if (stageKey === "verify") {
+    const results = array(stage.results);
+    return results.length ? <div className="attribute-list">{results.map((result, index) => (
+      <div className="attribute-row" key={`${text(result.label)}-${index}`}>
+        <div className="verify-title"><span className="text-mono-data">{text(result.label)}</span><span className={`badge ${result.entailment === "supported" ? "badge-ok" : result.entailment === "not_supported" ? "badge-error" : "badge-warn"}`}>{text(result.entailment)}</span></div>
+        <KeyValueGrid entries={[["value", result.value], ["confidence", score(result.confidence)], ["vocabulary compliant", result.vocabulary_compliant], ["UOM compliant", result.uom_compliant], ["reasoning", result.reasoning]]} />
+      </div>
+    ))}</div> : <Empty message="No attributes reached verification." />;
+  }
+  if (stageKey === "adjudicate") return <>
+    <KeyValueGrid entries={[["needs human review", stage.needs_human_review], ["reasoning", stage.reasoning], ["rejected values", stage.rejected_values]]} />
+    <div className="trace-subhead">Final adjudicated attributes</div><AttributeRows items={array(stage.attributes)} verification={verifyResults} />
+  </>;
+  if (stageKey === "description") {
+    const compliance = object(stage.field_compliance);
+    const keys = ["mobile_desc", "invoice_desc", "short_desc", "long_desc1", "retail_desc", "marketing_description"];
+    return <div className="description-list">{keys.map((key) => {
+      const deliveryKey = key === "long_desc1" ? "LONG_DESC1" : key.toUpperCase();
+      return <div className="description-row" key={key}>
+        <div className="description-heading"><span className="text-mono-label">{deliveryKey}</span><span className={`badge ${compliance[deliveryKey] ? "badge-ok" : "badge-warn"}`}>{compliance[deliveryKey] ? "Compliant" : "Flagged"}</span></div>
+        <div>{text(stage[key])}</div><div className="text-mono-label">{typeof stage[key] === "string" ? `${stage[key].length} characters` : "No value"}</div>
+      </div>;
+    })}</div>;
+  }
+  if (stageKey === "audit") return <KeyValueGrid entries={Object.entries(stage)} />;
+  if (stageKey === "output_row") {
+    const populated = Object.entries(object(stage.values)).filter(([, value]) => value != null && value !== "");
+    return <><div className="trace-subhead">Populated Delivery Format fields ({populated.length})</div><KeyValueGrid entries={populated} /><div className="trace-subhead">Output provenance map</div><KeyValueGrid entries={Object.entries(object(stage.provenance))} /></>;
+  }
+  return <KeyValueGrid entries={Object.entries(stage)} />;
+}
+
+function StageDisclosure({ stage, record, defaultOpen }: { stage: typeof STAGES[number]; record: SpecForgeRecord; defaultOpen: boolean }) {
+  const data = record[stage.key] as StageObject | null | undefined;
+  if (!data) return null;
+  return <details className="trace-stage" open={defaultOpen}>
+    <summary><span className="stage-number">{stage.number}</span><span className="stage-name">{stage.label}</span><span className="badge badge-ok"><CheckCircle size={12} weight="fill" /> Complete</span><CaretDown className="stage-caret" size={16} /></summary>
+    <div className="stage-body"><StageBody stageKey={stage.key} data={data} record={record} /></div>
+  </details>;
+}
+
+function adjudicationFired(record: SpecForgeRecord): boolean {
+  const adjudicate = object(record.adjudicate);
+  return Boolean(adjudicate.needs_human_review || array(adjudicate.rejected_values).length || (Array.isArray(adjudicate.reasoning) && adjudicate.reasoning.length));
+}
+
+function DownloadButton({ record }: { record: SpecForgeRecord }) {
+  function download() {
+    const blob = new Blob([JSON.stringify(record, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `specforge-trace-${text(object(record.input).mfg_part_num, record.item_id)}.json`;
+    anchor.click();
+    URL.revokeObjectURL(url);
+  }
+  return <button type="button" className="btn-ghost" onClick={download}><DownloadSimple size={15} /> Download full trace as JSON</button>;
+}
+
+function ProvenancePanel({ record }: { record: SpecForgeRecord }) {
+  return <section className="provenance-panel" aria-labelledby="provenance-title">
+    <div className="section-heading-row"><div><div className="text-mono-label" style={{ color: "var(--accent)" }}>Final evidence</div><h2 id="provenance-title" className="text-display">Attribute provenance.</h2></div><DownloadButton record={record} /></div>
+    <AttributeRows items={array(object(record.adjudicate).attributes)} verification={array(object(record.verify).results)} />
+  </section>;
+}
+
+function LoadingTrace({ elapsed }: { elapsed: number }) {
+  return <div className="loading-trace" aria-live="polite" aria-busy="true">
+    <div className="loading-head"><SpinnerGap size={18} className="loading-spinner" /><span className="text-mono-data">Live pipeline running</span><span className="text-mono-label">{elapsed}s elapsed</span></div>
+    {STAGES.map((stage, index) => <div className="loading-stage" key={stage.key} style={{ animationDelay: `${index * 90}ms` }}><span className="stage-number">{stage.number}</span><span>{stage.label}</span></div>)}
+    <p>SpecForge returns one structured response after all stages complete. This page does not simulate intermediate results.</p>
+  </div>;
 }
 
 export default function PipelineLivePage() {
-  const [record, setRecord] = useState<SpecForgeRecord | null>(null);
-  const [selected, setSelected] = useState(0);
-  const [error, setError] = useState<string | null>(null);
   const [mpn, setMpn] = useState("");
-  const [retry, setRetry] = useState(0);
+  const [brand, setBrand] = useState("");
+  const [description, setDescription] = useState("");
+  const [record, setRecord] = useState<SpecForgeRecord | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [elapsed, setElapsed] = useState(0);
+  const reduce = useReducedMotion();
 
   useEffect(() => {
-    const controller = new AbortController();
+    if (!loading) return;
+    const started = Date.now();
+    const timer = window.setInterval(() => setElapsed(Math.floor((Date.now() - started) / 1000)), 1000);
+    return () => window.clearInterval(timer);
+  }, [loading]);
+
+  const visibleStages = record ? STAGES.filter((stage) => stage.key !== "adjudicate" || adjudicationFired(record)) : [];
+
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!mpn.trim() || !description.trim() || loading) return;
+    setLoading(true); setElapsed(0); setError(null); setRecord(null);
     try {
-      const raw = sessionStorage.getItem("sf_row");
-      if (!raw) throw new Error("No input row was found. Return to Input and submit an item first.");
-      const row = JSON.parse(raw) as { mpn?: string; description?: string; brand?: string; manufacturer?: string };
-      if (!row.mpn?.trim() || !row.description?.trim()) throw new Error("The saved row is missing its MPN or description.");
-      setMpn(row.mpn);
-      setError(null);
-      processItem(row, controller.signal).then((result) => {
-        setRecord(result);
-        setSelected(STAGES.length - 1);
-        sessionStorage.setItem("sf_processed_record", JSON.stringify(result));
-        if (result.output_row) sessionStorage.setItem("sf_output_row", JSON.stringify(result.output_row));
-      }).catch((reason: unknown) => {
-        if (reason instanceof DOMException && reason.name === "AbortError") return;
-        setError(reason instanceof Error ? reason.message : "Backend processing failed.");
-      });
+      const result = await processItem({ mpn, brand, description });
+      setRecord(result);
+      sessionStorage.setItem("sf_processed_record", JSON.stringify(result));
     } catch (reason) {
-      setError(reason instanceof Error ? reason.message : "Saved input could not be read.");
-    }
-    return () => controller.abort();
-  }, [retry]);
+      setError(reason instanceof Error ? reason.message : "The live backend request failed.");
+    } finally { setLoading(false); }
+  }
 
-  const [stageKey, stageLabel] = STAGES[selected];
-  const data = record?.[stageKey] as StageObject | null | undefined;
-
-  return (
-    <main style={{ paddingTop: 56, minHeight: "100dvh" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "minmax(230px, 300px) 1fr", minHeight: "calc(100dvh - 56px)" }}>
-        <aside style={{ borderRight: "1px solid var(--border)" }}>
-          <div style={{ padding: 22, borderBottom: "1px solid var(--border)" }}><div className="text-mono-label" style={{ color: "var(--accent)" }}>LIVE BACKEND TRACE</div><div className="text-display" style={{ fontSize: "1.3rem", marginTop: 8 }}>{mpn || "AWAITING INPUT"}</div></div>
-          {STAGES.map(([key, label], index) => (
-            <button key={key} type="button" onClick={() => setSelected(index)} disabled={!record} style={{ width: "100%", textAlign: "left", border: 0, borderBottom: "1px solid var(--border-dim)", background: selected === index ? "var(--bg-surface)" : "transparent", color: record ? "var(--fg-primary)" : "var(--fg-dim)", padding: "13px 16px", cursor: record ? "pointer" : "default", display: "flex", gap: 10 }}>
-              <span className="text-mono-label">{String(index + 1).padStart(2, "0")}</span><span>{label}</span>{record ? <CheckCircle size={14} style={{ marginLeft: "auto", color: "var(--status-ok)" }} /> : null}
-            </button>
-          ))}
-        </aside>
-        <section style={{ padding: "36px clamp(22px, 5vw, 56px)", minWidth: 0 }}>
-          <div className="text-mono-label" style={{ color: "var(--accent)" }}>STAGE {selected + 1} OF {STAGES.length}</div>
-          <h1 className="text-display" style={{ fontSize: "clamp(1.8rem, 4vw, 3.5rem)", marginTop: 8 }}>{stageLabel}.</h1>
-          {error ? <div role="alert" style={{ border: "1px solid var(--status-warn)", padding: 20, marginTop: 28 }}><Warning size={18} /> <span style={{ marginLeft: 9 }}>{error}</span><div style={{ marginTop: 16 }}><button className="btn-primary" onClick={() => setRetry((value) => value + 1)}>RETRY</button></div></div> : null}
-          {!record && !error ? <div aria-live="polite" style={{ marginTop: 44, color: "var(--fg-secondary)" }}>Processing the item through the backend. Stage details will appear only after the server returns evidence.</div> : null}
-          {record && data ? <div style={{ border: "1px solid var(--border)", marginTop: 28 }}>{Object.entries(data).map(([key, value]) => <div key={key} style={{ display: "grid", gridTemplateColumns: "minmax(150px, 220px) minmax(0, 1fr)", borderTop: "1px solid var(--border-dim)" }}><div className="text-mono-label" style={{ padding: 12, borderRight: "1px solid var(--border-dim)" }}>{key.replaceAll("_", " ")}</div><pre style={{ margin: 0, padding: 12, whiteSpace: "pre-wrap", overflowWrap: "anywhere", color: "var(--fg-secondary)", font: "inherit" }}>{display(value)}</pre></div>)}</div> : null}
-          {record ? <div style={{ display: "flex", gap: 12, marginTop: 28, flexWrap: "wrap" }}><Link href="/records" className="btn-primary">VIEW RECORD <ArrowRight size={15} /></Link><Link href="/audit" className="btn-ghost">VIEW AUDIT</Link></div> : null}
-        </section>
-      </div>
-    </main>
-  );
+  return <main className="playground-page">
+    <div className="noise-overlay" aria-hidden="true" />
+    <header className="playground-header"><div><div className="text-mono-label" style={{ color: "var(--accent)", marginBottom: 10 }}>[ Pipeline / Interactive Playground ]</div><h1 className="text-display">Run a real catalog item.</h1></div><p>Enter raw product evidence. The complete trace below comes directly from the deployed SpecForge backend.</p></header>
+    <section className="playground-workspace">
+      <form className="playground-form" onSubmit={submit}>
+        <label><span className="text-mono-label">MPN *</span><input className="input-underline" value={mpn} onChange={(event) => setMpn(event.target.value)} placeholder="Manufacturer part number" required disabled={loading} /></label>
+        <label><span className="text-mono-label">Brand</span><input className="input-underline" value={brand} onChange={(event) => setBrand(event.target.value)} placeholder="Optional brand evidence" disabled={loading} /></label>
+        <label className="description-input"><span className="text-mono-label">Description *</span><textarea value={description} onChange={(event) => setDescription(event.target.value)} placeholder="Raw distributor catalog description" required disabled={loading} rows={3} /></label>
+        <button className="btn-primary process-button" type="submit" disabled={loading || !mpn.trim() || !description.trim()}>{loading ? <SpinnerGap className="loading-spinner" size={16} /> : <Play size={15} weight="fill" />}{loading ? "Processing" : "Process"}</button>
+      </form>
+      <div className="live-endpoint"><span className="badge badge-ok">Live</span><span className="text-mono-label">Railway /process</span></div>
+    </section>
+    <AnimatePresence mode="wait">
+      {loading ? <motion.section key="loading" initial={reduce ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="playground-results"><LoadingTrace elapsed={elapsed} /></motion.section>
+      : error ? <motion.section key="error" initial={reduce ? false : { opacity: 0 }} animate={{ opacity: 1 }} className="playground-results"><div className="playground-error" role="alert"><Warning size={18} /><div><strong>Processing failed</strong><p>{error}</p></div></div></motion.section>
+      : record ? <motion.div key={record.item_id} initial={reduce ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="playground-results">
+        <section className="result-summary"><div><span className="text-mono-label">Item</span><strong>{text(object(record.input).mfg_part_num)}</strong></div><div><span className="text-mono-label">UNSPSC</span><strong>{text(object(record.classify).unspsc_code)}</strong></div><div><span className="text-mono-label">Confidence</span><strong>{score(object(record.classify).confidence)}</strong></div><div><span className="text-mono-label">Review</span><strong>{object(record.audit).routed_to_review ? "Required" : "Cleared"}</strong></div><DownloadButton record={record} /></section>
+        <section className="trace-section" aria-labelledby="trace-title"><div className="section-heading-row"><div><div className="text-mono-label" style={{ color: "var(--accent)" }}>Raw stage response</div><h2 id="trace-title" className="text-display">Pipeline trace.</h2></div><span className="text-mono-label">{visibleStages.length} stages shown</span></div><div className="trace-stages">{visibleStages.map((stage, index) => <StageDisclosure key={stage.key} stage={stage} record={record} defaultOpen={index === 0 || stage.key === "audit"} />)}</div></section>
+        <ProvenancePanel record={record} />
+      </motion.div>
+      : <section className="playground-results" aria-label="Empty pipeline state"><div className="playground-empty"><span className="stage-number">01</span><p>Your first live trace will appear here after you submit an MPN and description.</p></div></section>}
+    </AnimatePresence>
+  </main>;
 }

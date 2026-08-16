@@ -15,7 +15,10 @@ type Adjudication = {
 
 export default function AdjudicationPage() {
   const [record, setRecord] = useState<SpecForgeRecord | null>(null);
-  useEffect(() => setRecord(readProcessedRecord()), []);
+  useEffect(() => {
+    const timer = window.setTimeout(() => setRecord(readProcessedRecord()), 0);
+    return () => window.clearTimeout(timer);
+  }, []);
   if (!record) return <Empty />;
   const data = (record.adjudicate || {}) as Adjudication;
   return (
