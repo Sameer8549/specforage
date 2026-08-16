@@ -1,93 +1,84 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
-import { ArrowRight, CheckCircle, Warning } from "@phosphor-icons/react";
-import { BatchStatus, getBatchStatus, InputRow, startBatch } from "@/lib/specforgeApi";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { CheckCircle, FileCsv, SpinnerGap, UploadSimple, Warning } from "@phosphor-icons/react";
+import { BatchStatus, getBatchStatus, startBatchCsv } from "@/lib/specforgeApi";
+
+const REQUIRED_HEADERS = ["Mfg_Part_Num", "Part_Desc", "E1_Brand", "Unilog_Brand", "DIB_Brand", "Part_Manuf"];
+
+function csvHeaders(text: string): string[] {
+  const firstLine = text.replace(/^\uFEFF/, "").split(/\r?\n/, 1)[0] || "";
+  const cells: string[] = [];
+  let value = ""; let quoted = false;
+  for (let index = 0; index < firstLine.length; index += 1) {
+    const char = firstLine[index];
+    if (char === '"' && quoted && firstLine[index + 1] === '"') { value += '"'; index += 1; }
+    else if (char === '"') quoted = !quoted;
+    else if (char === "," && !quoted) { cells.push(value.trim()); value = ""; }
+    else value += char;
+  }
+  cells.push(value.trim());
+  return cells;
+}
 
 export default function BatchLivePage() {
+  const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<BatchStatus | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [starting, setStarting] = useState(true);
+  const [starting, setStarting] = useState(false);
+  const [jobStarted, setJobStarted] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  useEffect(() => {
-    const controller = new AbortController();
-    abortRef.current = controller;
-    let timer: ReturnType<typeof setTimeout> | undefined;
-    async function run() {
-      try {
-        const raw = sessionStorage.getItem("sf_batch");
-        if (!raw) throw new Error("No uploaded batch was found. Return to Input and upload a CSV first.");
-        const parsed = JSON.parse(raw) as { rows?: InputRow[] };
-        if (!parsed.rows?.length) throw new Error("The uploaded batch contains no rows.");
-        const accepted = await startBatch(parsed.rows, controller.signal);
-        setStarting(false);
-        const poll = async () => {
-          const current = await getBatchStatus(accepted.status_url, controller.signal);
-          setStatus(current);
-          if (current.status === "queued" || current.status === "running") timer = setTimeout(poll, 1200);
-        };
-        await poll();
-      } catch (reason) {
-        if (reason instanceof DOMException && reason.name === "AbortError") return;
-        setStarting(false);
-        setError(reason instanceof Error ? reason.message : "Batch processing failed.");
-      }
-    }
-    void run();
-    return () => {
-      controller.abort();
-      if (timer) clearTimeout(timer);
-    };
-  }, []);
+  useEffect(() => () => { abortRef.current?.abort(); if (timerRef.current) clearTimeout(timerRef.current); }, []);
 
-  return (
-    <main style={{ padding: "96px 48px 64px", minHeight: "100dvh" }}>
-      <div style={{ maxWidth: 1180, margin: "0 auto" }}>
-        <div className="text-mono-label" style={{ color: "var(--accent)" }}>LIVE ASYNCHRONOUS JOB</div>
-        <h1 className="text-display" style={{ fontSize: "clamp(2rem, 5vw, 4.5rem)", marginTop: 10 }}>BATCH PROCESSING.</h1>
-        <p style={{ color: "var(--fg-secondary)", maxWidth: 720, marginTop: 14 }}>Rows and statuses below come from the backend <code>/batch</code> job. Closing this page does not fabricate completion.</p>
+  async function chooseFile(event: ChangeEvent<HTMLInputElement>) {
+    const selected = event.target.files?.[0] || null;
+    setError(null); setStatus(null); setJobStarted(false);
+    if (!selected) { setFile(null); return; }
+    if (!selected.name.toLowerCase().endsWith(".csv")) { setFile(null); setError("Choose a .csv file."); return; }
+    if (selected.size > 5 * 1024 * 1024) { setFile(null); setError("CSV exceeds the 5 MB browser upload limit."); return; }
+    const headers = csvHeaders(await selected.text());
+    const missing = REQUIRED_HEADERS.filter((header) => !headers.includes(header));
+    if (missing.length) { setFile(null); setError(`Missing required columns: ${missing.join(", ")}`); return; }
+    setFile(selected);
+  }
 
-        {starting ? <p aria-live="polite" style={{ marginTop: 48 }}>Uploading CSV and creating the backend job…</p> : null}
-        {error ? (
-          <div role="alert" style={{ border: "1px solid var(--status-warn)", padding: 20, marginTop: 36 }}>
-            <Warning size={18} /> <span style={{ marginLeft: 9 }}>{error}</span>
-            <div style={{ marginTop: 18 }}><Link href="/pipeline" className="btn-ghost">RETURN TO INPUT <ArrowRight size={15} /></Link></div>
-          </div>
-        ) : null}
+  async function submit() {
+    if (!file || starting) return;
+    setStarting(true); setError(null); setStatus(null);
+    const controller = new AbortController(); abortRef.current = controller;
+    try {
+      const accepted = await startBatchCsv(await file.text(), controller.signal);
+      setJobStarted(true);
+      const poll = async () => {
+        const current = await getBatchStatus(accepted.status_url, controller.signal);
+        setStatus(current);
+        if (current.status === "queued" || current.status === "running") timerRef.current = setTimeout(poll, 1200);
+      };
+      await poll();
+    } catch (reason) {
+      if (reason instanceof DOMException && reason.name === "AbortError") return;
+      setError(reason instanceof Error ? reason.message : "Batch processing failed.");
+    } finally { setStarting(false); }
+  }
 
-        {status ? (
-          <>
-            <div style={{ display: "flex", gap: 22, flexWrap: "wrap", marginTop: 34, padding: "18px 0", borderBlock: "1px solid var(--border)" }}>
-              <span><strong>{status.total_rows}</strong> total</span>
-              <span style={{ color: "var(--status-ok)" }}><strong>{status.completed_rows}</strong> completed</span>
-              <span style={{ color: status.failed_rows ? "var(--status-warn)" : "var(--fg-secondary)" }}><strong>{status.failed_rows}</strong> failed</span>
-              <span className="text-mono-label">{status.status.replaceAll("_", " ")}</span>
-            </div>
-            <div style={{ overflowX: "auto", marginTop: 26 }}>
-              <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 760 }}>
-                <thead><tr>{["ROW", "MPN", "CLASSIFICATION", "COVERAGE", "STATE", "REVIEW"].map((heading) => <th key={heading} className="text-mono-label" style={{ textAlign: "left", padding: "12px 10px", borderBottom: "1px solid var(--border)" }}>{heading}</th>)}</tr></thead>
-                <tbody>{status.rows.map((row) => {
-                  const input = row.record?.input as Record<string, unknown> | undefined;
-                  const classify = row.record?.classify as Record<string, unknown> | undefined;
-                  const audit = row.record?.audit as Record<string, unknown> | undefined;
-                  return (
-                    <tr key={row.row_number}>
-                      <td style={{ padding: "14px 10px", borderBottom: "1px solid var(--border-dim)" }}>{row.row_number}</td>
-                      <td style={{ padding: "14px 10px", borderBottom: "1px solid var(--border-dim)" }}>{String(input?.mfg_part_num || "—")}</td>
-                      <td style={{ padding: "14px 10px", borderBottom: "1px solid var(--border-dim)" }}>{String(classify?.classpath || "—")}</td>
-                      <td style={{ padding: "14px 10px", borderBottom: "1px solid var(--border-dim)" }}>{typeof audit?.coverage_percent === "number" ? `${audit.coverage_percent}%` : "—"}</td>
-                      <td style={{ padding: "14px 10px", borderBottom: "1px solid var(--border-dim)" }}>{row.state}</td>
-                      <td style={{ padding: "14px 10px", borderBottom: "1px solid var(--border-dim)" }}>{row.record ? (audit?.routed_to_review ? <Warning size={17} /> : <CheckCircle size={17} />) : row.error || "—"}</td>
-                    </tr>
-                  );
-                })}</tbody>
-              </table>
-            </div>
-          </>
-        ) : null}
-      </div>
-    </main>
-  );
+  return <main className="batch-page">
+    <div className="noise-overlay" aria-hidden="true" />
+    <header className="artifacts-hero"><div><div className="text-mono-label" style={{ color: "var(--accent)", marginBottom: 12 }}>[ Batch / Live Processing ]</div><h1 className="text-display">Process a catalog file.</h1></div><p>Upload the supplied six-column CSV format. The original CSV is sent intact to Railway, including quoted values and embedded commas.</p></header>
+    {!jobStarted ? <section className="batch-upload-section">
+      <label className="batch-dropzone"><UploadSimple size={32} /><span><strong>{file ? file.name : "Choose a CSV file"}</strong><small>{file ? `${(file.size / 1024).toFixed(1)} KB · ready to process` : "Required headers are validated before upload · maximum 5 MB"}</small></span><input type="file" accept=".csv,text/csv" onChange={chooseFile} /></label>
+      <div className="batch-actions"><button className="btn-primary" type="button" disabled={!file || starting} onClick={submit}>{starting ? <SpinnerGap className="loading-spinner" size={16} /> : <FileCsv size={16} />}{starting ? "Creating batch job" : "Process CSV"}</button><span className="text-mono-label">{REQUIRED_HEADERS.join(" · ")}</span></div>
+      {error ? <div className="playground-error" role="alert"><Warning size={18} /><div><strong>Upload failed</strong><p>{error}</p></div></div> : null}
+    </section> : null}
+    {jobStarted ? <section className="batch-results">
+      <div className="section-heading-row"><div><div className="text-mono-label" style={{ color: "var(--accent)" }}>Real backend job</div><h2 className="text-display">Batch telemetry.</h2></div>{status ? <span className="badge badge-ok">{status.status.replaceAll("_", " ")}</span> : null}</div>
+      {!status ? <p aria-live="polite"><SpinnerGap className="loading-spinner" size={16} /> Waiting for the first job status…</p> : <><div className="batch-metrics"><div><strong>{status.total_rows}</strong><span>Total</span></div><div><strong>{status.completed_rows}</strong><span>Completed</span></div><div><strong>{status.failed_rows}</strong><span>Failed</span></div></div><div className="artifact-table-wrap"><table className="artifact-table batch-table"><thead><tr>{["Row", "MPN", "Classification", "Coverage", "State", "Review"].map((heading) => <th key={heading}>{heading}</th>)}</tr></thead><tbody>{status.rows.map((row) => {
+        const input = row.record?.input as Record<string, unknown> | undefined; const classify = row.record?.classify as Record<string, unknown> | undefined; const audit = row.record?.audit as Record<string, unknown> | undefined;
+        return <tr key={row.row_number}><td>{row.row_number}</td><td className="text-mono-data">{String(input?.mfg_part_num || "—")}</td><td>{String(classify?.classpath || "—")}</td><td>{typeof audit?.coverage_percent === "number" ? `${audit.coverage_percent}%` : "—"}</td><td>{row.state}</td><td>{row.record ? audit?.routed_to_review ? <Warning size={17} /> : <CheckCircle size={17} /> : row.error || "—"}</td></tr>;
+      })}</tbody></table></div></>}
+      {error ? <div className="playground-error" role="alert"><Warning size={18} /><div><strong>Batch job failed</strong><p>{error}</p></div></div> : null}
+      <button type="button" className="btn-ghost" style={{ marginTop: 20 }} onClick={() => { abortRef.current?.abort(); setJobStarted(false); setStatus(null); setFile(null); setError(null); }}>Upload another file</button>
+    </section> : null}
+  </main>;
 }

@@ -136,6 +136,17 @@ export async function startBatch(rows: InputRow[], signal?: AbortSignal): Promis
   return response.json() as Promise<{ status_url: string }>;
 }
 
+export async function startBatchCsv(csv: string, signal?: AbortSignal): Promise<{ status_url: string }> {
+  const response = await fetch(`${API_BASE}/batch`, {
+    method: "POST",
+    headers: { "Content-Type": "text/csv; charset=utf-8", Accept: "application/json" },
+    body: csv,
+    signal,
+  });
+  if (!response.ok) throw new Error(await errorMessage(response));
+  return response.json() as Promise<{ status_url: string }>;
+}
+
 export async function getBatchStatus(statusUrl: string, signal?: AbortSignal): Promise<BatchStatus> {
   const response = await fetch(`${API_BASE}${statusUrl}`, { headers: { Accept: "application/json" }, signal });
   if (!response.ok) throw new Error(await errorMessage(response));
