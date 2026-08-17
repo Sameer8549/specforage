@@ -3,8 +3,10 @@
 import asyncio
 from contextvars import ContextVar
 import html
+import json
 import re
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Protocol
 from urllib.parse import parse_qs, unquote, urlparse
 
@@ -173,12 +175,14 @@ class MPNWebManufacturerLookup:
         brands: EntityVocabulary,
         brand_manufacturers: dict[str, str],
         timeout_seconds: float = 8.0,
+        cache_path: Path | None = None,
     ) -> None:
         self.manufacturers = manufacturers
         self.brands = brands
         self.brand_manufacturers = brand_manufacturers
         self.timeout_seconds = timeout_seconds
-        self._cache: dict[str, ManufacturerLookupResult | None] = {}
+        self.cache_path = cache_path
+        self._cache = self._load_cache()
         self._cache_lock = asyncio.Lock()
         self._last_cache_hit: ContextVar[bool | None] = ContextVar(
             "manufacturer_lookup_cache_hit", default=None
@@ -192,6 +196,52 @@ class MPNWebManufacturerLookup:
     @staticmethod
     def _cache_key(mfg_part_num: str) -> str:
         return re.sub(r"[^a-z0-9]+", "", mfg_part_num.casefold())
+
+    def _load_cache(self) -> dict[str, ManufacturerLookupResult | None]:
+        if self.cache_path is None or not self.cache_path.is_file():
+            return {}
+        try:
+            payload = json.loads(self.cache_path.read_text(encoding="utf-8"))
+            if not isinstance(payload, dict):
+                return {}
+            loaded: dict[str, ManufacturerLookupResult | None] = {}
+            for key, value in payload.items():
+                if not isinstance(key, str):
+                    continue
+                if value is None:
+                    loaded[key] = None
+                elif isinstance(value, dict) and isinstance(value.get("manufacturer"), str):
+                    loaded[key] = ManufacturerLookupResult(
+                        manufacturer=value["manufacturer"],
+                        confidence=float(value.get("confidence", 0.0)),
+                        source_url=value.get("source_url"),
+                    )
+            return loaded
+        except (OSError, ValueError, TypeError):
+            return {}
+
+    def _persist_cache(self) -> None:
+        if self.cache_path is None:
+            return
+        payload = {
+            key: (
+                {
+                    "manufacturer": value.manufacturer,
+                    "confidence": value.confidence,
+                    "source_url": value.source_url,
+                }
+                if value is not None
+                else None
+            )
+            for key, value in sorted(self._cache.items())
+        }
+        self.cache_path.parent.mkdir(parents=True, exist_ok=True)
+        temporary = self.cache_path.with_suffix(f"{self.cache_path.suffix}.tmp")
+        temporary.write_text(
+            json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        temporary.replace(self.cache_path)
 
     async def _lookup_uncached(
         self, mfg_part_num: str, part_desc: str | None
@@ -268,4 +318,9 @@ class MPNWebManufacturerLookup:
             self._last_cache_hit.set(False)
             result = await self._lookup_uncached(mfg_part_num, part_desc)
             self._cache[key] = result
+            try:
+                self._persist_cache()
+            except OSError:
+                # Persistence failure must not make manufacturer resolution fail.
+                pass
             return result

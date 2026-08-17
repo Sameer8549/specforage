@@ -134,6 +134,11 @@ def build_pipeline(settings: Settings, catalog: DatasetCatalog | None = None) ->
             resolution_vocabularies.manufacturers,
             resolution_vocabularies.brands,
             resolution_vocabularies.brand_manufacturers,
+            cache_path=(
+                settings.resolve_data_path(settings.manufacturer_cache_path)
+                if settings.manufacturer_cache_path
+                else None
+            ),
         ),
         domain_resolver=WebOfficialDomainResolver(),
         manufacturer_retriever=WebManufacturerRetriever(),

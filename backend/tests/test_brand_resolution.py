@@ -218,6 +218,44 @@ async def test_mpn_lookup_caches_no_result_for_repeatable_fallback() -> None:
 
 
 @pytest.mark.asyncio
+async def test_mpn_lookup_cache_survives_new_lookup_instance(tmp_path) -> None:
+    settings = Settings()
+    vocabularies = build_resolution_vocabularies(load_catalog(settings))
+    cache_path = tmp_path / "manufacturer_lookup.json"
+    first_lookup = MPNWebManufacturerLookup(
+        vocabularies.manufacturers,
+        vocabularies.brands,
+        vocabularies.brand_manufacturers,
+        cache_path=cache_path,
+    )
+
+    async def fake_live_lookup(mfg_part_num: str, part_desc: str | None):
+        return ManufacturerLookupResult("Whirlpool Corporation", 0.93, "https://example.test")
+
+    first_lookup._lookup_uncached = fake_live_lookup  # type: ignore[method-assign]
+    assert await first_lookup.lookup("WDTS-7024RZ", "Dishwasher") is not None
+    assert cache_path.is_file()
+
+    restarted_lookup = MPNWebManufacturerLookup(
+        vocabularies.manufacturers,
+        vocabularies.brands,
+        vocabularies.brand_manufacturers,
+        cache_path=cache_path,
+    )
+
+    async def should_not_run(mfg_part_num: str, part_desc: str | None):
+        raise AssertionError("persistent cache miss")
+
+    restarted_lookup._lookup_uncached = should_not_run  # type: ignore[method-assign]
+    result = await restarted_lookup.lookup("wdts 7024rz", "Changed")
+
+    assert result == ManufacturerLookupResult(
+        "Whirlpool Corporation", 0.93, "https://example.test"
+    )
+    assert restarted_lookup.last_cache_hit is True
+
+
+@pytest.mark.asyncio
 async def test_part_manuf_fallback_is_capped_and_explicitly_flagged() -> None:
     settings = Settings()
     vocabularies = build_resolution_vocabularies(load_catalog(settings))
