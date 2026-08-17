@@ -249,7 +249,7 @@ async def test_close_tie_still_reports_all_ten_deterministic_candidates() -> Non
     index = StubIndex()
     settings = Settings(classification_tie_margin=0.03)
     attributes = ExpectedAttributeCatalog.from_ground_truth(load_catalog(settings).ground_truth)
-    item = ItemRecord(input=InputStage(mfg_part_num="X", part_desc="Dishwasher SS"))
+    item = ItemRecord(input=InputStage(mfg_part_num="X", part_desc="Kitchen appliance SS"))
 
     result = await run_classify_stage(item, index, attributes, settings)
 
@@ -258,3 +258,74 @@ async def test_close_tie_still_reports_all_ten_deterministic_candidates() -> Non
     assert len(result.classify.candidates) == 10
     assert result.classify.unspsc_code is None
     assert result.classify.tie_break_outcome == "deterministic_review"
+
+
+@pytest.mark.asyncio
+async def test_domestic_dishwasher_rule_resolves_without_commercial_evidence() -> None:
+    domestic = dishwasher()
+    commercial = UNSPSCRecord(
+        "48000000",
+        "Service Industry Machinery and Equipment and Supplies",
+        "48100000",
+        "Institutional food services equipment",
+        "48101600",
+        "Food preparation equipment",
+        "48101615",
+        "Commercial use dishwashers",
+    )
+
+    class StubIndex:
+        def search(self, query: str, limit: int):
+            return [(commercial, 0.70), (domestic, 0.64)]
+
+    settings = Settings(classification_sanity_threshold=0.75)
+    attributes = ExpectedAttributeCatalog.from_ground_truth(load_catalog(settings).ground_truth)
+    item = ItemRecord(
+        input=InputStage(
+            mfg_part_num="GENERIC-1",
+            part_desc="GENERIC-1 Dishwasher SS - Display Only",
+        )
+    )
+
+    result = await run_classify_stage(item, StubIndex(), attributes, settings)
+
+    assert result.classify is not None
+    assert result.classify.unspsc_code == "52141505"
+    assert result.classify.confidence == 0.76
+    assert result.classify.tie_break_used is False
+    assert result.classify.tie_break_outcome == "deterministic_context_rule"
+    assert "commercial" in (result.classify.tie_break_reasoning or "")
+
+
+@pytest.mark.asyncio
+async def test_commercial_dishwasher_evidence_does_not_use_domestic_override() -> None:
+    domestic = dishwasher()
+    commercial = UNSPSCRecord(
+        "48000000",
+        "Service Industry Machinery and Equipment and Supplies",
+        "48100000",
+        "Institutional food services equipment",
+        "48101600",
+        "Food preparation equipment",
+        "48101615",
+        "Commercial use dishwashers",
+    )
+
+    class StubIndex:
+        def search(self, query: str, limit: int):
+            return [(commercial, 0.84), (domestic, 0.64)]
+
+    settings = Settings()
+    attributes = ExpectedAttributeCatalog.from_ground_truth(load_catalog(settings).ground_truth)
+    item = ItemRecord(
+        input=InputStage(
+            mfg_part_num="GENERIC-2",
+            part_desc="Commercial restaurant dishwasher NSF certified",
+        )
+    )
+
+    result = await run_classify_stage(item, StubIndex(), attributes, settings)
+
+    assert result.classify is not None
+    assert result.classify.unspsc_code == "48101615"
+    assert result.classify.tie_break_outcome is None
