@@ -37,6 +37,8 @@ class AdjudicationPayload(BaseModel):
 
 SYSTEM_PROMPT = """You adjudicate only supplied product-attribute conflicts.
 Never invent or rewrite a value. Select only a candidate_id present in the input, or select null.
+Return exactly one decision for each supplied conflict label and no other labels.
+rejected_candidate_ids must contain every non-selected supplied candidate_id and no unknown IDs.
 Source priority is mandatory: manufacturer_site > description > no source.
 Prefer a supported normalized candidate when it is a faithful constrained form of its extracted candidate.
 For not_supported evidence, reject it. For ambiguous evidence, request human review.
@@ -190,8 +192,14 @@ async def run_adjudicate_stage(record: ItemRecord, llm: JSONLLM) -> ItemRecord:
                 adjudication_schema(),
             )
             payload = AdjudicationPayload.model_validate(raw)
+            returned_labels = [decision.label for decision in payload.decisions]
+            if (
+                len(returned_labels) != len(set(returned_labels))
+                or set(returned_labels) != set(conflict_labels)
+            ):
+                raise ValueError("Adjudication decisions did not exactly match conflict labels.")
             decisions = {decision.label: decision for decision in payload.decisions}
-        except (LLMError, ValidationError):
+        except (LLMError, ValidationError, ValueError):
             decisions = {}
             needs_human_review = True
             reasoning.append("Adjudication model failed; all conflicts require human review.")
@@ -204,6 +212,26 @@ async def run_adjudicate_stage(record: ItemRecord, llm: JSONLLM) -> ItemRecord:
             chosen = by_id.get(decision.selected_candidate_id) if decision else None
             decision_reason = decision.reasoning if decision else "Missing adjudication decision."
             require_human = decision.needs_human_review if decision else True
+
+            if decision is not None:
+                supplied_ids = set(by_id)
+                selected_id = decision.selected_candidate_id
+                expected_rejected = supplied_ids - ({selected_id} if selected_id else set())
+                decision_ids_valid = (
+                    (selected_id is None or selected_id in supplied_ids)
+                    and set(decision.rejected_candidate_ids) == expected_rejected
+                )
+                if not decision_ids_valid:
+                    chosen = None
+                    require_human = True
+                    decision_reason = (
+                        "Adjudication response referenced an invalid or incomplete candidate set."
+                    )
+                elif chosen is None and verification is not None and verification.entailment in {
+                    EntailmentLabel.SUPPORTED,
+                    EntailmentLabel.PARTIALLY_SUPPORTED,
+                }:
+                    require_human = True
 
             if verification is None or verification.entailment == EntailmentLabel.AMBIGUOUS:
                 chosen = None

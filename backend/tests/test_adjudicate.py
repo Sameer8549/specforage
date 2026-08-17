@@ -29,7 +29,13 @@ class FakeLLM:
         return self.result
 
 
-def decision(selected: str | None, human: bool = False) -> dict:
+def decision(
+    selected: str | None,
+    human: bool = False,
+    rejected: list[str] | None = None,
+) -> dict:
+    if rejected is None:
+        rejected = ["normalized:0"] if selected == "extracted:0" else ["extracted:0"]
     return {
         "decisions": [
             {
@@ -37,7 +43,7 @@ def decision(selected: str | None, human: bool = False) -> dict:
                 "selected_candidate_id": selected,
                 "needs_human_review": human,
                 "reasoning": "Selected the supported controlled value.",
-                "rejected_candidate_ids": [],
+                "rejected_candidate_ids": rejected,
             }
         ]
     }
@@ -157,7 +163,7 @@ async def test_manufacturer_site_priority_overrides_description_selection() -> N
 
     result = await run_adjudicate_stage(
         record(extracted=extracted, normalized=normalized),
-        FakeLLM(decision("normalized:1")),
+        FakeLLM(decision("normalized:1", rejected=["extracted:0", "normalized:0", "extracted:1"])),
     )
 
     assert result.adjudicate is not None
@@ -179,7 +185,44 @@ async def test_conflicting_top_priority_sources_require_human_review() -> None:
 
     result = await run_adjudicate_stage(
         record(extracted=extracted, normalized=normalized),
-        FakeLLM(decision("normalized:0")),
+        FakeLLM(decision("normalized:0", rejected=["extracted:0", "extracted:1", "normalized:1"])),
+    )
+
+    assert result.adjudicate is not None
+    assert result.adjudicate.needs_human_review is True
+    assert result.adjudicate.attributes == []
+
+
+@pytest.mark.asyncio
+async def test_invalid_candidate_set_cannot_be_silently_accepted() -> None:
+    extracted = AttributeValue(label="Material", value="SST")
+    normalized = AttributeValue(label="Material", value="Stainless Steel")
+    result = await run_adjudicate_stage(
+        record(extracted=[extracted], normalized=[normalized]),
+        FakeLLM(decision("normalized:0", rejected=[])),
+    )
+
+    assert result.adjudicate is not None
+    assert result.adjudicate.attributes == []
+    assert result.adjudicate.needs_human_review is True
+    assert "invalid or incomplete candidate set" in result.adjudicate.reasoning[0]
+
+
+@pytest.mark.asyncio
+async def test_unexpected_adjudication_label_invalidates_the_response() -> None:
+    extracted = AttributeValue(label="Material", value="SST")
+    normalized = AttributeValue(label="Material", value="Stainless Steel")
+    payload = decision("normalized:0")
+    payload["decisions"].append({
+        "label": "Color",
+        "selected_candidate_id": None,
+        "needs_human_review": False,
+        "reasoning": "Not requested.",
+        "rejected_candidate_ids": [],
+    })
+
+    result = await run_adjudicate_stage(
+        record(extracted=[extracted], normalized=[normalized]), FakeLLM(payload)
     )
 
     assert result.adjudicate is not None

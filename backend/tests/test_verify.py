@@ -52,8 +52,6 @@ def supported_payload(**overrides: object) -> dict:
         "entailment": "supported",
         "confidence": 0.98,
         "reasoning": "The source explicitly states the voltage.",
-        "vocabulary_compliant": True,
-        "uom_compliant": True,
     }
     result.update(overrides)
     return {"results": [result]}
@@ -81,6 +79,19 @@ async def test_model_cannot_override_failed_deterministic_vocabulary_check() -> 
     verification = result.verify.results[0]
     assert verification.vocabulary_compliant is False
     assert verification.uom_compliant is True
+
+
+@pytest.mark.asyncio
+async def test_model_compliance_fields_are_rejected_as_out_of_scope() -> None:
+    payload = supported_payload()
+    payload["results"][0]["vocabulary_compliant"] = True
+    payload["results"][0]["uom_compliant"] = True
+
+    result = await run_verify_stage(record_with_attributes(), FakeLLM(payload))
+
+    assert result.verify is not None
+    assert result.verify.results[0].entailment == "ambiguous"
+    assert result.verify.flags[0].code == "verification_failed"
 
 
 @pytest.mark.asyncio

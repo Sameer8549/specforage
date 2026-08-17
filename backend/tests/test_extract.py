@@ -87,6 +87,34 @@ async def test_extracts_only_expected_attributes_with_verified_excerpts() -> Non
 
 
 @pytest.mark.asyncio
+async def test_rejects_value_not_present_in_its_real_excerpt() -> None:
+    llm = FakeLLM({"attributes": [{
+        "label": "Voltage Rating",
+        "value": "240 V",
+        "source_excerpt": "Dishwasher, 120 V",
+        "source_type": "description",
+    }]})
+
+    result = await run_extract_stage(classified_record(), llm, Settings())
+
+    assert result.extract is not None
+    assert result.extract.attributes == []
+    assert result.extract.flags[0].code == "ungrounded_value_rejected"
+
+
+@pytest.mark.asyncio
+async def test_prompt_exposes_lovs_as_constraints_not_evidence() -> None:
+    record = classified_record().model_copy(deep=True)
+    record.classify.applicable_lovs = {"Voltage Rating": ["120", "240"]}
+    llm = FakeLLM()
+
+    await run_extract_stage(record, llm, Settings())
+
+    prompt = json.loads(llm.user_prompt)
+    assert prompt["APPLICABLE_LOVS"] == {"Voltage Rating": ["120", "240"]}
+
+
+@pytest.mark.asyncio
 async def test_skips_llm_when_no_expected_attributes() -> None:
     llm = FakeLLM()
     record = ItemRecord(input=InputStage(mfg_part_num="X", part_desc="Unknown item"))
