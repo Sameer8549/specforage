@@ -30,16 +30,15 @@ export function adjudicationInvoked(record: SpecForgeRecord): boolean {
 export function downloadRecords(records: SpecForgeRecord[], format: "json" | "csv"): void {
   const csvCell = (value: unknown) => `"${String(value ?? "").replaceAll('"', '""')}"`;
   const content = format === "json" ? JSON.stringify(records, null, 2) : [
-    ["item_id", "created_at", "mpn", "manufacturer", "brand", "unspsc", "classification_confidence", "cache_hit", "adjudication_invoked", "adjudication_forced", "routed_to_review"].join(","),
+    ["item_id", "created_at", "mpn", "manufacturer", "brand", "unspsc", "classification_confidence", "cache_hit", "adjudication_invoked", "routed_to_review"].join(","),
     ...records.map((record) => {
       const input = record.input as Record<string, unknown>;
       const resolution = record.brand_resolution as Record<string, unknown>;
       const manufacturer = resolution?.manufacturer as Record<string, unknown> | undefined;
       const brand = resolution?.brand as Record<string, unknown> | undefined;
       const classify = record.classify as Record<string, unknown>;
-      const adjudicate = record.adjudicate as Record<string, unknown>;
       const audit = record.audit as Record<string, unknown>;
-      return [record.item_id, record.created_at, input?.mfg_part_num, manufacturer?.canonical_name, brand?.canonical_name, classify?.unspsc_code, classify?.confidence, resolution?.mpn_lookup_cache_hit, adjudicationInvoked(record), adjudicate?.forced, audit?.routed_to_review].map(csvCell).join(",");
+      return [record.item_id, record.created_at, input?.mfg_part_num, manufacturer?.canonical_name, brand?.canonical_name, classify?.unspsc_code, classify?.confidence, resolution?.mpn_lookup_cache_hit, adjudicationInvoked(record), audit?.routed_to_review].map(csvCell).join(",");
     }),
   ].join("\r\n");
   const blob = new Blob([content], { type: format === "json" ? "application/json" : "text/csv" });

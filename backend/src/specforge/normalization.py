@@ -3,6 +3,7 @@
 import math
 import re
 import threading
+import csv
 from dataclasses import dataclass
 from decimal import Decimal, ROUND_HALF_UP
 
@@ -117,7 +118,46 @@ class AttributeVocabulary:
 
     def __init__(self) -> None:
         self._buckets: dict[tuple[str, str], list[CanonicalAttributeValue]] = {}
+        self._closed: set[tuple[str, str]] = set()
         self._lock = threading.Lock()
+
+    @classmethod
+    def from_lov_csv(cls, path) -> "AttributeVocabulary":
+        vocabulary = cls()
+        with path.open("r", encoding="utf-8-sig", newline="") as handle:
+            reader = csv.DictReader(handle)
+            fields = {field.strip().casefold().replace(" ", "_"): field for field in (reader.fieldnames or [])}
+            def required(*aliases: str) -> str:
+                for alias in aliases:
+                    if alias in fields:
+                        return fields[alias]
+                raise ValueError(f"Official LOV file is missing a required column; expected one of {aliases}.")
+            path_column = required("classpath", "category_path", "category")
+            label_column = required("attribute", "attribute_name", "label")
+            value_column = required("value", "lov_value", "canonical_value")
+            uom_column = next((fields[key] for key in ("uom", "unit", "unit_of_measure") if key in fields), None)
+            for row in reader:
+                classpath = (row.get(path_column) or "").strip()
+                label = (row.get(label_column) or "").strip()
+                raw_value = (row.get(value_column) or "").strip()
+                raw_uom = (row.get(uom_column) or "").strip() if uom_column else ""
+                if not classpath or not label:
+                    continue
+                key = (classpath, label)
+                vocabulary._closed.add(key)
+                if not raw_value:
+                    continue
+                candidate = AttributeValue(label=label, value=raw_value, uom=raw_uom or None)
+                value, uom, valid = normalize_candidate(candidate)
+                if not valid:
+                    raise ValueError(f"Official LOV contains unsupported UOM {raw_uom!r} for {label!r}.")
+                canonical = CanonicalAttributeValue(value=value, uom=uom)
+                bucket = vocabulary._buckets.setdefault(key, [])
+                if canonical not in bucket:
+                    bucket.append(canonical)
+        if not vocabulary._closed:
+            raise ValueError("Official LOV file contains no usable classpath/attribute rows.")
+        return vocabulary
 
     @classmethod
     def from_ground_truth(cls, info: DatasetInfo) -> "AttributeVocabulary":
@@ -167,10 +207,17 @@ class AttributeVocabulary:
         uom: str | None,
         threshold: float,
     ) -> CanonicalAttributeValue | None:
+        if uom is not None:
+            canonical_uom = canonicalize_uom(uom)
+            if canonical_uom is None:
+                return None
+            uom = canonical_uom
         with self._lock:
             key = self._bucket_key(classpath, label)
             bucket = self._buckets.setdefault(key, [])
             if not bucket:
+                if key in self._closed:
+                    return None
                 canonical = CanonicalAttributeValue(value=value, uom=uom)
                 bucket.append(canonical)
                 return canonical

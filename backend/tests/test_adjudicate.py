@@ -84,24 +84,6 @@ async def test_no_conflict_skips_llm_and_passes_normalized_value() -> None:
     assert result.adjudicate.attributes[0].value == "Stainless Steel"
     assert not result.adjudicate.needs_human_review
     assert result.adjudicate.llm_invoked is False
-    assert result.adjudicate.forced is False
-
-
-@pytest.mark.asyncio
-async def test_force_adjudication_invokes_llm_for_uncontested_value() -> None:
-    extracted = AttributeValue(label="Material", value="Stainless Steel")
-    normalized = AttributeValue(label="Material", value="Stainless Steel")
-    llm = FakeLLM(decision("normalized:0"))
-
-    result = await run_adjudicate_stage(
-        record(extracted=[extracted], normalized=[normalized]), llm, force=True
-    )
-
-    assert llm.calls == 1
-    assert result.adjudicate is not None
-    assert result.adjudicate.llm_invoked is True
-    assert result.adjudicate.forced is True
-    assert result.adjudicate.attributes[0].value == "Stainless Steel"
 
 
 @pytest.mark.asyncio

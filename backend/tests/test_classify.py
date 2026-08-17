@@ -118,6 +118,23 @@ def test_category_specific_attributes_take_priority_over_generic_fallback() -> N
     assert "Dimensions" not in attributes.for_classification(dishwasher().classpath)
 
 
+def test_official_lov_catalog_drives_expected_attributes_and_values(tmp_path) -> None:
+    path = tmp_path / "lov.csv"
+    path.write_text(
+        "Classpath,Attribute,Value,UOM\n"
+        "Tools>Power Tools>Drills,Color,Red,\n"
+        "Tools>Power Tools>Drills,Voltage Rating,20,V\n",
+        encoding="utf-8",
+    )
+    catalog = ExpectedAttributeCatalog.from_lov_csv(path)
+
+    assert catalog.for_classification("Tools>Power Tools>Drills") == ["Color", "Voltage Rating"]
+    assert catalog.applicable_lovs("Tools>Power Tools>Drills") == {
+        "Color": ["Red"],
+        "Voltage Rating": ["20"],
+    }
+
+
 @pytest.mark.asyncio
 async def test_classifier_returns_unspsc_and_expected_attributes() -> None:
     records = [dishwasher(), oven()]

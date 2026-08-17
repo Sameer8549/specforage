@@ -23,7 +23,6 @@ export interface InputRow {
   description?: string;
   brand?: string;
   manufacturer?: string;
-  forceAdjudication?: boolean;
 }
 
 export interface EvaluationResult {
@@ -70,7 +69,6 @@ export async function processItem(row: InputRow, signal?: AbortSignal): Promise<
       unilog_brand: null,
       dib_brand: null,
       part_manuf: row.manufacturer?.trim() || null,
-      force_adjudication: Boolean(row.forceAdjudication),
     }),
     signal,
   });

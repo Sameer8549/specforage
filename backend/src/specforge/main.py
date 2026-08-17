@@ -37,6 +37,8 @@ class ProcessRequest(APIModel):
     unilog_brand: str | None = None
     dib_brand: str | None = None
     part_manuf: str | None = None
+    # Backward-compatible transport field for the previously deployed frontend.
+    # It is deliberately ignored; Adjudicate remains conflict-only.
     force_adjudication: bool = False
 
 
@@ -161,7 +163,6 @@ async def process_item(
             dib_brand=request.dib_brand,
             part_manuf=request.part_manuf,
         ),
-        processing_metadata={"force_adjudication": request.force_adjudication},
     )
     return await pipeline.process(record)
 

@@ -1,5 +1,6 @@
-"""Manufacturer and brand resolution using only the self-derived vocabulary."""
+"""Manufacturer and brand resolution constrained to a versioned vocabulary."""
 
+import csv
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Iterable
@@ -23,6 +24,57 @@ class ResolutionVocabularies:
     manufacturers: EntityVocabulary
     brands: EntityVocabulary
     brand_manufacturers: dict[str, str]
+    manufacturer_ids: dict[str, str]
+    brand_ids: dict[str, str]
+    official: bool = False
+
+
+def _column(fieldnames: list[str], *aliases: str, required: bool = True) -> str | None:
+    by_key = {field.strip().casefold().replace(" ", "_"): field for field in fieldnames}
+    for alias in aliases:
+        if match := by_key.get(alias.casefold().replace(" ", "_")):
+            return match
+    if required:
+        raise ValueError(f"Official Unicat file is missing a required column; expected one of {aliases}.")
+    return None
+
+
+def load_official_unicat(path) -> ResolutionVocabularies:
+    manufacturers: list[str] = []
+    brands: list[str] = []
+    manufacturer_ids: dict[str, str] = {}
+    brand_ids: dict[str, str] = {}
+    brand_manufacturers: dict[str, str] = {}
+    with path.open("r", encoding="utf-8-sig", newline="") as handle:
+        reader = csv.DictReader(handle)
+        fields = reader.fieldnames or []
+        manufacturer_id = _column(fields, "manufacturer_id", "mfr_id", "manufacturer_code")
+        manufacturer_name = _column(fields, "manufacturer_name", "mfr_name", "manufacturer")
+        brand_id = _column(fields, "brand_id", "brand_code", required=False)
+        brand_name = _column(fields, "brand_name", "brand", required=False)
+        for row in reader:
+            mfr_name = clean_optional(row.get(manufacturer_name))
+            mfr_id = clean_optional(row.get(manufacturer_id))
+            if not mfr_name or not mfr_id:
+                continue
+            manufacturers.append(mfr_name)
+            manufacturer_ids[entity_key(mfr_name)] = mfr_id
+            current_brand = clean_optional(row.get(brand_name)) if brand_name else None
+            current_brand_id = clean_optional(row.get(brand_id)) if brand_id else None
+            if current_brand and current_brand_id:
+                brands.append(current_brand)
+                brand_ids[entity_key(current_brand)] = current_brand_id
+                brand_manufacturers[entity_key(current_brand)] = mfr_name
+    if not manufacturers:
+        raise ValueError("Official Unicat file contains no usable manufacturer rows.")
+    return ResolutionVocabularies(
+        manufacturers=EntityVocabulary(manufacturers),
+        brands=EntityVocabulary(brands),
+        brand_manufacturers=brand_manufacturers,
+        manufacturer_ids=manufacturer_ids,
+        brand_ids=brand_ids,
+        official=True,
+    )
 
 
 def build_resolution_vocabularies(catalog: DatasetCatalog) -> ResolutionVocabularies:
@@ -50,6 +102,9 @@ def build_resolution_vocabularies(catalog: DatasetCatalog) -> ResolutionVocabula
         manufacturers=EntityVocabulary(manufacturers),
         brands=EntityVocabulary(brands),
         brand_manufacturers=brand_manufacturers,
+        manufacturer_ids={},
+        brand_ids={},
+        official=False,
     )
 
 
@@ -107,6 +162,8 @@ async def run_brand_resolution_stage(
         vocabularies.brands,
         settings.brand_match_threshold,
     )
+    if brand.canonical_name:
+        brand = brand.model_copy(update={"canonical_id": vocabularies.brand_ids.get(entity_key(brand.canonical_name))})
     manufacturer = EntityResolution()
     manufacturer_conflict = False
     manufacturer_source: str | None = None
@@ -119,6 +176,7 @@ async def run_brand_resolution_stage(
     )
     if paired_manufacturer:
         manufacturer = EntityResolution(
+            canonical_id=vocabularies.manufacturer_ids.get(entity_key(paired_manufacturer)),
             canonical_name=paired_manufacturer,
             confidence=0.98,
             candidates=[Candidate(value=paired_manufacturer, confidence=0.98)],
@@ -134,6 +192,7 @@ async def run_brand_resolution_stage(
         mpn_lookup_cache_hit = getattr(manufacturer_lookup, "last_cache_hit", None)
         if lookup_result is not None:
             manufacturer = EntityResolution(
+                canonical_id=vocabularies.manufacturer_ids.get(entity_key(lookup_result.manufacturer)),
                 canonical_name=lookup_result.manufacturer,
                 confidence=lookup_result.confidence,
                 candidates=[
@@ -152,6 +211,7 @@ async def run_brand_resolution_stage(
             entry, raw_score = ranked[0]
             fallback_confidence = min(raw_score, 0.65)
             manufacturer = EntityResolution(
+                canonical_id=vocabularies.manufacturer_ids.get(entity_key(entry.canonical_name)),
                 canonical_name=entry.canonical_name,
                 confidence=fallback_confidence,
                 candidates=_candidate_list(ranked),

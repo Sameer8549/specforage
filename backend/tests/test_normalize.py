@@ -39,6 +39,19 @@ def test_vocabulary_is_derived_from_ground_truth_in_file_order() -> None:
     assert vocabulary().values_for(GROUND_PATH, "Model") == ()
 
 
+def test_official_lov_is_closed_and_rejects_out_of_vocabulary_values(tmp_path) -> None:
+    path = tmp_path / "lov.csv"
+    path.write_text(
+        "Classpath,Attribute,Value,UOM\nTools>Drills,Color,Red,\nTools>Drills,Voltage Rating,20,V\n",
+        encoding="utf-8",
+    )
+    controlled = AttributeVocabulary.from_lov_csv(path)
+
+    assert controlled.constrain("Tools>Drills", "Color", "red", None, 0.9).value == "Red"
+    assert controlled.constrain("Tools>Drills", "Color", "Blue", None, 0.9) is None
+    assert controlled.constrain("Tools>Drills", "Voltage Rating", "20", "volt", 0.9).uom == "V"
+
+
 def test_uom_aliases_and_spacing_are_canonical() -> None:
     assert canonicalize_uom("volts") == "V"
     assert canonicalize_uom("pounds") == "lb"

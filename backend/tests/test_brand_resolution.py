@@ -10,9 +10,32 @@ from specforge.manufacturer_lookup import (
 )
 from specforge.stages.brand_resolution import (
     build_resolution_vocabularies,
+    load_official_unicat,
     run_brand_resolution_stage,
 )
 from specforge.vocabulary import EntityVocabulary, display_name, entity_key
+
+
+def test_official_unicat_loader_preserves_ids_and_pairings(tmp_path) -> None:
+    path = tmp_path / "unicat.csv"
+    path.write_text(
+        "Manufacturer ID,Manufacturer Name,Brand ID,Brand Name\n"
+        "M-1,Whirlpool Corporation,B-1,Whirlpool\n",
+        encoding="utf-8",
+    )
+    vocabulary = load_official_unicat(path)
+
+    assert vocabulary.official is True
+    assert vocabulary.manufacturer_ids[entity_key("Whirlpool Corporation")] == "M-1"
+    assert vocabulary.brand_ids[entity_key("Whirlpool")] == "B-1"
+    assert vocabulary.brand_manufacturers[entity_key("Whirlpool")] == "Whirlpool Corporation"
+
+
+def test_official_unicat_loader_rejects_missing_identity_columns(tmp_path) -> None:
+    path = tmp_path / "unicat.csv"
+    path.write_text("Name\nWhirlpool\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="required column"):
+        load_official_unicat(path)
 
 
 def test_suffix_and_vendor_code_normalization() -> None:

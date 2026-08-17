@@ -19,3 +19,5 @@ The Classify stage loads all 71,502 bundled UNSPSC commodities and uses a memory
 
 - `data/sample_1000_items.csv`: 1,000 working rows and the six required input columns.
 - `data/ground_truth.csv`: 252-column Delivery Format schema in its original header order. The locally supplied source has **2 rows**, despite the challenge prompt describing a 200-item ground truth. The mismatch is documented rather than hidden; replace this file with the full dataset and set `SPECFORGE_EXPECTED_GROUND_TRUTH_ROWS=200` when it is available.
+
+Official reference adapters and their accepted CSV contracts are documented in `data/artifacts/OFFICIAL_REFERENCE_FORMATS.md`. Set `SPECFORGE_OFFICIAL_UNICAT_DATASET`, `SPECFORGE_OFFICIAL_LOV_DATASET`, and `SPECFORGE_REQUIRE_OFFICIAL_REFERENCE_DATA=true` for strict submission mode. Without those supplied files, the public demo remains explicitly labeled as using self-derived fallbacks.

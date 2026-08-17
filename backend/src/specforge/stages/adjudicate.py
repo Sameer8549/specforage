@@ -138,9 +138,7 @@ def _top_source_conflict(candidates: list[_Candidate]) -> bool:
     return len({_semantic_key(candidate.attribute) for candidate in top}) > 1
 
 
-async def run_adjudicate_stage(
-    record: ItemRecord, llm: JSONLLM, *, force: bool = False
-) -> ItemRecord:
+async def run_adjudicate_stage(record: ItemRecord, llm: JSONLLM) -> ItemRecord:
     labels = list(
         dict.fromkeys(
             attribute.label
@@ -151,8 +149,6 @@ async def run_adjudicate_stage(
     conflict_labels = [
         label for label in labels if _has_conflict(record, label, candidates_by_label[label])
     ]
-    if force:
-        conflict_labels = labels
     selected: dict[str, _Candidate] = {}
     rejected: list[RejectedValue] = []
     reasoning: list[str] = []
@@ -255,7 +251,6 @@ async def run_adjudicate_stage(
                 needs_human_review=needs_human_review,
                 reasoning=reasoning,
                 llm_invoked=bool(conflict_labels),
-                forced=force,
             ),
             "updated_at": datetime.now(timezone.utc),
         },

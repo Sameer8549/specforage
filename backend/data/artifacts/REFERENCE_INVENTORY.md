@@ -35,7 +35,7 @@ The intended rule is that LLM calls are permitted only in Extract, Verify, and A
 
 - Extract: LLM call — allowed.
 - Verify: LLM call — allowed.
-- Adjudicate: LLM call — allowed when a conflict exists; forced demo mode is separately labeled.
+- Adjudicate: LLM call — allowed only when deterministic conflict detection finds competing, unsupported, or ambiguous evidence. No force/debug bypass exists.
 - Classify: deterministic embedding retrieval and confidence/margin guards only. Close-margin and low-score results are unresolved and routed to review; no LLM call is permitted.
 
 Manufacturer web lookup and manufacturer-site retrieval are external retrieval operations rather than LLM stages, but an official Unicat result must ultimately constrain the accepted entity identity in strict mode.

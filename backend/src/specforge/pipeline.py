@@ -23,6 +23,7 @@ from specforge.stages.audit import run_audit_stage
 from specforge.stages.brand_resolution import (
     ResolutionVocabularies,
     build_resolution_vocabularies,
+    load_official_unicat,
     run_brand_resolution_stage,
 )
 from specforge.stages.classify import run_classify_stage
@@ -92,7 +93,6 @@ class Pipeline:
         current = await run_adjudicate_stage(
             current,
             self.adjudication_llm,
-            force=bool(current.processing_metadata.get("force_adjudication", False)),
         )
         current = run_description_stage(current, self.description_catalog)
         current = run_audit_stage(current, self.settings, ground_truth_row)
@@ -107,14 +107,26 @@ def build_pipeline(settings: Settings, catalog: DatasetCatalog | None = None) ->
         settings.resolve_data_path(settings.unspsc_embeddings),
         embedder,
     )
-    resolution_vocabularies = build_resolution_vocabularies(datasets)
+    resolution_vocabularies = (
+        load_official_unicat(settings.resolve_data_path(settings.official_unicat_dataset))
+        if settings.official_unicat_dataset
+        else build_resolution_vocabularies(datasets)
+    )
     return Pipeline(
         settings=settings,
         catalog=datasets,
         resolution_vocabularies=resolution_vocabularies,
         unspsc_index=index,
-        expected_attributes=ExpectedAttributeCatalog.from_ground_truth(datasets.ground_truth),
-        attribute_vocabulary=AttributeVocabulary.from_ground_truth(datasets.ground_truth),
+        expected_attributes=(
+            ExpectedAttributeCatalog.from_lov_csv(settings.resolve_data_path(settings.official_lov_dataset))
+            if settings.official_lov_dataset
+            else ExpectedAttributeCatalog.from_ground_truth(datasets.ground_truth)
+        ),
+        attribute_vocabulary=(
+            AttributeVocabulary.from_lov_csv(settings.resolve_data_path(settings.official_lov_dataset))
+            if settings.official_lov_dataset
+            else AttributeVocabulary.from_ground_truth(datasets.ground_truth)
+        ),
         description_catalog=DescriptionFormulaCatalog.from_ground_truth(datasets.ground_truth),
         extraction_llm=_optional_llm(build_extraction_llm, settings),
         adjudication_llm=_optional_llm(build_adjudication_llm, settings),

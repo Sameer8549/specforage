@@ -155,7 +155,7 @@ def test_process_returns_versioned_stage_trace() -> None:
     app.dependency_overrides.clear()
 
 
-def test_process_accepts_force_adjudication_debug_flag() -> None:
+def test_legacy_force_adjudication_flag_is_accepted_but_ignored() -> None:
     with client() as api:
         response = api.post(
             "/process",
@@ -167,7 +167,7 @@ def test_process_accepts_force_adjudication_debug_flag() -> None:
         )
 
     assert response.status_code == 200
-    assert response.json()["processing_metadata"]["force_adjudication"] is True
+    assert "force_adjudication" not in response.json()["processing_metadata"]
     app.dependency_overrides.clear()
 
 

@@ -66,6 +66,7 @@ class CleanStage(ContractModel):
 
 
 class EntityResolution(ContractModel):
+    canonical_id: str | None = None
     canonical_name: str | None = None
     confidence: float = Field(default=0, ge=0, le=1)
     candidates: list[Candidate] = Field(default_factory=list, max_length=3)
@@ -86,6 +87,7 @@ class ClassificationStage(ContractModel):
     classpath: str | None = None
     confidence: float = Field(default=0, ge=0, le=1)
     expected_attributes: list[str] = Field(default_factory=list)
+    applicable_lovs: dict[str, list[str]] = Field(default_factory=dict)
     candidates: list[Candidate] = Field(default_factory=list)
     tie_break_used: bool = False
     tie_break_outcome: str | None = None
@@ -134,7 +136,6 @@ class AdjudicateStage(ContractModel):
     needs_human_review: bool = False
     reasoning: list[str] = Field(default_factory=list)
     llm_invoked: bool = False
-    forced: bool = False
 
 
 class DescriptionStage(ContractModel):

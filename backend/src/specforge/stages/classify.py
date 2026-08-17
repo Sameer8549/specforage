@@ -96,6 +96,7 @@ async def run_classify_stage(
         classpath=classpath,
         confidence=max(0, min(1, selected_score)),
         expected_attributes=expected_attributes.for_classification(classpath) if classpath else [],
+        applicable_lovs=expected_attributes.applicable_lovs(classpath) if classpath else {},
         candidates=candidates,
         tie_break_used=tie_break_used,
         tie_break_outcome=tie_break_outcome,
