@@ -101,6 +101,31 @@ def test_mapper_populates_only_resolved_enrichments() -> None:
     assert output.values["Country Of Origin"] is None
 
 
+def test_mapper_preserves_raw_placeholder_source_columns() -> None:
+    record = audited_record().model_copy(
+        update={
+            "input": InputStage(
+                mfg_part_num="ABC-1",
+                part_desc="Original description",
+                e1_brand="-- Unbranded --",
+                unilog_brand="-- No Unilog Brand --",
+            ),
+            "clean": CleanStage(
+                mfg_part_num="ABC-1",
+                part_desc="Original description",
+                e1_brand=None,
+                unilog_brand=None,
+            ),
+        }
+    )
+
+    output = map_output_row(record, load_catalog(Settings()).ground_truth.headers)
+
+    assert output.values["E1_Brand"] == "-- Unbranded --"
+    assert output.values["Unilog_Brand"] == "-- No Unilog Brand --"
+    assert output.provenance["E1_Brand"].stage == "input"
+
+
 def test_mapper_places_supported_attributes_in_numbered_slots() -> None:
     headers = load_catalog(Settings()).ground_truth.headers
     output = map_output_row(audited_record(), headers)
@@ -108,9 +133,48 @@ def test_mapper_places_supported_attributes_in_numbered_slots() -> None:
     assert output.values["ATTRIBUTE_LABEL 1"] == "Voltage Rating"
     assert output.values["ATTRIBUTE_VALUE 1"] == "120"
     assert output.values["ATTRIBUTE_UOM 1"] == "V"
-    assert output.values["ATTRIBUTE_LABEL 2"] is None
+    assert output.values["ATTRIBUTE_LABEL 2"] == "Material"
+    assert output.values["ATTRIBUTE_VALUE 2"] is None
     assert output.provenance["ATTRIBUTE_VALUE 1"].confidence == 0.93
     assert output.provenance["ATTRIBUTE_VALUE 1"].source_excerpt == "120 V"
+
+
+def test_mapper_keeps_expected_attribute_slots_stable_when_values_are_missing() -> None:
+    record = audited_record().model_copy(
+        update={
+            "classify": ClassificationStage(
+                unspsc_code="52141505",
+                classpath="Appliances>Dishwashers",
+                confidence=0.9,
+                expected_attributes=["Material", "Voltage Rating"],
+            )
+        }
+    )
+
+    output = map_output_row(record, load_catalog(Settings()).ground_truth.headers)
+
+    assert output.values["ATTRIBUTE_LABEL 1"] == "Material"
+    assert output.values["ATTRIBUTE_VALUE 1"] is None
+    assert output.values["ATTRIBUTE_LABEL 2"] == "Voltage Rating"
+    assert output.values["ATTRIBUTE_VALUE 2"] == "120"
+    assert output.provenance["ATTRIBUTE_LABEL 1"].stage == "classify"
+
+
+def test_mapper_emits_deterministic_product_name() -> None:
+    record = audited_record().model_copy(
+        update={
+            "description": DescriptionStage(
+                product_name="Dishwasher",
+                mobile_desc="Acme Dishwasher ABC-1",
+                invoice_desc="DISHWASHER 120V",
+            )
+        }
+    )
+
+    output = map_output_row(record, load_catalog(Settings()).ground_truth.headers)
+
+    assert output.values["Product Name"] == "Dishwasher"
+    assert output.provenance["Product Name"].stage == "description"
 
 
 def test_mapper_includes_provenance_for_every_populated_field() -> None:

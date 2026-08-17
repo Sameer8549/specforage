@@ -146,6 +146,7 @@ def run_description_stage(
     return record.model_copy(
         update={
             "description": DescriptionStage(
+                product_name=product_name,
                 mobile_desc=mobile or None,
                 invoice_desc=invoice or None,
                 short_desc=short or None,

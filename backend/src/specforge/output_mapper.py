@@ -35,15 +35,18 @@ def map_output_row(record: ItemRecord, headers: Iterable[str]) -> OutputRowStage
             provenance[field] = source
 
     clean = record.clean
+    # Delivery-format source columns preserve the submitted catalog record exactly.
+    # Placeholder removal is an internal cleaning concern and must not erase inputs
+    # that the official output format expects to be carried through unchanged.
     source_values = {
-        "Mfg_Part_Num": clean.mfg_part_num if clean else record.input.mfg_part_num,
-        "Part_Desc": clean.part_desc if clean else record.input.part_desc,
-        "E1_Brand": clean.e1_brand if clean else record.input.e1_brand,
-        "Unilog_Brand": clean.unilog_brand if clean else record.input.unilog_brand,
-        "DIB_Brand": clean.dib_brand if clean else record.input.dib_brand,
-        "Part_Manuf": clean.part_manuf if clean else record.input.part_manuf,
+        "Mfg_Part_Num": record.input.mfg_part_num,
+        "Part_Desc": record.input.part_desc,
+        "E1_Brand": record.input.e1_brand,
+        "Unilog_Brand": record.input.unilog_brand,
+        "DIB_Brand": record.input.dib_brand,
+        "Part_Manuf": record.input.part_manuf,
     }
-    input_provenance = Provenance(stage="clean" if clean else "input", confidence=1.0)
+    input_provenance = Provenance(stage="input", confidence=1.0)
     for field, value in source_values.items():
         put(field, value, input_provenance)
     put("MANUFACTURER_PART_NUMBER", source_values["Mfg_Part_Num"], input_provenance)
@@ -72,6 +75,11 @@ def map_output_row(record: ItemRecord, headers: Iterable[str]) -> OutputRowStage
 
     description = record.description
     if description:
+        put(
+            "Product Name",
+            description.product_name,
+            Provenance(stage="description", confidence=1.0),
+        )
         for delivery_field, contract_field in DESCRIPTION_FIELD_MAP.items():
             if record.audit.field_status.get(f"description:{delivery_field}", False):
                 put(
@@ -93,20 +101,24 @@ def map_output_row(record: ItemRecord, headers: Iterable[str]) -> OutputRowStage
         result.label: result for result in (record.verify.results if record.verify else [])
     }
     expected_order = classification.expected_attributes if classification else []
-    resolved_attributes = [
-        attributes[label]
-        for label in expected_order
-        if label in attributes and record.audit.field_status.get(f"attribute:{label}", False)
-    ]
-    for slot, attribute in zip(attribute_slots, resolved_attributes, strict=False):
-        verified = verification.get(attribute.label)
+    # Expected labels define stable schema slots even when a product value is absent.
+    # Never compact resolved values into earlier slots: doing so changes their meaning.
+    for slot, label in zip(attribute_slots, expected_order, strict=False):
+        label_source = Provenance(
+            stage="classify",
+            confidence=classification.confidence if classification else 0.0,
+        )
+        put(f"ATTRIBUTE_LABEL {slot}", label, label_source)
+        attribute = attributes.get(label)
+        if attribute is None or not record.audit.field_status.get(f"attribute:{label}", False):
+            continue
+        verified = verification.get(label)
         source = Provenance(
             stage="adjudicate",
             confidence=verified.confidence if verified else attribute.confidence,
             source_type=attribute.source_type,
             source_excerpt=attribute.source_excerpt,
         )
-        put(f"ATTRIBUTE_LABEL {slot}", attribute.label, source)
         put(f"ATTRIBUTE_VALUE {slot}", attribute.value, source)
         put(f"ATTRIBUTE_UOM {slot}", attribute.uom, source)
 

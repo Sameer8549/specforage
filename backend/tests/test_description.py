@@ -67,6 +67,7 @@ def test_whirlpool_descriptions_follow_ground_truth_grammar() -> None:
     result = run_description_stage(whirlpool_record(), catalog())
 
     assert result.description is not None
+    assert result.description.product_name == "Dishwasher"
     assert result.description.mobile_desc == (
         "Whirlpool, Dishwasher, Eco Series, WDTS7024RZ, Built-in Mounting"
     )

@@ -139,6 +139,7 @@ class AdjudicateStage(ContractModel):
 
 
 class DescriptionStage(ContractModel):
+    product_name: str | None = None
     mobile_desc: str | None = None
     invoice_desc: str | None = None
     short_desc: str | None = None
