@@ -134,6 +134,16 @@ async def health(catalog: DatasetCatalog = Depends(get_dataset_catalog)) -> dict
         "service": "specforge",
         "working_rows": catalog.working.row_count,
         "ground_truth_rows": catalog.ground_truth.row_count,
+        "delivery_columns": len(catalog.delivery_schema.headers),
+        "delivery_schema_sha256": catalog.delivery_schema.sha256,
+        "reference_artifacts": {
+            item.name: {
+                "available": item.available,
+                "origin": item.origin,
+                "sha256": item.sha256,
+            }
+            for item in catalog.reference_artifacts
+        },
         "pipeline_loaded": app.state.pipeline is not None,
     }
 

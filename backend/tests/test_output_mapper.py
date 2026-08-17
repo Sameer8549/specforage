@@ -132,7 +132,9 @@ def test_mapper_requires_audit_and_rejects_duplicate_headers() -> None:
 
 def test_stage_attaches_output_without_overwriting_prior_stages() -> None:
     record = audited_record()
-    result = run_output_mapper_stage(record, Settings())
+    result = run_output_mapper_stage(
+        record, load_catalog(Settings()).delivery_schema.headers
+    )
 
     assert result.output_row is not None
     assert result.audit == record.audit

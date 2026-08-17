@@ -1,140 +1,15 @@
-"""UNSPSC classification with an explicit LLM tie-break decision."""
+"""Deterministic UNSPSC classification with conservative review routing."""
 
-import json
 import re
-from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Protocol, Sequence
-
-from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from specforge.config import Settings
 from specforge.contracts import Candidate, ClassificationStage, ItemRecord, ReviewFlag
 from specforge.expected_attributes import ExpectedAttributeCatalog
-from specforge.llm import JSONLLM, LLMError
-from specforge.unspsc import UNSPSCIndex, UNSPSCRecord
+from specforge.unspsc import UNSPSCIndex
 
 
-GENUINELY_AMBIGUOUS = "genuinely_ambiguous"
 CLASSIFICATION_CANDIDATE_LIMIT = 10
-TIE_BREAK_MIN_CANDIDATES = 5
-TIE_BREAK_EXTRA_SCORE_BAND = 0.05
-
-
-@dataclass(frozen=True, slots=True)
-class TieBreakDecision:
-    commodity_code: str | None
-    genuinely_ambiguous: bool = False
-    reasoning: str | None = None
-    failure_kind: str | None = None
-
-
-class ClassificationTieBreaker(Protocol):
-    async def choose(
-        self,
-        query: str,
-        candidates: Sequence[UNSPSCRecord],
-        manufacturer: str | None = None,
-        brand: str | None = None,
-        manufacturer_source: str | None = None,
-    ) -> TieBreakDecision: ...
-
-
-class TieBreakPayload(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-
-    decision: str = Field(min_length=1)
-    reasoning: str = Field(min_length=1)
-
-
-class LLMClassificationTieBreaker:
-    def __init__(self, llm: JSONLLM) -> None:
-        self.llm = llm
-
-    async def choose(
-        self,
-        query: str,
-        candidates: Sequence[UNSPSCRecord],
-        manufacturer: str | None = None,
-        brand: str | None = None,
-        manufacturer_source: str | None = None,
-    ) -> TieBreakDecision:
-        allowed = [candidate.commodity_code for candidate in candidates]
-        schema = TieBreakPayload.model_json_schema()
-        schema["properties"]["decision"]["enum"] = [*allowed, GENUINELY_AMBIGUOUS]
-        prompt = json.dumps(
-            {
-                "item_description": query,
-                "resolved_context": {
-                    "manufacturer": manufacturer,
-                    "brand": brand,
-                    "manufacturer_source": manufacturer_source,
-                },
-                "candidates": [
-                    {
-                        "commodity_code": candidate.commodity_code,
-                        "segment_code": candidate.segment_code,
-                        "segment_name": candidate.segment_name,
-                        "family_code": candidate.family_code,
-                        "family_name": candidate.family_name,
-                        "class_code": candidate.class_code,
-                        "class_name": candidate.class_name,
-                        "commodity_name": candidate.commodity_name,
-                        "classpath": candidate.classpath,
-                    }
-                    for candidate in candidates
-                ],
-                "instruction": (
-                    "Select exactly one supplied commodity_code only when the description "
-                    "supports it. Reject a semantically implausible top embedding match even when "
-                    "it has no close runner-up. Otherwise return genuinely_ambiguous. Residential or consumer "
-                    "appliance listings from a distributor catalog should default toward the "
-                    "domestic/consumer-grade commodity unless the item description contains "
-                    "explicit commercial or industrial evidence such as 'commercial', "
-                    "'restaurant grade', or 'NSF certified'. 'Display Only' is a retail "
-                    "merchandising note and is not evidence of commercial-grade equipment."
-                ),
-            },
-            ensure_ascii=False,
-        )
-        try:
-            raw = await self.llm.complete_json(
-                "You validate UNSPSC candidates and resolve ties without inventing evidence.",
-                prompt,
-                schema,
-            )
-            payload = TieBreakPayload.model_validate(raw)
-        except LLMError as exc:
-            return TieBreakDecision(
-                commodity_code=None,
-                reasoning=str(exc),
-                failure_kind="llm_error",
-            )
-        except ValidationError as exc:
-            return TieBreakDecision(
-                commodity_code=None,
-                reasoning=f"Tie-break response failed schema validation: {exc}",
-                failure_kind="validation_error",
-            )
-        if payload.decision == GENUINELY_AMBIGUOUS:
-            return TieBreakDecision(
-                commodity_code=None,
-                genuinely_ambiguous=True,
-                reasoning=payload.reasoning,
-            )
-        if payload.decision not in allowed:
-            return TieBreakDecision(
-                commodity_code=None,
-                reasoning=(
-                    f"LLM returned disallowed decision {payload.decision!r}; "
-                    f"allowed values were {allowed!r}. Raw reasoning: {payload.reasoning}"
-                ),
-                failure_kind="disallowed_decision",
-            )
-        return TieBreakDecision(
-            commodity_code=payload.decision,
-            reasoning=payload.reasoning,
-        )
 
 
 def classification_query(part_desc: str | None, mfg_part_num: str | None) -> str:
@@ -166,7 +41,6 @@ async def run_classify_stage(
     index: UNSPSCIndex,
     expected_attributes: ExpectedAttributeCatalog,
     settings: Settings,
-    tie_breaker: ClassificationTieBreaker | None = None,
 ) -> ItemRecord:
     source = record.clean or record.input
     # Product description is the classification evidence. MPNs and entity names commonly
@@ -187,92 +61,21 @@ async def run_classify_stage(
         close = selected[1] - ranked[1][1] <= settings.classification_tie_margin
         low_score = selected[1] < settings.classification_sanity_threshold
         if close or low_score:
-            if tie_breaker is None:
-                selected = None
-                flags.append(
-                    ReviewFlag(
-                        code=(
-                            "classification_tiebreak_unavailable"
-                            if close
-                            else "classification_sanity_check_unavailable"
-                        ),
-                        message=(
-                            "Top UNSPSC candidates are too close and no LLM tie-breaker is configured."
-                            if close
-                            else "The top UNSPSC score requires an LLM sanity check, but none is configured."
-                        ),
-                        field="unspsc_code",
-                        stage="classify",
-                    )
+            selected = None
+            tie_break_outcome = "deterministic_review"
+            tie_break_reasoning = (
+                "Top candidates fall within the configured deterministic tie margin."
+                if close
+                else "Top candidate is below the deterministic sanity threshold."
+            )
+            flags.append(
+                ReviewFlag(
+                    code=("classification_close_margin" if close else "classification_low_score"),
+                    message=tie_break_reasoning,
+                    field="unspsc_code",
+                    stage="classify",
                 )
-            else:
-                tie_break_used = True
-                expanded_band = settings.classification_tie_margin + TIE_BREAK_EXTRA_SCORE_BAND
-                tie_candidates = [
-                    candidate
-                    for position, candidate in enumerate(ranked)
-                    if position < TIE_BREAK_MIN_CANDIDATES
-                    or ranked[0][1] - candidate[1] <= expanded_band
-                ]
-                decision = await tie_breaker.choose(
-                    source.part_desc or query,
-                    [candidate for candidate, _ in tie_candidates],
-                    (
-                        record.brand_resolution.manufacturer.canonical_name
-                        if record.brand_resolution
-                        else None
-                    ),
-                    (
-                        record.brand_resolution.brand.canonical_name
-                        if record.brand_resolution
-                        else None
-                    ),
-                    (
-                        record.brand_resolution.manufacturer_source
-                        if record.brand_resolution
-                        else None
-                    ),
-                )
-                tie_break_reasoning = decision.reasoning
-                chosen_code = decision.commodity_code
-                selected = next(
-                    (
-                        (candidate, score)
-                        for candidate, score in tie_candidates
-                        if candidate.commodity_code == chosen_code
-                    ),
-                    None,
-                )
-                if selected is not None:
-                    tie_break_outcome = f"selected:{chosen_code}"
-                elif decision.genuinely_ambiguous:
-                    tie_break_outcome = GENUINELY_AMBIGUOUS
-                    flags.append(
-                        ReviewFlag(
-                            code="classification_genuinely_ambiguous",
-                            message="The tie-breaker found insufficient evidence to choose either candidate.",
-                            field="unspsc_code",
-                            stage="classify",
-                        )
-                    )
-                else:
-                    tie_break_outcome = decision.failure_kind or "failed"
-                    failure_code = {
-                        "llm_error": "classification_tiebreak_llm_error",
-                        "validation_error": "classification_tiebreak_validation_error",
-                        "disallowed_decision": "classification_tiebreak_disallowed_decision",
-                    }.get(decision.failure_kind, "classification_tiebreak_failed")
-                    flags.append(
-                        ReviewFlag(
-                            code=failure_code,
-                            message=(
-                                decision.reasoning
-                                or "The LLM tie-breaker failed to return an allowed decision."
-                            ),
-                            field="unspsc_code",
-                            stage="classify",
-                        )
-                    )
+            )
 
     if selected is not None and selected[1] < settings.classification_threshold:
         selected = None

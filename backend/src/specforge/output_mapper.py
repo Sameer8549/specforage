@@ -5,6 +5,7 @@ from collections.abc import Iterable
 
 from specforge.audit import DESCRIPTION_FIELD_MAP
 from specforge.contracts import ItemRecord, OutputRowStage, Provenance
+from specforge.reference_data import DELIVERY_COLUMN_COUNT
 
 
 _ATTRIBUTE_SLOT = re.compile(r"^ATTRIBUTE_LABEL (\d+)$")
@@ -17,11 +18,14 @@ class OutputMappingError(RuntimeError):
 def map_output_row(record: ItemRecord, headers: Iterable[str]) -> OutputRowStage:
     """Map one audited record without inventing values for unsupported columns."""
     header_order = list(headers)
-    if len(header_order) != len(set(header_order)):
-        raise OutputMappingError("Delivery Format contains duplicate column headers.")
     if record.audit is None:
         raise OutputMappingError("Audit must run before output mapping.")
-
+    if len(header_order) != len(set(header_order)):
+        raise OutputMappingError("Delivery Format contains duplicate column headers.")
+    if len(header_order) != DELIVERY_COLUMN_COUNT:
+        raise OutputMappingError(
+            f"Delivery Format must contain exactly {DELIVERY_COLUMN_COUNT} columns."
+        )
     values: dict[str, str | None] = {header: None for header in header_order}
     provenance: dict[str, Provenance] = {}
 

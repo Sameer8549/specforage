@@ -25,7 +25,7 @@ from specforge.stages.brand_resolution import (
     build_resolution_vocabularies,
     run_brand_resolution_stage,
 )
-from specforge.stages.classify import LLMClassificationTieBreaker, run_classify_stage
+from specforge.stages.classify import run_classify_stage
 from specforge.stages.clean import run_clean_stage
 from specforge.stages.description import run_description_stage
 from specforge.stages.extract import run_extract_stage
@@ -80,7 +80,6 @@ class Pipeline:
             self.unspsc_index,
             self.expected_attributes,
             self.settings,
-            LLMClassificationTieBreaker(self.extraction_llm),
         )
         current = await run_extract_stage(
             current,
@@ -97,7 +96,7 @@ class Pipeline:
         )
         current = run_description_stage(current, self.description_catalog)
         current = run_audit_stage(current, self.settings, ground_truth_row)
-        return run_output_mapper_stage(current, self.settings)
+        return run_output_mapper_stage(current, self.catalog.delivery_schema.headers)
 
 
 def build_pipeline(settings: Settings, catalog: DatasetCatalog | None = None) -> Pipeline:

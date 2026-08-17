@@ -28,6 +28,11 @@ class Settings(BaseSettings):
     cors_origins: str = "http://localhost:3000,http://127.0.0.1:3000"
     working_dataset: Path = Field(default=Path("data/sample_1000_items.csv"))
     ground_truth_dataset: Path = Field(default=Path("data/ground_truth.csv"))
+    official_unicat_dataset: Path | None = None
+    official_lov_dataset: Path | None = None
+    require_official_reference_data: bool = False
+    expected_delivery_columns: int = 252
+    expected_delivery_header_sha256: str = "a8729c81fba2b174641d1d22ec40f4a5857c6699849d87ee077e97aff055d727"
     unspsc_dataset: Path = Field(default=Path("data/unspsc_codes.csv"))
     unspsc_embeddings: Path = Field(default=Path("data/unspsc_bge_small.float16.npy"))
     embedding_model: str = "BAAI/bge-small-en-v1.5"

@@ -7,6 +7,12 @@ from typing import Iterator, Mapping
 
 from specforge.config import Settings
 from specforge.contracts import InputStage, ItemRecord
+from specforge.reference_data import (
+    DeliverySchema,
+    ReferenceArtifact,
+    artifact,
+    require_strict_artifacts,
+)
 
 
 WORKING_HEADERS = (
@@ -34,6 +40,8 @@ class DatasetInfo:
 class DatasetCatalog:
     working: DatasetInfo
     ground_truth: DatasetInfo
+    delivery_schema: DeliverySchema
+    reference_artifacts: tuple[ReferenceArtifact, ...]
 
 
 def inspect_csv(path: Path) -> DatasetInfo:
@@ -64,14 +72,53 @@ def load_catalog(settings: Settings) -> DatasetCatalog:
         raise DatasetValidationError(
             f"Ground truth expected {settings.expected_ground_truth_rows} rows; got {ground_truth.row_count}"
         )
-    missing_delivery_fields = {"MANUFACTURER_NAME", "BRAND_NAME", "Classpath"} - set(
-        ground_truth.headers
-    )
-    if missing_delivery_fields:
-        raise DatasetValidationError(
-            f"Ground truth is missing Delivery Format fields: {sorted(missing_delivery_fields)}"
+    if settings.expected_delivery_columns != 252:
+        raise DatasetValidationError("SpecForge supports the official 252-column Delivery Format only.")
+    try:
+        delivery_schema = DeliverySchema.validate(
+            ground_truth.headers,
+            ground_truth.path,
+            settings.expected_delivery_header_sha256,
         )
-    return DatasetCatalog(working=working, ground_truth=ground_truth)
+        references = (
+            artifact("delivery_format", ground_truth.path, "supplied_ground_truth_header", required=True),
+            artifact(
+                "official_unicat",
+                settings.resolve_data_path(settings.official_unicat_dataset)
+                if settings.official_unicat_dataset else None,
+                "official_unicat",
+                required=True,
+            ),
+            artifact(
+                "official_lov",
+                settings.resolve_data_path(settings.official_lov_dataset)
+                if settings.official_lov_dataset else None,
+                "official_lov",
+                required=True,
+            ),
+            artifact(
+                "self_derived_entities",
+                settings.resolve_data_path(Path("data/artifacts/manufacturer_brand_vocabulary.json")),
+                "self_derived_from_supplied_csv",
+                required=False,
+            ),
+            artifact(
+                "self_derived_attributes",
+                settings.resolve_data_path(Path("data/artifacts/attribute_vocabulary.json")),
+                "self_derived_from_supplied_csv",
+                required=False,
+            ),
+        )
+        if settings.require_official_reference_data:
+            require_strict_artifacts(references)
+    except RuntimeError as exc:
+        raise DatasetValidationError(str(exc)) from exc
+    return DatasetCatalog(
+        working=working,
+        ground_truth=ground_truth,
+        delivery_schema=delivery_schema,
+        reference_artifacts=references,
+    )
 
 
 def iter_csv_rows(info: DatasetInfo) -> Iterator[dict[str, str]]:

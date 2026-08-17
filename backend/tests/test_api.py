@@ -89,13 +89,20 @@ def test_health_reports_bundled_dataset_counts_without_loading_pipeline() -> Non
         response = api.get("/health")
 
     assert response.status_code == 200
-    assert response.json() == {
+    body = response.json()
+    assert {key: body[key] for key in (
+        "status", "service", "working_rows", "ground_truth_rows", "pipeline_loaded"
+    )} == {
         "status": "ok",
         "service": "specforge",
         "working_rows": 1000,
         "ground_truth_rows": 2,
         "pipeline_loaded": False,
     }
+    assert body["delivery_columns"] == 252
+    assert len(body["delivery_schema_sha256"]) == 64
+    assert body["reference_artifacts"]["official_unicat"]["available"] is False
+    assert body["reference_artifacts"]["official_lov"]["available"] is False
     app.dependency_overrides.clear()
 
 
