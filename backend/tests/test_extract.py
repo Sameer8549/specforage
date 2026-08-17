@@ -112,6 +112,43 @@ async def test_prompt_exposes_lovs_as_constraints_not_evidence() -> None:
 
     prompt = json.loads(llm.user_prompt)
     assert prompt["APPLICABLE_LOVS"] == {"Voltage Rating": ["120", "240"]}
+    assert prompt["PRODUCT_IDENTITY"] == {"manufacturer_part_number": "ABC"}
+
+
+@pytest.mark.asyncio
+async def test_rejects_mpn_copied_into_series_without_explicit_series_label() -> None:
+    record = classified_record("ABC Dishwasher SS").model_copy(deep=True)
+    record.classify.expected_attributes = ["Series"]
+    llm = FakeLLM({"attributes": [{
+        "label": "Series",
+        "value": "ABC",
+        "source_excerpt": "ABC Dishwasher SS",
+        "source_type": "description",
+    }]})
+
+    result = await run_extract_stage(record, llm, Settings())
+
+    assert result.extract is not None
+    assert result.extract.attributes == []
+    assert result.extract.flags[0].code == "product_identity_leakage_rejected"
+
+
+@pytest.mark.asyncio
+async def test_allows_mpn_as_model_when_source_explicitly_labels_it() -> None:
+    record = classified_record("Model ABC Dishwasher SS").model_copy(deep=True)
+    record.classify.expected_attributes = ["Model"]
+    llm = FakeLLM({"attributes": [{
+        "label": "Model",
+        "value": "ABC",
+        "source_excerpt": "Model ABC Dishwasher SS",
+        "source_type": "description",
+    }]})
+
+    result = await run_extract_stage(record, llm, Settings())
+
+    assert result.extract is not None
+    assert [attribute.value for attribute in result.extract.attributes] == ["ABC"]
+    assert result.extract.flags == []
 
 
 @pytest.mark.asyncio
